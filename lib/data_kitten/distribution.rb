@@ -1,6 +1,6 @@
 module DataKitten
 
-  # A specific available form of a dataset, such as a CSV file, and API, or an RSS feed.
+  # A specific available form of a dataset, such as a CSV file, an API, or an RSS feed.
   #
   # Based on {http://www.w3.org/TR/vocab-dcat/#class-distribution dcat:Distribution}, but 
   # with useful aliases for other vocabularies.
