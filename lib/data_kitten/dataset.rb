@@ -76,6 +76,20 @@ module DataKitten
     def data_title
       nil
     end
+    
+    # A brief description of the dataset
+    #
+    # @return [String] the description of the dataset.
+    def description
+      nil
+    end
+    
+    # Keywords for the dataset
+    #
+    # @return [Array] an array of keywords
+    def keywords
+      []
+    end
   
     # Human-readable documentation for the dataset.
     #
@@ -90,6 +104,13 @@ module DataKitten
     # @return [Symbol] the release type.
     def release_type
       false
+    end
+    
+    # Where the data is sourced from
+    #
+    # @return [Array] the sources of the data
+    def sources
+      []
     end
   
     # Is the information time-sensitive?

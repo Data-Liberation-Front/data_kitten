@@ -68,6 +68,38 @@ module DataKitten
         metadata['resources'].map { |resource| Distribution.new(self, datapackage_resource: resource) }
       end
   
+      # The human-readable title of the dataset.
+      #
+      # @see Dataset#data_title
+      def data_title
+        metadata['title'] || metadata['name']
+      end
+      
+      # A brief description of the dataset
+      #
+      # @see Dataset#description
+      def description
+        metadata['description']
+      end
+      
+      # Keywords for the dataset
+      #
+      # @see Dataset#keywords
+      def keywords
+        (metadata['keywords'] || []).map do |keyword| 
+          keyword
+        end
+      end
+      
+      # Where the data is sourced from
+      #
+      # @see Dataset#sources
+      def sources
+        (metadata['sources'] || []).map do |source| 
+          source
+        end
+      end
+      
       # A history of changes to the Dataset.
       # 
       # If {Dataset#source} is +:git+, this is the git changelog for the actual distribution files, rather
