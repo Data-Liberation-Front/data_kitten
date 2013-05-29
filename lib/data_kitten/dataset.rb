@@ -86,7 +86,7 @@ module DataKitten
     
     # Keywords for the dataset
     #
-    # @return [Array] an array of keywords
+    # @return [Array<string>] an array of keywords
     def keywords
       []
     end
