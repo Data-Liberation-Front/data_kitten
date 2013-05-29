@@ -36,7 +36,7 @@ Request a dataset
 Use the results:
 
 	dataset.supported?
-	dataset.source
+	dataset.origin
 	dataset.host
 	dataset.data_title
 	dataset.documentation_url

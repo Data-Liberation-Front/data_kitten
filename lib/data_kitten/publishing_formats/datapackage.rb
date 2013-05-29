@@ -110,7 +110,7 @@ module DataKitten
       # @see Dataset#change_history
       def change_history
         @change_history ||= begin
-          if source == :git
+          if origin == :git
             # Get a log for each file in the local repo
             logs = distributions.map do |file|
               if file.path

@@ -1,10 +1,10 @@
-require 'data_kitten/sources'
+require 'data_kitten/origins'
 require 'data_kitten/hosts'
 require 'data_kitten/publishing_formats'
 
 module DataKitten
 
-  # Represents a single dataset from some source (see {http://www.w3.org/TR/vocab-dcat/#class-dataset dcat:Dataset} 
+  # Represents a single dataset from some origin (see {http://www.w3.org/TR/vocab-dcat/#class-dataset dcat:Dataset} 
   # for relevant vocabulary).
   #
   # Designed to be created with a URI to the dataset, and then to work out metadata from there.
@@ -15,13 +15,13 @@ module DataKitten
   # @example Load a Dataset from a git repository
   #   dataset = Dataset.new(access_url: 'git://github.com/theodi/dataset-metadata-survey.git')
   #   dataset.supported?         # => true
-  #   dataset.source             # => :git
+  #   dataset.origin             # => :git
   #   dataset.host               # => :github
   #   dataset.publishing_format  # => :datapackage
   #   
   class Dataset
 
-    include DataKitten::Sources
+    include DataKitten::Origins
     include DataKitten::Hosts
     include DataKitten::PublishingFormats
   
@@ -39,7 +39,7 @@ module DataKitten
     #
     def initialize(options)
       @access_url = options[:access_url]
-      detect_source
+      detect_origin
       detect_host
       detect_publishing_format
     end
@@ -47,17 +47,17 @@ module DataKitten
     # Can metadata be loaded for this Dataset?
     #
     # @return [Boolean] true if metadata can be loaded, false if it's 
-    #                   an unknown source type, or has an unknown metadata format.
+    #                   an unknown origin type, or has an unknown metadata format.
     def supported?
-      source && publishing_format
+      origin && publishing_format
     end
   
-    # The source type of the dataset.
+    # The origin type of the dataset.
     #
-    # @return [Symbol] The source type. For instance, datasets loaded from git 
-    #                  repositories will return +:git+. If no source type is 
+    # @return [Symbol] The origin type. For instance, datasets loaded from git 
+    #                  repositories will return +:git+. If no origin type is 
     #                  identified, will return +nil+.
-    def source
+    def origin
       nil
     end
     
@@ -182,7 +182,7 @@ module DataKitten
 
     # A history of changes to the Dataset
     #
-    # @return [Array] An array of changes. Exact format depends on the source and publishing format.
+    # @return [Array] An array of changes. Exact format depends on the origin and publishing format.
     def change_history
       []
     end
