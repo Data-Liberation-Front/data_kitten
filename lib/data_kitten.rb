@@ -5,6 +5,7 @@ require 'git'
 
 require 'data_kitten/license'
 require 'data_kitten/agent'
+require 'data_kitten/source'
 require 'data_kitten/dataset'
 require 'data_kitten/distribution'
 
@@ -23,7 +24,7 @@ require 'data_kitten/distribution'
 # @example Load a Dataset from a git repository
 #   dataset = Dataset.new(access_url: 'git://github.com/theodi/dataset-metadata-survey.git')
 #   dataset.supported?                # => true
-#   dataset.source                    # => :git
+#   dataset.origin                    # => :git
 #   dataset.host                      # => :github
 #   dataset.publishing_format         # => :datapackage
 #   dataset.distributions             # => [Distribution<#1>, Distribution<#2>]

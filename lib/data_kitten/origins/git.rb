@@ -1,8 +1,8 @@
 module DataKitten
   
-  module Sources
+  module Origins
     
-    # Git source module. Automatically mixed into {Dataset} for datasets that are loaded from Git repositories.
+    # Git origin module. Automatically mixed into {Dataset} for datasets that are loaded from Git repositories.
     #
     # @see Dataset
     #
@@ -16,10 +16,10 @@ module DataKitten
 
       public
 
-      # The source type of the dataset.
+      # The origin type of the dataset.
       # @return [Symbol] +:git+
-      # @see Dataset#source
-      def source
+      # @see Dataset#origin
+      def origin
         :git
       end
 
