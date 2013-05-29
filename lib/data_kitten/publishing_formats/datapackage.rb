@@ -86,9 +86,7 @@ module DataKitten
       #
       # @see Dataset#keywords
       def keywords
-        (metadata['keywords'] || []).map do |keyword| 
-          keyword
-        end
+        metadata['keywords'] || []
       end
       
       # Where the data is sourced from
