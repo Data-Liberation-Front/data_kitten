@@ -95,8 +95,8 @@ module DataKitten
       #
       # @see Dataset#sources
       def sources
-        (metadata['sources'] || []).map do |source| 
-          source
+        (metadata['sources'] || []).map do |x| 
+          Source.new(:label => x['name'], :resource => x['web'])
         end
       end
       
