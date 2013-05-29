@@ -1,8 +1,8 @@
 module DataKitten
   
-  module Sources
+  module Origins
     
-    # Web service source module. Automatically mixed into {Dataset} for datasets that are accessed through an API.
+    # Web service origin module. Automatically mixed into {Dataset} for datasets that are accessed through an API.
     #
     # @see Dataset
     #
@@ -16,10 +16,10 @@ module DataKitten
 
       public
 
-      # The source type of the dataset.
+      # The origin type of the dataset.
       # @return [Symbol] +:web_service+
-      # @see Dataset#source
-      def source
+      # @see Dataset#origin
+      def origin
         :web_service
       end
 
