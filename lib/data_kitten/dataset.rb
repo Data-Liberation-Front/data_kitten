@@ -108,7 +108,7 @@ module DataKitten
     
     # Where the data is sourced from
     #
-    # @return [Array] the sources of the data
+    # @return [Array<Source>] the sources of the data, each as a Source object.
     def sources
       []
     end
