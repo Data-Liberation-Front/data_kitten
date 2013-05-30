@@ -44,9 +44,9 @@ module DataKitten
   
       def working_copy_path
         # Create holding directory
-        FileUtils.mkdir_p(File.join(File.dirname(__FILE__), 'tmp', 'repositories'))
+        FileUtils.mkdir_p(File.join(File.dirname(__FILE__), '..', '..', '..', 'tmp', 'repositories'))
         # generate working copy dir
-        File.join(File.dirname(__FILE__), 'tmp', 'repositories', @access_url.gsub('/','-'))
+        File.join(File.dirname(__FILE__), '..', '..', '..', 'tmp', 'repositories', @access_url.gsub('/','-'))
       end
 
       def repository
