@@ -2,6 +2,7 @@ require 'csv'
 require 'uri'
 require 'cgi'
 require 'git'
+require 'json'
 
 require 'data_kitten/license'
 require 'data_kitten/agent'
