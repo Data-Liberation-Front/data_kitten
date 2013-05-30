@@ -1,16 +1,18 @@
 PATH
   remote: .
   specs:
-    data_kitten (0.0.1)
+    data-kitten (0.0.1)
       git
+      json
 
 GEM
   remote: http://rubygems.org/
   specs:
     git (1.2.5)
+    json (1.7.7)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  data_kitten!
+  data-kitten!
