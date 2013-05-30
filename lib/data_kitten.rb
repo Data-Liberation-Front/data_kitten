@@ -4,6 +4,8 @@ require 'cgi'
 require 'git'
 require 'json'
 require 'rest-client'
+require 'rdf'
+require 'linkeddata'
 
 require 'data_kitten/license'
 require 'data_kitten/agent'

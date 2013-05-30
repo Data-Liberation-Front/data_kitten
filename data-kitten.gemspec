@@ -18,4 +18,5 @@ Gem::Specification.new do |s|
   s.add_dependency "git"
   s.add_dependency "json"
   s.add_dependency "rest-client"
+  s.add_dependency "linkeddata"
 end
