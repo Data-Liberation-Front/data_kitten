@@ -14,7 +14,10 @@ module DataKitten
         DataKitten::Origins::HTML,
         DataKitten::Origins::WebService
       ].each do |origin|
-        extend origin if origin.supported?(@access_url)
+        if origin.supported?(@access_url)
+          extend origin 
+          break
+        end
       end
     end
 
