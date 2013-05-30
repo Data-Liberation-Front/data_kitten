@@ -12,7 +12,10 @@ module DataKitten
         DataKitten::PublishingFormats::Datapackage,
         DataKitten::PublishingFormats::RDFa
       ].each do |format|
-        extend format if format.supported?(self)
+        if format.supported?(self)
+          extend format 
+          break
+        end
       end
     end
 
