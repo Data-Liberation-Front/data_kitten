@@ -61,6 +61,9 @@ module DataKitten
         # Get path
         @path = r['path']
         @access_url = r['url']
+      elsif r = options[:dcat_resource]
+        @description = r[:title]
+        @access_url = r[:accessURL]
       end
     end
 
