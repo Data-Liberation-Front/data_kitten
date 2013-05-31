@@ -149,6 +149,13 @@ module DataKitten
     def licenses
       []
     end
+    
+    # The rights statment for the data
+    #
+    # @return [Object<Rights>] How the content and data can be used, as well as copyright notice and attribution URL
+    def rights
+      nil
+    end
 
     # A list of contributors
     #

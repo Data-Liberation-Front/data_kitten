@@ -41,12 +41,28 @@ module DataKitten
         return publishers
       end
       
+      # The rights statment for the data
+      #
+      # @see Dataset#rights
+      def rights
+        uri = metadata[dataset_uri][dct.rights.to_s][0]
+        rights = metadata[uri]
+        rights = Rights.new(:uri => uri, 
+                            :dataLicense => rights[odil.dataLicense.to_s][0], 
+                            :contentLicense => rights[odil.contentLicense.to_s][0], 
+                            :copyrightNotice => rights[odil.copyrightNotice.to_s][0], 
+                            :attributionURL => rights[odil.attributionURL.to_s][0],
+                            :attributionName => rights[odil.attributionName.to_s][0]
+                            )
+        return rights
+      end
+      
       # A list of licenses.
       #
       # @see Dataset#licenses
       def licenses
         licenses = []
-        uris = metadata[dataset_uri][dct.rights.to_s]
+        uris = metadata[dataset_uri][dct.license.to_s]
         uris.each do |uri|
           l = metadata[uri]
           licenses << License.new(:uri => uri, :name => l[dct.title.to_s])
@@ -144,6 +160,10 @@ module DataKitten
       
       def dct
         RDF::Vocabulary.new("http://purl.org/dc/terms/")
+      end
+      
+      def odil
+        RDF::Vocabulary.new("http://theodi.github.io/open-data-licensing/schema#")
       end
             
     end

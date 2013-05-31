@@ -8,6 +8,7 @@ require 'rdf'
 require 'linkeddata'
 
 require 'data_kitten/license'
+require 'data_kitten/rights'
 require 'data_kitten/agent'
 require 'data_kitten/source'
 require 'data_kitten/dataset'
