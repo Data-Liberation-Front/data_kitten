@@ -142,6 +142,7 @@ module DataKitten
       def metadata        
         @metadata ||= {}
         
+        # This is UGLY, and exists solely to make getting data out of the graph easier. We will probably change this later       
         graph.triples.each do |triple|
           @metadata[triple[0].to_s] ||= {}
           @metadata[triple[0].to_s][triple[1].to_s] ||= []
