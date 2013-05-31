@@ -149,6 +149,13 @@ module DataKitten
     def licenses
       []
     end
+    
+    # The rights statment for the data
+    #
+    # @return [Object<Rights>] How the content and data can be used, as well as copyright notice and attribution URL
+    def rights
+      nil
+    end
 
     # A list of contributors
     #
@@ -179,6 +186,13 @@ module DataKitten
     end
     alias_method :files, :distributions
     alias_method :resources, :distributions
+    
+    # How frequently the data is updated.
+    #
+    # @return [String] The frequency of update expressed as a dct:Frequency.
+    def update_frequency
+      nil
+    end
 
     # A history of changes to the Dataset
     #
