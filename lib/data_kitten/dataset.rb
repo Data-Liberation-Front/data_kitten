@@ -186,6 +186,13 @@ module DataKitten
     end
     alias_method :files, :distributions
     alias_method :resources, :distributions
+    
+    # How frequently the data is updated.
+    #
+    # @return [String] The frequency of update expressed as a dct:Frequency.
+    def update_frequency
+      nil
+    end
 
     # A history of changes to the Dataset
     #

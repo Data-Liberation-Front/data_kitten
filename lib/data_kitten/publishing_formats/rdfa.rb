@@ -126,7 +126,14 @@ module DataKitten
         []
       end
       
-      private
+      # How frequently the data is updated.
+      #
+      # @see Dataset#update_frequency
+      def update_frequency
+        metadata[dataset_uri][dct.accrualPeriodicity.to_s][0]
+      end
+      
+      #private
       
       def graph
         @graph ||= RDF::Graph.load(uri, :format => :rdfa)  
