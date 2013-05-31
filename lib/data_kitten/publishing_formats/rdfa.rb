@@ -133,7 +133,7 @@ module DataKitten
         metadata[dataset_uri][dct.accrualPeriodicity.to_s][0]
       end
       
-      #private
+      private
       
       def graph
         @graph ||= RDF::Graph.load(uri, :format => :rdfa)  
