@@ -52,7 +52,7 @@ module DataKitten
                             :contentLicense => rights[odil.contentLicense.to_s][0], 
                             :copyrightNotice => rights[odil.copyrightNotice.to_s][0], 
                             :attributionURL => rights[odil.attributionURL.to_s][0],
-                            :attributionName => rights[odil.attributionName.to_s][0]
+                            :attributionText => rights[odil.attributionText.to_s][0]
                             )
         return rights
       end
