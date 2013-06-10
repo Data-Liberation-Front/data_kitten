@@ -24,9 +24,9 @@ module DataKitten
     #   @return [String] the attribution URL for the dataset.
     attr_accessor :attributionURL
 
-    # @!attribute attributionName
-    #   @return [String] the attribution name for the dataset.
-    attr_accessor :attributionName
+    # @!attribute attributionText
+    #   @return [String] the attribution text for the dataset.
+    attr_accessor :attributionText
 
     # Create a new Rights object.
     #
@@ -35,14 +35,14 @@ module DataKitten
     # @option options [String] :contentLicense the license for the content in the dataset
     # @option options [String] :copyrightNotice the copyright notice for the dataset
     # @option options [String] :attributionURL the attribution URL for the dataset
-    # @option options [String] :attributionName attribution name for the dataset
+    # @option options [String] :attributionText attribution name for the dataset
     def initialize(options)
       @uri = options[:uri]
       @dataLicense = options[:dataLicense]
       @contentLicense = options[:contentLicense]
       @copyrightNotice = options[:copyrightNotice]
       @attributionURL = options[:attributionURL]
-      @attributionName = options[:attributionName]
+      @attributionText = options[:attributionText]
     end
 
   end  
