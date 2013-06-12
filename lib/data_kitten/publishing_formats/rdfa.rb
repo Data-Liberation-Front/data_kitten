@@ -11,7 +11,7 @@ module DataKitten
         
         query = RDF::Query.new({
           :dataset => {
-            RDF.type  => dcat.Dataset
+            RDF.type  => RDF::Vocabulary.new("http://www.w3.org/ns/dcat#").Dataset
           }
         })
         
