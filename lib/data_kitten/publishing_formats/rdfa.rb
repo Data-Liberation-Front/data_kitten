@@ -7,7 +7,15 @@ module DataKitten
       private
       
       def self.supported?(instance)
-        RDF::Graph.load(instance.uri, :format => :rdfa)
+        graph = RDF::Graph.load(instance.uri, :format => :rdfa)
+        
+        query = RDF::Query.new({
+          :dataset => {
+            RDF.type  => dcat.Dataset
+          }
+        })
+        
+        query.execute(graph)[0][:dataset].to_s
       rescue
         false
       end
