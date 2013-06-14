@@ -5,6 +5,7 @@ PATH
       git
       json
       linkeddata
+      nokogiri
       rest-client
 
 GEM

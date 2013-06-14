@@ -6,6 +6,7 @@ require 'json'
 require 'rest-client'
 require 'rdf'
 require 'linkeddata'
+require 'nokogiri'
 
 require 'data_kitten/license'
 require 'data_kitten/rights'
