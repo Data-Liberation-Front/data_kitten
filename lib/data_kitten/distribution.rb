@@ -64,6 +64,10 @@ module DataKitten
       elsif r = options[:dcat_resource]
         @description = r[:title]
         @access_url = r[:accessURL]
+      elsif r = options[:ckan_resource]
+        @description = r[:title]
+        @access_url = r[:accessURL]
+        @format = r[:format]
       end
     end
 
