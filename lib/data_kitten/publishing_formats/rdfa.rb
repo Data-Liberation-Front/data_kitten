@@ -47,6 +47,8 @@ module DataKitten
           publishers << Agent.new(:name => p[RDF::FOAF.name.to_s], :homepage => p[RDF::FOAF.homepage.to_s], :mbox => p[RDF::FOAF.mbox.to_s])
         end
         return publishers
+      rescue
+        []
       end
       
       # The rights statment for the data
@@ -54,15 +56,21 @@ module DataKitten
       # @see Dataset#rights
       def rights
         uri = metadata[dataset_uri][dct.rights.to_s][0]
-        rights = metadata[uri]
-        rights = Rights.new(:uri => uri, 
-                            :dataLicense => rights[odil.dataLicense.to_s][0], 
-                            :contentLicense => rights[odil.contentLicense.to_s][0], 
-                            :copyrightNotice => rights[odil.copyrightNotice.to_s][0], 
-                            :attributionURL => rights[odil.attributionURL.to_s][0],
-                            :attributionText => rights[odil.attributionText.to_s][0]
-                            )
+        rights = metadata[uri] rescue nil
+        if rights.nil?
+          rights = Rights.new(:uri => uri)
+        else
+          rights = Rights.new(:uri => uri, 
+                              :dataLicense => rights[odil.dataLicense.to_s][0], 
+                              :contentLicense => rights[odil.contentLicense.to_s][0], 
+                              :copyrightNotice => rights[odil.copyrightNotice.to_s][0], 
+                              :attributionURL => rights[odil.attributionURL.to_s][0],
+                              :attributionText => rights[odil.attributionText.to_s][0]
+                              )
+        end
         return rights
+      rescue
+        []
       end
       
       # A list of licenses.
@@ -71,11 +79,17 @@ module DataKitten
       def licenses
         licenses = []
         uris = metadata[dataset_uri][dct.license.to_s]
-        uris.each do |uri|
-          l = metadata[uri]
-          licenses << License.new(:uri => uri, :name => l[dct.title.to_s])
+        if uris.nil?
+          []
+        else
+          uris.each do |uri|
+            l = metadata[uri]
+            licenses << License.new(:uri => uri, :name => l[dct.title.to_s])
+          end
+          return licenses
         end
-        return licenses
+      rescue
+        []
       end
       
       # A list of contributors.
@@ -101,20 +115,22 @@ module DataKitten
           distributions << Distribution.new(self, dcat_resource: distribution)
         end
         return distributions
+      rescue
+        nil
       end
       
       # The human-readable title of the dataset.
       #
       # @see Dataset#data_title
       def data_title
-        metadata[dataset_uri][dct.title.to_s][0]
+        metadata[dataset_uri][dct.title.to_s][0] rescue nil
       end
       
       # A brief description of the dataset
       #
       # @see Dataset#description
       def description
-        metadata[dataset_uri][dct.description.to_s][0]
+        metadata[dataset_uri][dct.description.to_s][0] rescue nil
       end
       
       # Keywords for the dataset
@@ -125,6 +141,8 @@ module DataKitten
         metadata[dataset_uri][dcat.keyword.to_s].each do |k|
           keywords << k
         end
+      rescue
+        []
       end
       
       # Where the data is sourced from
@@ -138,11 +156,11 @@ module DataKitten
       #
       # @see Dataset#update_frequency
       def update_frequency
-        metadata[dataset_uri][dct.accrualPeriodicity.to_s][0]
+        metadata[dataset_uri][dct.accrualPeriodicity.to_s][0] rescue nil
       end
       
       private
-      
+            
       def graph
         @graph ||= RDF::Graph.load(uri, :format => :rdfa)  
       end
