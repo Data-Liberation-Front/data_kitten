@@ -21,6 +21,10 @@ module DataKitten
     #   @return [String] the path of the distribution within the source, if appropriate
     attr_accessor :path
 
+    # @!attribute title
+    #   @return [String] a short title, unique within the dataset
+    attr_accessor :title
+
     # @!attribute description
     #   @return [String] a textual description
     attr_accessor :description
@@ -59,10 +63,14 @@ module DataKitten
         # Get path
         @path = r['path']
         @access_url = r['url']
+        # Set title
+        @title = @path || @uri
       elsif r = options[:dcat_resource]
+        @title       = r[:title]
         @description = r[:title]
         @access_url = r[:accessURL]
       elsif r = options[:ckan_resource]
+        @title       = r[:title]
         @description = r[:title]
         @access_url = r[:accessURL]
         @format = r[:format]
@@ -77,7 +85,7 @@ module DataKitten
     #
     # @return [String] a locally unique name
     def title
-      @path || @uri
+      @title
     end
     alias_method :name, :title
 
