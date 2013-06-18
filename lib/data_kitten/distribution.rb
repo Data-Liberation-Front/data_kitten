@@ -104,11 +104,16 @@ module DataKitten
           datafile = Net::HTTP.get(URI.parse(@access_url))
         end
         if datafile
-          CSV.parse(
-            datafile, 
-            :headers => true,
-            :col_sep => @dialect["delimiter"]
-          )
+          case format
+          when 'CSV'            
+            CSV.parse(
+              datafile, 
+              :headers => true,
+              :col_sep => @dialect["delimiter"]
+            )
+          else
+            nil
+          end
         else
           nil
         end
