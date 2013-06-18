@@ -25,7 +25,7 @@ module DataKitten
     #   @return [String] a textual description
     attr_accessor :description
 
-    # @!attribute description
+    # @!attribute schema
     #   @return [Hash] a hash representing the schema of the data within the distribution. Will
     #                  change to a more structured object later.
     attr_accessor :schema
