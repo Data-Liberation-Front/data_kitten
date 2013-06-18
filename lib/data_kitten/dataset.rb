@@ -106,6 +106,28 @@ module DataKitten
       false
     end
     
+    # Date the dataset was released
+    #
+    # @return [Date] the release date of the dataset
+    def issued
+      nil
+    end
+    alias_method :release_date, :issued
+    
+    # Date the dataset was last modified
+    #
+    # @return [Date] the dataset's last modified date
+    def modified
+      nil
+    end
+    
+    # The temporal coverage of the dataset
+    #
+    # @return [Object<Temporal>] the start and end dates of the dataset's temporal coverage
+    def temporal
+      nil
+    end
+    
     # Where the data is sourced from
     #
     # @return [Array<Source>] the sources of the data, each as a Source object.
