@@ -21,11 +21,15 @@ module DataKitten
     #   @return [String] the path of the distribution within the source, if appropriate
     attr_accessor :path
 
+    # @!attribute title
+    #   @return [String] a short title, unique within the dataset
+    attr_accessor :title
+
     # @!attribute description
     #   @return [String] a textual description
     attr_accessor :description
 
-    # @!attribute description
+    # @!attribute schema
     #   @return [Hash] a hash representing the schema of the data within the distribution. Will
     #                  change to a more structured object later.
     attr_accessor :schema
@@ -53,29 +57,35 @@ module DataKitten
           f
         end
         # Get CSV dialect
-        @dialect = r['dialect'] || {
-          "delimiter" => ","
-        }
+        @dialect = r['dialect']
         # Extract schema
         @schema = r['schema']
         # Get path
         @path = r['path']
         @access_url = r['url']
+        # Set title
+        @title = @path || @uri
       elsif r = options[:dcat_resource]
+        @title       = r[:title]
         @description = r[:title]
-        @access_url = r[:accessURL]
+        @access_url  = r[:accessURL]
       elsif r = options[:ckan_resource]
+        @title       = r[:title]
         @description = r[:title]
-        @access_url = r[:accessURL]
-        @format = r[:format]
+        @access_url  = r[:accessURL]
+        @format      = r[:format]
       end
+      # Set default CSV dialect
+      @dialect ||= {
+        "delimiter" => ","
+      }     
     end
 
     # A usable name for the distribution, unique within the {Dataset}.
     #
     # @return [String] a locally unique name
     def title
-      @path || @uri
+      @title
     end
     alias_method :name, :title
 
@@ -104,11 +114,16 @@ module DataKitten
           datafile = Net::HTTP.get(URI.parse(@access_url))
         end
         if datafile
-          CSV.parse(
-            datafile, 
-            :headers => true,
-            :col_sep => @dialect["delimiter"]
-          )
+          case format
+          when 'CSV'            
+            CSV.parse(
+              datafile, 
+              :headers => true,
+              :col_sep => @dialect["delimiter"]
+            )
+          else
+            nil
+          end
         else
           nil
         end
