@@ -124,6 +124,15 @@ module DataKitten
         Date.parse metadata["metadata_modified"] rescue nil
       end
       
+      # The temporal coverage of the dataset
+      #
+      # @see Dataset#temporal
+      def temporal
+        start_date = Date.parse metadata["extras"]["temporal_coverage-from"] rescue nil
+        end_date = Date.parse metadata["extras"]["temporal_coverage-to"] rescue nil
+        Temporal.new(:start => start_date, :end => end_date)
+      end
+      
       private
                         
       def metadata

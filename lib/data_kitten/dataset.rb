@@ -121,6 +121,13 @@ module DataKitten
       nil
     end
     
+    # The temporal coverage of the dataset
+    #
+    # @return [Object<Temporal>] the start and end dates of the dataset's temporal coverage
+    def temporal
+      nil
+    end
+    
     # Where the data is sourced from
     #
     # @return [Array<Source>] the sources of the data, each as a Source object.
