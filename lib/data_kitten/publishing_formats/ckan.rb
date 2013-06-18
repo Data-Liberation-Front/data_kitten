@@ -107,7 +107,21 @@ module DataKitten
       #
       # @see Dataset#update_frequency
       def update_frequency
-        metadata["extras"]["update_frequency"]
+        metadata["extras"]["update_frequency"] rescue nil
+      end
+      
+      # Date the dataset was released
+      #
+      # @see Dataset#issued
+      def issued
+        Date.parse metadata["metadata_created"] rescue nil
+      end
+      
+      # Date the dataset was modified
+      #
+      # @see Dataset#modified
+      def modified
+        Date.parse metadata["metadata_modified"] rescue nil
       end
       
       private
