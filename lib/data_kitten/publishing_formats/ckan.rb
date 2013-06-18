@@ -107,7 +107,30 @@ module DataKitten
       #
       # @see Dataset#update_frequency
       def update_frequency
-        metadata["extras"]["update_frequency"]
+        metadata["extras"]["update_frequency"] || metadata["extras"]["frequency-of-update"] rescue nil
+      end
+      
+      # Date the dataset was released
+      #
+      # @see Dataset#issued
+      def issued
+        Date.parse metadata["metadata_created"] rescue nil
+      end
+      
+      # Date the dataset was modified
+      #
+      # @see Dataset#modified
+      def modified
+        Date.parse metadata["metadata_modified"] rescue nil
+      end
+      
+      # The temporal coverage of the dataset
+      #
+      # @see Dataset#temporal
+      def temporal
+        start_date = Date.parse metadata["extras"]["temporal_coverage-from"] rescue nil
+        end_date = Date.parse metadata["extras"]["temporal_coverage-to"] rescue nil
+        Temporal.new(:start => start_date, :end => end_date)
       end
       
       private
