@@ -68,12 +68,12 @@ module DataKitten
       elsif r = options[:dcat_resource]
         @title       = r[:title]
         @description = r[:title]
-        @access_url = r[:accessURL]
+        @access_url  = r[:accessURL]
       elsif r = options[:ckan_resource]
         @title       = r[:title]
         @description = r[:title]
-        @access_url = r[:accessURL]
-        @format = r[:format]
+        @access_url  = r[:accessURL]
+        @format      = r[:format]
       end
       # Set default CSV dialect
       @dialect ||= {
