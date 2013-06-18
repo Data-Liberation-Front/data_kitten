@@ -53,9 +53,7 @@ module DataKitten
           f
         end
         # Get CSV dialect
-        @dialect = r['dialect'] || {
-          "delimiter" => ","
-        }
+        @dialect = r['dialect']
         # Extract schema
         @schema = r['schema']
         # Get path
@@ -69,6 +67,10 @@ module DataKitten
         @access_url = r[:accessURL]
         @format = r[:format]
       end
+      # Set default CSV dialect
+      @dialect ||= {
+        "delimiter" => ","
+      }     
     end
 
     # A usable name for the distribution, unique within the {Dataset}.
