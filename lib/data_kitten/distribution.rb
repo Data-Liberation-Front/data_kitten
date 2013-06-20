@@ -6,9 +6,9 @@ module DataKitten
   # with useful aliases for other vocabularies.
   #
   class Distribution
-
+    
     # @!attribute format
-    #   @return [String] the file format of the distribution.
+    #   @return [DistributionFormat] the file format of the distribution.
     attr_accessor :format
 
     # @!attribute access_url
@@ -49,12 +49,11 @@ module DataKitten
         @description = r['description']
         # Work out format
         @format = begin
-          f = r['format']
-          if f.nil?
-            f = r['path'].is_a?(String) ? r['path'].split('.').last.upcase : nil
+          extension = r['format']
+          if extension.nil?
+            extension = r['path'].is_a?(String) ? r['path'].split('.').last.upcase : nil
           end
-          f.upcase! unless f.nil?
-          f
+          extension ? DistributionFormat.new(extension) : nil
         end
         # Get CSV dialect
         @dialect = r['dialect']
@@ -73,7 +72,7 @@ module DataKitten
         @title       = r[:title]
         @description = r[:title]
         @access_url  = r[:accessURL]
-        @format      = r[:format]
+        @format      = r[:format] ? DistributionFormat.new(r[:format]) : nil
       end
       # Set default CSV dialect
       @dialect ||= {
@@ -114,8 +113,8 @@ module DataKitten
           datafile = Net::HTTP.get(URI.parse(@access_url))
         end
         if datafile
-          case format
-          when 'CSV'            
+          case format.extension
+          when :csv 
             CSV.parse(
               datafile, 
               :headers => true,
@@ -127,16 +126,10 @@ module DataKitten
         else
           nil
         end
+      rescue
+        nil
       end
-    end      
-
-    # Is the information in a structured format?
-    #
-    # @return [Boolean] whether the information is machine-readable.
-    def structured_format?
-      format == 'CSV'
     end
-
 
   end  
 
