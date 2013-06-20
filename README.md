@@ -30,13 +30,15 @@ This code is open source under the MIT license. See the LICENSE.md file for full
 
 # Usage
 
-Install the gem and require it in your project
+Pop the gem into your Gemfile:
 
-Include the gem in your project
+        gem 'data_kitten', :git => "git://github.com/theodi/data_kitten.git"
+
+Require if you need to:
 
 	require 'data_kitten'
 	
-Request a dataset
+Request a dataset:
 	
 	dataset = DataKitten::Dataset.new(access_url: "https://github.com/theodi/dataset-mod-disposals.git")
 	
