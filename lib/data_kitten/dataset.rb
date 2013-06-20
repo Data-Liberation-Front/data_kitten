@@ -49,7 +49,7 @@ module DataKitten
     # @return [Boolean] true if metadata can be loaded, false if it's 
     #                   an unknown origin type, or has an unknown metadata format.
     def supported?
-      origin && publishing_format
+      !(origin.nil? || publishing_format.nil?)
     end
   
     # The origin type of the dataset.
