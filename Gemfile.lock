@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    data-kitten (0.0.1)
+    data_kitten (0.0.1)
       git
       json
       linkeddata
@@ -82,4 +82,4 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  data-kitten!
+  data_kitten!
