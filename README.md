@@ -1,7 +1,7 @@
-# Data-kitten
+# data_kitten
 
-[![Code Climate](https://codeclimate.com/github/theodi/data-kitten.png)](https://codeclimate.com/github/theodi/data-kitten)
-[![Dependency Status](https://gemnasium.com/theodi/data-kitten.png)](https://gemnasium.com/theodi/data-kitten)
+[![Code Climate](https://codeclimate.com/github/theodi/data_kitten.png)](https://codeclimate.com/github/theodi/data_kitten)
+[![Dependency Status](https://gemnasium.com/theodi/data_kitten.png)](https://gemnasium.com/theodi/data_kitten)
 
 ![DATAS - I HAZ THEM](https://gs1.wac.edgecastcdn.net/8019B6/data.tumblr.com/67399f2b335ef62d562dc9eb41c0db16/tumblr_mmy9g7rA8M1s4aj1ho1_500.jpg)
 
@@ -18,7 +18,7 @@ Wider support will follow.
 
 # Documentation
 
-Full YARD documentation is available on [Rubydoc.info](http://rubydoc.info/github/theodi/data-kitten/master/frames).
+Full YARD documentation is available on [Rubydoc.info](http://rubydoc.info/github/theodi/data_kitten/master/frames).
 
 # Licence
 
