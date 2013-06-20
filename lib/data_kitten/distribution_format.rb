@@ -34,6 +34,8 @@ module DataKitten
         georss:  { structured:  true, open:  true },
         shp:     { structured:  true, open:  true },
         html:    { structured: false, open:  true },
+        doc:     { structured: false, open:  false },
+        pdf:     { structured: false, open:  true },  
       }
     end
 
