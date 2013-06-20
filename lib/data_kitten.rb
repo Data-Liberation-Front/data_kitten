@@ -15,6 +15,7 @@ require 'data_kitten/agent'
 require 'data_kitten/source'
 require 'data_kitten/temporal'
 require 'data_kitten/dataset'
+require 'data_kitten/distribution_format'
 require 'data_kitten/distribution'
 
 # A collection of classes that represent Datasets and other concepts, modeled on {http://www.w3.org/TR/vocab-dcat/ DCAT}.
