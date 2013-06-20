@@ -6,7 +6,7 @@ require "data_kitten/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "data-kitten"
+  s.name        = "data_kitten"
   s.version     = DataKitten::VERSION
   s.authors     = ["James Smith", "Stuart Harrison"]
   s.email       = ["tech@theodi.org"]
