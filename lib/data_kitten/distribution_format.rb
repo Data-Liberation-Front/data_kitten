@@ -43,14 +43,14 @@ module DataKitten
     #
     # @return [Boolean] whether the format is machine-readable or not.
     def structured?
-      @@formats[@extension][:structured]
+      @@formats[@extension][:structured] rescue nil
     end
 
     # Is this an open format?
     #
     # @return [Boolean] whether the format is open or not
     def open?
-      @@formats[@extension][:open]
+      @@formats[@extension][:open] rescue nil
     end
 
   end  
