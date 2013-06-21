@@ -9,10 +9,15 @@ module DataKitten
       def self.supported?(instance)
         uri = URI(instance.uri)
         package = uri.path.split("/").last
-        endpoint = "#{uri.scheme}://#{uri.host}/api/2/search/dataset"
+        # If the package is a UUID - it's more than likely to be a CKAN ID
+        if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
+          @@id = package
+        else
+          endpoint = "#{uri.scheme}://#{uri.host}/api/2/search/dataset"
         
-        search = JSON.parse RestClient.get endpoint, {:params => {:q => package}}
-        id = search["results"][0]
+          search = JSON.parse RestClient.get endpoint, {:params => {:q => package}}
+          @@id = search["results"][0]
+        end
       rescue
         false
       end 
@@ -137,12 +142,7 @@ module DataKitten
                         
       def metadata
         uri = URI(self.uri)
-        package = uri.path.split("/").last
-        endpoint = "#{uri.scheme}://#{uri.host}/api/search/dataset"
-        
-        search = JSON.parse RestClient.get endpoint, {:params => {:q => package}}
-        id = search["results"][0]
-        JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{id}"
+        JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
       end
     
     end
