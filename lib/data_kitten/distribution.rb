@@ -109,6 +109,15 @@ module DataKitten
         end
       end
     end
+    
+    # Whether the file that the distribution represents actually exists
+    #
+    # @return [Boolean] whether the HTTP response returns a success code or not
+    def exists?
+      if @access_url
+        !@response.nil? || false
+      end
+    end
 
     # A CSV object representing the loaded data.
     #
