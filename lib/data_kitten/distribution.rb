@@ -57,7 +57,7 @@ module DataKitten
           if extension.nil?
             extension = r['path'].is_a?(String) ? r['path'].split('.').last.upcase : nil
           end
-          extension ? DistributionFormat.new(extension) : nil
+          extension ? DistributionFormat.new(extension, @response) : nil
         end
         # Get CSV dialect
         @dialect = r['dialect']
@@ -76,11 +76,11 @@ module DataKitten
         @title       = r[:title]
         @description = r[:title]
         @access_url  = r[:accessURL]
-        @format      = r[:format] ? DistributionFormat.new(r[:format]) : nil
         # Load HTTP Response for further use
         if @access_url
           @response = RestClient.get @access_url rescue nil
         end
+        @format = r[:format] ? DistributionFormat.new(r[:format], @response) : nil
       end
       # Set default CSV dialect
       @dialect ||= {
