@@ -47,6 +47,10 @@ module DataKitten
       if r = options[:datapackage_resource]
         # Load basics
         @description = r['description']
+        # Load HTTP Response for further use
+        if r['url']
+          @response = RestClient.get r['url'] rescue nil
+        end
         # Work out format
         @format = begin
           extension = r['format']
@@ -73,6 +77,10 @@ module DataKitten
         @description = r[:title]
         @access_url  = r[:accessURL]
         @format      = r[:format] ? DistributionFormat.new(r[:format]) : nil
+        # Load HTTP Response for further use
+        if @access_url
+          @response = RestClient.get @access_url rescue nil
+        end
       end
       # Set default CSV dialect
       @dialect ||= {
@@ -110,7 +118,7 @@ module DataKitten
         if @path
           datafile = @dataset.send(:load_file, @path)
         elsif @access_url
-          datafile = Net::HTTP.get(URI.parse(@access_url))
+          datafile = @response
         end
         if datafile
           case format.extension
