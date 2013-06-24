@@ -197,7 +197,7 @@ module DataKitten
       end
       
       def odil
-        RDF::Vocabulary.new("http://theodi.github.io/open-data-licensing/schema#")
+        RDF::Vocabulary.new("http://schema.theodi.org/odrs#")
       end
             
     end
