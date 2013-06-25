@@ -65,4 +65,4 @@ Use the results:
 
 See example usage in a Rails project at [https://github.com/theodi/git-data-viewer](https://github.com/theodi/git-data-viewer)
 
-
+![actual_data_kitten](http://yfrog.com/scaled/landing/816/ch8ul.jpg)
