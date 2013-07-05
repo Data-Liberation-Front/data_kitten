@@ -1,5 +1,6 @@
 # data_kitten
 
+[![Build Status](http://jenkins.theodi.org/job/data_kitten-master/badge/icon)](http://jenkins.theodi.org/job/data_kitten-master/)
 [![Code Climate](https://codeclimate.com/github/theodi/data_kitten.png)](https://codeclimate.com/github/theodi/data_kitten)
 [![Dependency Status](https://gemnasium.com/theodi/data_kitten.png)](https://gemnasium.com/theodi/data_kitten)
 
