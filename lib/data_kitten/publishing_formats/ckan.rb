@@ -80,10 +80,12 @@ module DataKitten
       #
       # @see Dataset#licenses
       def licenses
+        uri = metadata["license_url"] || metadata["extras"]["licence_url"] rescue nil
+        name = metadata["license_title"] || metadata["extras"]["licence_url_title"] rescue nil
         [
           License.new(:id => metadata["license_id"], 
-                      :uri => metadata["license_url"], 
-                      :name => metadata["license_title"]
+                      :uri => uri, 
+                      :name => name
                       )
         ]
       rescue
