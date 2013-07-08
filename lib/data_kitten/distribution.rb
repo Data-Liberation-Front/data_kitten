@@ -47,13 +47,17 @@ module DataKitten
       if r = options[:datapackage_resource]
         # Load basics
         @description = r['description']
+        # Load HTTP Response for further use
+        if r['url']
+          @response = RestClient.get r['url'] rescue nil
+        end
         # Work out format
         @format = begin
           extension = r['format']
           if extension.nil?
             extension = r['path'].is_a?(String) ? r['path'].split('.').last.upcase : nil
           end
-          extension ? DistributionFormat.new(extension) : nil
+          extension ? DistributionFormat.new(extension, @response) : nil
         end
         # Get CSV dialect
         @dialect = r['dialect']
@@ -72,7 +76,11 @@ module DataKitten
         @title       = r[:title]
         @description = r[:title]
         @access_url  = r[:accessURL]
-        @format      = r[:format] ? DistributionFormat.new(r[:format]) : nil
+        # Load HTTP Response for further use
+        if @access_url
+          @response = RestClient.get @access_url rescue nil
+        end
+        @format = r[:format] ? DistributionFormat.new(r[:format], @response) : nil
       end
       # Set default CSV dialect
       @dialect ||= {
@@ -101,6 +109,15 @@ module DataKitten
         end
       end
     end
+    
+    # Whether the file that the distribution represents actually exists
+    #
+    # @return [Boolean] whether the HTTP response returns a success code or not
+    def exists?
+      if @access_url
+        !@response.nil? || false
+      end
+    end
 
     # A CSV object representing the loaded data.
     #
@@ -110,7 +127,7 @@ module DataKitten
         if @path
           datafile = @dataset.send(:load_file, @path)
         elsif @access_url
-          datafile = Net::HTTP.get(URI.parse(@access_url))
+          datafile = @response
         end
         if datafile
           case format.extension
