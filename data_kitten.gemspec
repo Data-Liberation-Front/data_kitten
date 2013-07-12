@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rest-client"
   s.add_dependency "linkeddata"
   s.add_dependency "nokogiri"
+  s.add_dependency "curb"
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "simplecov-rcov"
