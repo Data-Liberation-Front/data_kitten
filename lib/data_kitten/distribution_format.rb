@@ -62,10 +62,10 @@ module DataKitten
       begin
         mimes = []
         MIME::Types.type_for(@extension.to_s).each { |i| mimes << i.content_type }
-        !!(@response.headers[:content_type] =~ /#{mimes.join('|')}/) || false
-    rescue
-      nil
-    end
+        !!(@response.content_type =~ /#{mimes.join('|')}/) || false
+      rescue
+        nil
+      end
     end
 
   end  
