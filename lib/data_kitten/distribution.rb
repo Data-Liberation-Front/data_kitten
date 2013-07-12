@@ -49,7 +49,7 @@ module DataKitten
         @description = r['description']
         # Load HTTP Response for further use
         if r['url']
-          @response = RestClient.get r['url'] rescue nil
+          @response = Curl::Easy.http_head(r['url'])
         end
         # Work out format
         @format = begin
@@ -78,7 +78,7 @@ module DataKitten
         @access_url  = r[:accessURL]
         # Load HTTP Response for further use
         if @access_url
-          @response = RestClient.get @access_url rescue nil
+          @response = Curl::Easy.http_head(@access_url)
         end
         @format = r[:format] ? DistributionFormat.new(r[:format], @response) : nil
       end
@@ -115,7 +115,11 @@ module DataKitten
     # @return [Boolean] whether the HTTP response returns a success code or not
     def exists?
       if @access_url
-        !@response.nil? || false
+        if @response.response_code == 404
+          false
+        else
+          true
+        end
       end
     end
 
@@ -127,7 +131,7 @@ module DataKitten
         if @path
           datafile = @dataset.send(:load_file, @path)
         elsif @access_url
-          datafile = @response
+          datafile = RestClient.get @access_url rescue nil
         end
         if datafile
           case format.extension
