@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     data_kitten (0.0.1)
+      curb
       git
       json
       linkeddata
@@ -12,6 +13,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.3.4)
+    curb (0.8.4)
     diff-lcs (1.2.4)
     ebnf (0.3.0)
       rdf
