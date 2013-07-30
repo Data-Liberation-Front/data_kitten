@@ -78,10 +78,13 @@ module DataKitten
         @access_url  = r[:accessURL]
         # Load HTTP Response for further use
         if @access_url
-          @response = Curl::Easy.http_head(@access_url)
+          @response = Curl::Easy.http_head(@access_url) do |c|
+                        c.follow_location = true
+                        c.useragent = "curb"
+                      end
         end
         @format = r[:format] ? DistributionFormat.new(r[:format], @response) : nil
-      end
+    end
       # Set default CSV dialect
       @dialect ||= {
         "delimiter" => ","
