@@ -74,7 +74,7 @@ describe DataKitten::PublishingFormats::LinkedData do
         
         it "should find the title" do
             body=<<-EOL 
-              @prefix dct: <http://purl.org/dc/terms/>
+              @prefix dct: <http://purl.org/dc/terms/> .
               <http://example.org/doc/dataset> a <http://www.w3.org/ns/dcat#Dataset>.
               <http://example.org/doc/dataset> dct:title "Dataset Title".
             EOL
