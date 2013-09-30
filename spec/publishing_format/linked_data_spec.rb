@@ -48,7 +48,17 @@ describe DataKitten::PublishingFormats::LinkedData do
             d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset")        
             expect( d.publishing_format ).to eql(:rdf)                 
         end
-        
+
+        it "should fallback to using suffix of URI" do
+            body=<<-EOL 
+              <http://example.org/doc/dataset> a <http://www.w3.org/ns/dcat#Dataset>.
+            EOL
+    
+            FakeWeb.register_uri(:get, "http://example.org/doc/dataset.ttl", :body=>body, :content_type=>"text/plain") 
+            d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset")        
+            expect( d.publishing_format ).to eql(:rdf)                 
+        end        
+                
         it "should support VoiD datasets" do
             body=<<-EOL 
               <http://example.org/doc/dataset> a <http://rdfs.org/ns/void#Dataset>.
