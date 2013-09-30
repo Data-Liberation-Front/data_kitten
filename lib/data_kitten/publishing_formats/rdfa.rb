@@ -41,36 +41,41 @@ module DataKitten
       # @see Dataset#publishers
       def publishers
         publishers = []
-        uris = metadata[dataset_uri][dct.publisher.to_s]
-        uris.each do |uri|
-          p = metadata[uri]
-          publishers << Agent.new(:name => p[RDF::FOAF.name.to_s], :homepage => p[RDF::FOAF.homepage.to_s], :mbox => p[RDF::FOAF.mbox.to_s])
+        uris = metadata[dataset_uri][RDF::DC.publisher.to_s]
+        uris.each do |publisher_uri|
+          publishers << Agent.new(:name => first_value( publisher_uri, RDF::FOAF.name ), 
+                                  :homepage => first_value( publisher_uri, RDF::FOAF.homepage ), 
+                                  :mbox => first_value( publisher_uri, RDF::FOAF.mbox ))
         end
         return publishers
       rescue
-        []
+        []    
       end
       
       # The rights statment for the data
       #
       # @see Dataset#rights
       def rights
-        uri = metadata[dataset_uri][dct.rights.to_s][0]
-        rights = metadata[uri] rescue nil
-        if rights.nil?
-          rights = Rights.new(:uri => uri)
+        rights_uri = metadata[dataset_uri][RDF::DC.rights.to_s][0]
+        if !metadata[rights_uri]
+            return Rights.new(:uri => rights_uri)
         else
-          rights = Rights.new(:uri => uri, 
-                              :dataLicense => rights[odil.dataLicense.to_s][0], 
-                              :contentLicense => rights[odil.contentLicense.to_s][0], 
-                              :copyrightNotice => rights[odil.copyrightNotice.to_s][0], 
-                              :attributionURL => rights[odil.attributionURL.to_s][0],
-                              :attributionText => rights[odil.attributionText.to_s][0]
+          return Rights.new(:uri => uri, 
+                              :dataLicense => first_value( rights_uri, odil.dataLicense ), 
+                              :contentLicense => first_value( rights_uri, odil.contentLicense ), 
+                              :copyrightNotice => first_value( rights_uri, odil.copyrightNotice ), 
+                              :attributionURL => first_value( rights_uri, odil.attributionURL ),
+                              :attributionText => first_value( rights_uri, odil.attributionText ),
+                              :copyrightHolder => first_value( rights_uri, odil.copyrightHolder ),
+                              :databaseRightHolder => first_value( rights_uri, odil.databaseRightHolder ),
+                              :copyrightYear => first_value( rights_uri, odil.copyrightYear ),
+                              :databaseRightYear => first_value( rights_uri, odil.databaseRightYear ),
+                              :copyrightStatement => first_value( rights_uri, odil.copyrightStatement ),
+                              :databaseRightStatement => first_value( rights_uri, odil.databaseRightStatement )
                               )
         end
-        return rights
-      rescue
-        []
+      rescue => e
+        nil
       end
       
       # A list of licenses.
@@ -78,13 +83,12 @@ module DataKitten
       # @see Dataset#licenses
       def licenses
         licenses = []
-        uris = metadata[dataset_uri][dct.license.to_s]
+        uris = metadata[dataset_uri][RDF::DC.license.to_s]
         if uris.nil?
           []
         else
-          uris.each do |uri|
-            l = metadata[uri]
-            licenses << License.new(:uri => uri, :name => l[dct.title.to_s])
+          uris.each do |license_uri|
+            licenses << License.new(:uri => license_uri, :name => first_value( license_uri, RDF::DC.title ))
           end
           return licenses
         end
@@ -105,18 +109,16 @@ module DataKitten
       def distributions
         distributions = []
         uris = metadata[dataset_uri][dcat.distribution.to_s]
-        uris.each do |uri|
-          d = metadata[uri]
+        uris.each do |distribution_uri|
           distribution = {
-            :title => d[dct.title.to_s][0],
-            :accessURL => d[dcat.accessURL.to_s][0],
-            :issued => d[dct.issued.to_s][0]
+            :title => first_value( distribution_uri, RDF::DC.title ),
+            :accessURL => first_value( distribution_uri, dcat.accessURL )
           }
           distributions << Distribution.new(self, dcat_resource: distribution)
         end
         return distributions
       rescue
-        nil
+        []
       end
       
       # The human-readable title of the dataset.
@@ -156,7 +158,7 @@ module DataKitten
       #
       # @see Dataset#update_frequency
       def update_frequency
-        metadata[dataset_uri][dct.accrualPeriodicity.to_s][0] rescue nil
+        first_value( dataset_uri, dcat.accrualPeriodicity )
       end
       
       private
@@ -164,7 +166,14 @@ module DataKitten
       def graph
         @graph ||= RDF::Graph.load(uri, :format => :rdfa)  
       end
-                        
+              
+      def first_value(resource, property, default=nil)
+          if metadata[resource][property.to_s]
+              return metadata[resource][property.to_s][0]
+          end
+          return default
+      end
+                
       def metadata        
         @metadata ||= {}
         

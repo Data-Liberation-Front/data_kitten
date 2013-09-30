@@ -4,6 +4,8 @@ SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
 SimpleCov.start
 
 require 'data_kitten'
+require 'fakeweb'
+require 'linkeddata'
 
 RSpec.configure do |config|
 

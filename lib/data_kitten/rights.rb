@@ -28,6 +28,30 @@ module DataKitten
     #   @return [String] the attribution text for the dataset.
     attr_accessor :attributionText
 
+    # @!attribute copyrightHolder
+    #   @return [String] the URI of the organization that holds copyright for this dataset
+    attr_accessor :copyrightHolder
+    
+    # @!attribute databaseRightHolder
+    #   @return [String] the URI of the organization that owns the database rights for this dataset
+    attr_accessor :databaseRightHolder
+          
+    # @!attribute copyrightYear
+    #   @return [String] the year in which copyright is claimed
+    attr_accessor :copyrightYear   
+   
+    # @!attribute databaseRightYear
+    #   @return [String] the year in which copyright is claimed
+    attr_accessor :databaseRightYear      
+    
+    # @!attribute copyrightStatement
+    #   @return [String] the URL of a copyright statement for the dataset
+    attr_accessor :copyrightStatement   
+    
+    # @!attribute databaseRightStatement
+    #   @return [String] the URL of a database right statement for the dataset
+    attr_accessor :databaseRightStatement       
+    
     # Create a new Rights object.
     #
     # @param options [Hash] A set of options with which to initialise the license.
@@ -43,6 +67,12 @@ module DataKitten
       @copyrightNotice = options[:copyrightNotice]
       @attributionURL = options[:attributionURL]
       @attributionText = options[:attributionText]
+      @copyrightHolder = options[:copyrightHolder]
+      @databaseRightHolder = options[:databaseRightHolder]
+      @copyrightYear = options[:copyrightYear]
+      @databaseRightYear = options[:databaseRightYear]
+      @copyrightStatement = options[:copyrightStatement]
+      @databaseRightStatement = options[:databaseRightStatement]
     end
 
   end  
