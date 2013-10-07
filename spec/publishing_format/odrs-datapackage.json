@@ -1,0 +1,11 @@
+{
+    "name": "identifier",
+    "title": "ODRS Example",
+    "rights": {
+        "contentLicense": "http://reference.data.gov.uk/id/open-government-licence",
+        "dataLicense": "http://reference.data.gov.uk/id/open-government-licence",
+        "copyrightNotice": "© Crown copyright 2013",
+        "attributionText": "Example Department",
+        "attributionURL": "http://gov.example.org/dataset/example"
+    }        
+}

@@ -1,0 +1,14 @@
+{
+    "name": "identifier",
+    "title": "Test Dataset",
+    "description": "This is a test dataset",
+    "licenses": [{
+        "id": "odc-pddl",
+        "url": "http://opendatacommons.org/licenses/pddl/"
+    }],
+    "sources": [{
+        "name": "Somewhere Else",
+        "web": "http://data.example.org/123"
+    }],
+    "keywords": ["data", "finances", "spending"]
+}

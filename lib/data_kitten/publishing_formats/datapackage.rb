@@ -12,7 +12,7 @@ module DataKitten
 
       def self.supported?(instance)
         instance.send(:load_file, "datapackage.json")
-      rescue 
+      rescue => e
         false
       end
 
@@ -52,6 +52,14 @@ module DataKitten
         end
       end
 
+      def rights
+         if metadata["rights"]
+            [ Rights.new( ( metadata["rights"] || []).each_with_object({}){|(k,v), h| h[k.to_sym] = v} ) ]
+         else
+            []
+         end 
+      end
+      
       # A list of contributors.
       #
       # @see Dataset#contributors
