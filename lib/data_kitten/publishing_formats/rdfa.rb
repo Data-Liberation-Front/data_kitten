@@ -61,20 +61,22 @@ module DataKitten
             return Rights.new(:uri => rights_uri)
         else
           return Rights.new(:uri => uri, 
-                              :dataLicense => first_value( rights_uri, odil.dataLicense ), 
-                              :contentLicense => first_value( rights_uri, odil.contentLicense ), 
-                              :copyrightNotice => first_value( rights_uri, odil.copyrightNotice ), 
-                              :attributionURL => first_value( rights_uri, odil.attributionURL ),
-                              :attributionText => first_value( rights_uri, odil.attributionText ),
-                              :copyrightHolder => first_value( rights_uri, odil.copyrightHolder ),
-                              :databaseRightHolder => first_value( rights_uri, odil.databaseRightHolder ),
-                              :copyrightYear => first_value( rights_uri, odil.copyrightYear ),
-                              :databaseRightYear => first_value( rights_uri, odil.databaseRightYear ),
-                              :copyrightStatement => first_value( rights_uri, odil.copyrightStatement ),
-                              :databaseRightStatement => first_value( rights_uri, odil.databaseRightStatement )
+                              :dataLicense => first_value( rights_uri, odrs.dataLicense ), 
+                              :contentLicense => first_value( rights_uri, odrs.contentLicense ), 
+                              :copyrightNotice => first_value( rights_uri, odrs.copyrightNotice ), 
+                              :attributionURL => first_value( rights_uri, odrs.attributionURL ),
+                              :attributionText => first_value( rights_uri, odrs.attributionText ),
+                              :copyrightHolder => first_value( rights_uri, odrs.copyrightHolder ),
+                              :databaseRightHolder => first_value( rights_uri, odrs.databaseRightHolder ),
+                              :copyrightYear => first_value( rights_uri, odrs.copyrightYear ),
+                              :databaseRightYear => first_value( rights_uri, odrs.databaseRightYear ),
+                              :copyrightStatement => first_value( rights_uri, odrs.copyrightStatement ),
+                              :databaseRightStatement => first_value( rights_uri, odrs.databaseRightStatement )
                               )
         end
       rescue => e
+        puts e
+        puts e.backtrace
         nil
       end
       
@@ -205,8 +207,12 @@ module DataKitten
         RDF::Vocabulary.new("http://purl.org/dc/terms/")
       end
       
-      def odil
+      def odrs
         RDF::Vocabulary.new("http://schema.theodi.org/odrs#")
+      end
+      
+      def void
+        RDF::Vocabulary.new("http://rdfs.org/ns/void#")
       end
             
     end
