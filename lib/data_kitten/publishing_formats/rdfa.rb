@@ -94,7 +94,7 @@ module DataKitten
           end
           return licenses
         end
-      rescue
+      rescue => e
         []
       end
       
@@ -170,7 +170,7 @@ module DataKitten
       end
               
       def first_value(resource, property, default=nil)
-          if metadata[resource][property.to_s]
+          if metadata[resource] && metadata[resource][property.to_s]
               return metadata[resource][property.to_s][0]
           end
           return default
