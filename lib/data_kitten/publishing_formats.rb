@@ -1,6 +1,6 @@
 require 'data_kitten/publishing_formats/datapackage'
 require 'data_kitten/publishing_formats/rdfa'
-require 'data_kitten/publishing_formats/rdfxml'
+require 'data_kitten/publishing_formats/linked_data'
 require 'data_kitten/publishing_formats/ckan'
 
 module DataKitten
@@ -14,7 +14,7 @@ module DataKitten
         DataKitten::PublishingFormats::Datapackage,
         DataKitten::PublishingFormats::RDFa,
         DataKitten::PublishingFormats::CKAN,
-        DataKitten::PublishingFormats::RDFXML
+        DataKitten::PublishingFormats::LinkedData
       ].each do |format|
         if format.supported?(self)
           extend format 
