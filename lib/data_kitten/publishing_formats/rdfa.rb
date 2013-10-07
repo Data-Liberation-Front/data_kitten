@@ -61,11 +61,11 @@ module DataKitten
           rights = Rights.new(:uri => uri)
         else
           rights = Rights.new(:uri => uri, 
-                              :dataLicense => rights[odil.dataLicense.to_s][0], 
-                              :contentLicense => rights[odil.contentLicense.to_s][0], 
-                              :copyrightNotice => rights[odil.copyrightNotice.to_s][0], 
-                              :attributionURL => rights[odil.attributionURL.to_s][0],
-                              :attributionText => rights[odil.attributionText.to_s][0]
+                              :dataLicense => rights[odrs.dataLicense.to_s][0], 
+                              :contentLicense => rights[odrs.contentLicense.to_s][0], 
+                              :copyrightNotice => rights[odrs.copyrightNotice.to_s][0], 
+                              :attributionURL => rights[odrs.attributionURL.to_s][0],
+                              :attributionText => rights[odrs.attributionText.to_s][0]
                               )
         end
         return rights
@@ -196,8 +196,12 @@ module DataKitten
         RDF::Vocabulary.new("http://purl.org/dc/terms/")
       end
       
-      def odil
+      def odrs
         RDF::Vocabulary.new("http://schema.theodi.org/odrs#")
+      end
+      
+      def void
+        RDF::Vocabulary.new("http://rdfs.org/ns/void#")
       end
             
     end
