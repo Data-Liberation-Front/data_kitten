@@ -71,6 +71,11 @@ describe DataKitten::PublishingFormats::RDFa do
             expect( distribution.title ).to eql("CSV download")
             expect( distribution.access_url).to eql("http://example.org/distribution.csv.zip")
         end
+        
+        it "should extract dates" do
+            expect( @dataset.issued.to_s ).to eql("2010-10-25")
+            expect( @dataset.modified.to_s ).to eql("2013-05-10")
+        end
     end
     
     context "when parsing rights statements" do
