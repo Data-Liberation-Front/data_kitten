@@ -106,6 +106,11 @@ module DataKitten
         end
       end
       
+      # Date the dataset was modified
+      def modified
+        Date.parse metadata["last_modified"] rescue nil
+      end
+            
       # A history of changes to the Dataset.
       # 
       # If {Dataset#source} is +:git+, this is the git changelog for the actual distribution files, rather

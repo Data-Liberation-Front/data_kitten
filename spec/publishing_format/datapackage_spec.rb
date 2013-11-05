@@ -64,7 +64,10 @@ describe DataKitten::PublishingFormats::Datapackage do
             expect( @dataset.keywords.length ).to eql(3)
             expect( @dataset.keywords ).to eql( ["data", "finances", "spending"] )
         end
-        
+   
+        it "should extract modification date" do
+            expect( @dataset.modified).to_not eql(nil)
+        end
     end
     
     context "when reading rights information" do
