@@ -75,8 +75,8 @@ module DataKitten
                               )
         end
       rescue => e
-        puts e
-        puts e.backtrace
+        #puts e
+        #puts e.backtrace
         nil
       end
       

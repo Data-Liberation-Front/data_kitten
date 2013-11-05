@@ -57,7 +57,7 @@ describe DataKitten::PublishingFormats::Datapackage do
             license = @dataset.licenses.first
             expect( license.id ).to eql("odc-pddl")
             expect( license.uri ).to eql("http://opendatacommons.org/licenses/pddl/")
-            expect( @dataset.rights).to eql([])            
+            expect( @dataset.rights).to eql(nil)            
         end
         
         it "should extract keywords" do
@@ -72,7 +72,7 @@ describe DataKitten::PublishingFormats::Datapackage do
         before(:each) do 
             @dataset = DataPackageTestDataset.new(
                 :access_url => "http://example.org", :prefix=>"odrs-")
-            @rights = @dataset.rights().first
+            @rights = @dataset.rights()
         end        
         
         it "should extract licenses" do
