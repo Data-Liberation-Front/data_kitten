@@ -44,8 +44,9 @@ module DataKitten
         end
         
         reader = RDF::Reader.for( :content_type => resp.headers[:content_type] )
+
         if !reader
-            extension = File.extname( uri ).gsub(".", "")            
+            extension = File.extname( uri ).gsub(".", "")          
             reader = RDF::Reader.for( :file_extension => extension ) if extension != ""
         end
         return false unless reader
@@ -55,6 +56,8 @@ module DataKitten
                
         return graph     
       rescue => e
+        #puts e
+        #puts e.backtrace
         nil
       end
 

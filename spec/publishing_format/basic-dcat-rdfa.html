@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html prefix="dct: http://purl.org/dc/terms/
+              rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+              dcat: http://www.w3.org/ns/dcat#
+              foaf: http://xmlns.com/foaf/0.1/
+			  odrs: http://schema.theodi.org/odrs#">
+    <head>
+        <title>DCAT in RDFa</title>
+	</head>
+	<body>
+		<div typeof="dcat:Dataset" resource="http://gov.example.org/dataset/finances">
+            <h1 property="dct:title">Example DCAT Dataset</h1>	
+            
+              <p property="dct:description">This is the description.<p>
+              					
+            <div property="dct:license" 
+                 resource="http://reference.data.gov.uk/id/open-government-licence">
+				<a href="http://reference.data.gov.uk/id/open-government-licence">
+                <span property="dct:title">UK Open Government Licence (OGL)</span>
+                </a>
+            </div>
+
+            <div property="dct:publisher" 
+                 resource="http://example.org/publisher">
+                <a href="http://example.org/publisher" about="http://example.org/publisher" property="foaf:homepage">
+                    <span property="foaf:name">Example Publisher</span>
+                </a>
+            </div>
+            
+            <div>
+                <span property="dcat:keyword">Examples</span>, <span property="dcat:keyword">DCAT</span>
+            </div>
+            
+            <div>
+                <a href="http://purl.org/linked-data/sdmx/2009/code#freq-W" property="dcat:accrualPeriodicity">Weekly</a>
+            </div>
+            
+		    <div property='dcat:distribution' typeof='dcat:Distribution'>
+		        <span property="dct:title">CSV download</span>
+		        <ul>
+		            <li><strong>Format</strong> <span content='text/csv' property='dcat:mediaType'>CSV</span></li>
+		            <li><strong>Size</strong> <span content='240585277' datatype='xsd:decimal' property='dcat:byteSize'>1024MB</span></li>
+		            <li><strong>Issues</strong> <span property='dct:issued'>2012-01-01</span></li>
+		        </ul>        
+		        <p><a class='btn btn-primary' href='http://example.org/distribution.csv.zip' property='dcat:accessURL'>Download the full dataset</a></p>
+		    </div>            
+            
+    </body>
+</html>
