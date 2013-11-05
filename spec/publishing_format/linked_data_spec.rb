@@ -51,11 +51,11 @@ describe DataKitten::PublishingFormats::LinkedData do
 
         it "should fallback to using suffix of URI" do
             body=<<-EOL 
-              <http://example.org/doc/dataset> a <http://www.w3.org/ns/dcat#Dataset>.
+              <http://example.org/doc/dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dcat#Dataset>.
             EOL
     
             FakeWeb.register_uri(:get, "http://example.org/doc/dataset.ttl", :body=>body, :content_type=>"text/plain") 
-            d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset")        
+            d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset.ttl")        
             expect( d.publishing_format ).to eql(:rdf)                 
         end        
                 
