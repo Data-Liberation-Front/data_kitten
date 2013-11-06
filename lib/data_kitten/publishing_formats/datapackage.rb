@@ -54,9 +54,9 @@ module DataKitten
 
       def rights
          if metadata["rights"]
-            [ Rights.new( ( metadata["rights"] || []).each_with_object({}){|(k,v), h| h[k.to_sym] = v} ) ]
+            Rights.new( ( metadata["rights"] || []).each_with_object({}){|(k,v), h| h[k.to_sym] = v} )
          else
-            []
+            nil
          end 
       end
       
