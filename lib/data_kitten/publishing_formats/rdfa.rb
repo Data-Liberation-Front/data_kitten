@@ -163,6 +163,23 @@ module DataKitten
         first_value( dataset_uri, dcat.accrualPeriodicity )
       end
       
+      def issued
+        date = first_value(dataset_uri, RDF::DC.issued) || 
+               first_value(dataset_uri, RDF::DC.created)
+        if date
+            return Date.parse( date )
+        end
+        return nil
+      end
+    
+      def modified
+        date = first_value(dataset_uri, RDF::DC.modified)
+        if date
+            return Date.parse( date )
+        end
+        return nil
+      end
+      
       private
             
       def graph
