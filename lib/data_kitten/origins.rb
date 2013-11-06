@@ -1,6 +1,7 @@
 require 'data_kitten/origins/git'
 require 'data_kitten/origins/web_service'
 require 'data_kitten/origins/html'
+require 'data_kitten/origins/linked_data'
 
 module DataKitten
   
@@ -12,7 +13,8 @@ module DataKitten
       [
         DataKitten::Origins::Git,
         DataKitten::Origins::HTML,
-        DataKitten::Origins::WebService
+        DataKitten::Origins::WebService,
+        DataKitten::Origins::LinkedData,
       ].each do |origin|
         if origin.supported?(@access_url)
           extend origin 

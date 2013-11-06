@@ -18,7 +18,8 @@ describe DataKitten::PublishingFormats::RDFa do
         it "should detect DCAT Datasets" do
             dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "basic-dcat-rdfa.html" ) )         
             FakeWeb.register_uri(:get, "http://example.org/rdfa", :body=>dcat_rdfa, :content_type=>"text/html")            
-            d = DataKitten::Dataset.new( access_url: "http://example.org/rdfa")        
+            d = DataKitten::Dataset.new( access_url: "http://example.org/rdfa")
+            expect( d.publishing_format ).to eql(:rdfa)        
             expect( d.supported? ).to eql(true)                    
         end
     end
