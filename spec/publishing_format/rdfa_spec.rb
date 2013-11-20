@@ -16,7 +16,7 @@ describe DataKitten::PublishingFormats::RDFa do
         end
 
         it "should detect DCAT Datasets" do
-            dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "basic-dcat-rdfa.html" ) )         
+            dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "basic-dcat-rdfa.html" ) )         
             FakeWeb.register_uri(:get, "http://example.org/rdfa", :body=>dcat_rdfa, :content_type=>"text/html")            
             d = DataKitten::Dataset.new( access_url: "http://example.org/rdfa")
             expect( d.publishing_format ).to eql(:rdfa)        
@@ -27,7 +27,7 @@ describe DataKitten::PublishingFormats::RDFa do
     context "when parsing RDFa" do
         
         before(:each) do
-            dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "basic-dcat-rdfa.html" ) )         
+            dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "basic-dcat-rdfa.html" ) )         
             FakeWeb.register_uri(:get, "http://example.org/rdfa", :body=>dcat_rdfa, :content_type=>"text/html")            
             @dataset = DataKitten::Dataset.new( access_url: "http://example.org/rdfa")        
         end        
@@ -82,7 +82,7 @@ describe DataKitten::PublishingFormats::RDFa do
     context "when parsing rights statements" do
         
         before(:each) do
-            dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "dcat-odrs-rdfa.html" ) )         
+            dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "dcat-odrs-rdfa.html" ) )         
             FakeWeb.register_uri(:get, "http://example.org/rights", :body=>dcat_rdfa, :content_type=>"text/html")            
             @dataset = DataKitten::Dataset.new( access_url: "http://example.org/rights")        
         end        

@@ -63,13 +63,13 @@ module DataKitten
       # @see Dataset#publishers
       def publishers
         uri = URI(self.uri)
-        group = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/group/#{metadata['groups'][0]}"
-        
+        group_id = metadata['groups'][0] || metadata['organization']['id']
+        group = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/group/#{group_id}"
         [
           Agent.new(
                     :name => group["display_name"],
                     :homepage => group["extras"]["website-url"],
-                    :mbox => metadata["extras"]["contact-email"]
+                    :mbox => group["extras"]["contact-email"]
                     )
         ]
       rescue

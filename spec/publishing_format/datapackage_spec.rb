@@ -12,7 +12,7 @@ class DataPackageTestDataset < DataKitten::Dataset
     end
     
     def load_file(file)
-        File.read( File.join( File.dirname(File.realpath(__FILE__)) , "#{@prefix}#{file}" ) )
+        File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "#{@prefix}#{file}" ) )
     end
     
 end
