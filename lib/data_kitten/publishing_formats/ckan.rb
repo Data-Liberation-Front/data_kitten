@@ -69,7 +69,7 @@ module DataKitten
           Agent.new(
                     :name => group["display_name"],
                     :homepage => group["extras"]["website-url"],
-                    :mbox => metadata["extras"]["contact-email"]
+                    :mbox => group["extras"]["contact-email"]
                     )
         ]
       rescue
