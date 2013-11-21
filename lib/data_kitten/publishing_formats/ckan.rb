@@ -13,10 +13,16 @@ module DataKitten
         if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
           @@id = package
         else
-          endpoint = "#{uri.scheme}://#{uri.host}/api/2/search/dataset"
-        
-          search = JSON.parse RestClient.get endpoint, {:params => {:q => package}}
-          @@id = search["results"][0]
+          results = RestClient.get "#{uri.scheme}://#{uri.host}/api/2/search/dataset", {:params => {:q => package}} rescue ""
+
+          if results == ""
+            results = RestClient.get "#{uri.scheme}://#{uri.host}/api/3/action/package_search", {:params => {:q => package}}
+            search = JSON.parse results
+            @@id = search["result"]["results"][0]["id"]
+          else
+            search = JSON.parse results
+            @@id = search["results"][0]
+          end
         end
       rescue
         false
