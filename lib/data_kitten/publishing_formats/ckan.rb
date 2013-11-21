@@ -69,7 +69,7 @@ module DataKitten
       # @see Dataset#publishers
       def publishers
         uri = URI(self.uri)
-        group_id = metadata['groups'][0] || metadata['organization']['id']
+        group_id = metadata['organization']['id'] || metadata['groups'][0]
         group = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/group/#{group_id}"
         [
           Agent.new(
