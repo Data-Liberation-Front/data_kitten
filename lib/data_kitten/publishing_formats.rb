@@ -12,8 +12,8 @@ module DataKitten
     def detect_publishing_format
       [
         DataKitten::PublishingFormats::Datapackage,
-        DataKitten::PublishingFormats::RDFa,
         DataKitten::PublishingFormats::CKAN,
+        DataKitten::PublishingFormats::RDFa,
         DataKitten::PublishingFormats::LinkedData
       ].each do |format|
         if format.supported?(self)
