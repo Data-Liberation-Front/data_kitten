@@ -118,7 +118,7 @@ module DataKitten
     # @return [Boolean] whether the HTTP response returns a success code or not
     def exists?
       if @access_url
-        @response.response_code == 404
+        @response.response_code != 404
       end
     end
 
