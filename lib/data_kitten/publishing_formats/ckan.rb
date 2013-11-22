@@ -13,10 +13,14 @@ module DataKitten
         if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
           @@id = package
         else
-          endpoint = "#{uri.scheme}://#{uri.host}/api/2/search/dataset"
-        
-          search = JSON.parse RestClient.get endpoint, {:params => {:q => package}}
-          @@id = search["results"][0]
+          results = RestClient.get "#{uri.scheme}://#{uri.host}/api/3/action/package_search", {:params => {:q => package}} rescue ""
+
+          if results == ""
+            results = RestClient.get "#{uri.scheme}://#{uri.host}/api/2/search/dataset", {:params => {:q => package}}
+          end
+          
+          search = JSON.parse results
+          @@id = search["result"]["results"][0]["id"] rescue search["results"][0]
         end
       rescue
         false
@@ -63,7 +67,7 @@ module DataKitten
       # @see Dataset#publishers
       def publishers
         uri = URI(self.uri)
-        group_id = metadata['groups'][0] || metadata['organization']['id']
+        group_id = metadata['organization']['id'] || metadata['groups'][0]
         group = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/group/#{group_id}"
         [
           Agent.new(
