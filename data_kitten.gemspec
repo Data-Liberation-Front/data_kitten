@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE.md", "README.md"]
 
+  s.add_dependency "rake"
   s.add_dependency "git"
   s.add_dependency "json"
   s.add_dependency "rest-client"
