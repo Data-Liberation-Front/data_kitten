@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.email       = ["tech@theodi.org"]
   s.homepage    = "http://github.com/data-kitten"
   s.summary     = "Get dataset metadata in a consistent format - no matter what you throw at it"
+  s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE.md", "README.md"]
 
