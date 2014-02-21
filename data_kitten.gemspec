@@ -12,9 +12,11 @@ Gem::Specification.new do |s|
   s.email       = ["tech@theodi.org"]
   s.homepage    = "http://github.com/data-kitten"
   s.summary     = "Get dataset metadata in a consistent format - no matter what you throw at it"
+  s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE.md", "README.md"]
 
+  s.add_dependency "rake"
   s.add_dependency "git"
   s.add_dependency "json"
   s.add_dependency "rest-client"
@@ -23,6 +25,6 @@ Gem::Specification.new do |s|
   s.add_dependency "curb"
 
   s.add_development_dependency "rspec"
-  s.add_development_dependency "simplecov-rcov"
+  s.add_development_dependency "coveralls"
   s.add_development_dependency "fakeweb", ["~> 1.3"]
 end

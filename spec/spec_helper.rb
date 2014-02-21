@@ -1,7 +1,5 @@
-require 'simplecov'
-require 'simplecov-rcov'
-SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
-SimpleCov.start
+require 'coveralls'
+Coveralls.wear!
 
 require 'data_kitten'
 require 'fakeweb'
