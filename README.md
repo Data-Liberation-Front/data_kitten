@@ -1,8 +1,12 @@
-# data_kitten
+[![Build Status](http://img.shields.io/travis/theodi/data_kitten.svg)](https://travis-ci.org/theodi/data_kitten)
+[![Dependency Status](http://img.shields.io/gemnasium/theodi/data_kitten.svg)](https://gemnasium.com/theodi/data_kitten)
+[![Coverage Status](http://img.shields.io/coveralls/theodi/data_kitten.svg)](https://coveralls.io/r/theodi/data_kitten)
+[![Code Climate](http://img.shields.io/codeclimate/github/theodi/data_kitten.svg)](https://codeclimate.com/github/theodi/data_kitten)
+[![Gem Version](http://img.shields.io/gem/v/data_kitten.svg)](https://rubygems.org/gems/data_kitten)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://theodi.mit-license.org)
+[![Badges](http://img.shields.io/:badges-7/7-ff6799.svg)](https://github.com/pikesley/badger)
 
-[![Build Status](http://jenkins.theodi.org/job/data_kitten-master/badge/icon)](http://jenkins.theodi.org/job/data_kitten-master/)
-[![Code Climate](https://codeclimate.com/github/theodi/data_kitten.png)](https://codeclimate.com/github/theodi/data_kitten)
-[![Dependency Status](https://gemnasium.com/theodi/data_kitten.png)](https://gemnasium.com/theodi/data_kitten)
+# data_kitten
 
 ![DATAS - I HAZ THEM](https://gs1.wac.edgecastcdn.net/8019B6/data.tumblr.com/67399f2b335ef62d562dc9eb41c0db16/tumblr_mmy9g7rA8M1s4aj1ho1_500.jpg)
 
