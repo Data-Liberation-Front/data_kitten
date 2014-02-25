@@ -1,6 +1,7 @@
 {
     "name": "identifier",
     "title": "Test Dataset",
+    "datapackage_version": "1.0.0",
     "description": "This is a test dataset",
     "licenses": [{
         "id": "odc-pddl",

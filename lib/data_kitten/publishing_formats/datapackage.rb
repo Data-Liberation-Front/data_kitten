@@ -11,9 +11,18 @@ module DataKitten
       private
 
       def self.supported?(instance)
-        instance.send(:load_file, "datapackage.json")
-      rescue => e
-        false
+        begin
+          if instance.send(:origin) == :git
+            metadata = instance.send(:load_file, "datapackage.json")
+            datapackage = DataPackage::Package.new( JSON.parse( metadata ) )
+            return datapackage.datapackage_version != nil
+          else
+            datapackage = DataPackage::Package.new( instance.uri )
+            return datapackage.datapackage_version != nil
+          end
+        rescue => e
+          false
+        end
       end
 
       public
@@ -29,7 +38,7 @@ module DataKitten
       #
       # @see Dataset#maintainers
       def maintainers
-        (metadata['maintainers'] || []).map do |x|
+        package.maintainers.map do |x|
           Agent.new(:name => x['name'], :uri => x['web'], :email => x['email'])
         end
       end
@@ -38,7 +47,7 @@ module DataKitten
       #
       # @see Dataset#publishers
       def publishers
-        (metadata['publishers'] || []).map do |x|
+        package.publisher.map do |x|
           Agent.new(:name => x['name'], :uri => x['web'], :email => x['email'])
         end
       end
@@ -47,14 +56,14 @@ module DataKitten
       #
       # @see Dataset#licenses
       def licenses
-        (metadata['licenses'] || []).map do |x| 
+        package.licenses.map do |x| 
           License.new(:id => x['id'], :uri => x['url'], :name => x['name'])
         end
       end
 
       def rights
-         if metadata["rights"]
-            Rights.new( ( metadata["rights"] || []).each_with_object({}){|(k,v), h| h[k.to_sym] = v} )
+         if package.property("rights")
+            Rights.new( ( package.property("rights", [])).each_with_object({}){|(k,v), h| h[k.to_sym] = v} )
          else
             nil
          end 
@@ -64,7 +73,7 @@ module DataKitten
       #
       # @see Dataset#contributors
       def contributors
-        (metadata['contributors'] || []).map do |x|
+        package.contributors.map do |x|
           Agent.new(:name => x['name'], :uri => x['web'], :email => x['email'])
         end
       end
@@ -73,42 +82,42 @@ module DataKitten
       #
       # @see Dataset#distributions
       def distributions
-        metadata['resources'].map { |resource| Distribution.new(self, datapackage_resource: resource) }
+        package.resources.map { |resource| Distribution.new(self, datapackage_resource: resource) }
       end
   
       # The human-readable title of the dataset.
       #
       # @see Dataset#data_title
       def data_title
-        metadata['title'] || metadata['name']
+        package.title || package.name
       end
       
       # A brief description of the dataset
       #
       # @see Dataset#description
       def description
-        metadata['description']
+        package.description
       end
       
       # Keywords for the dataset
       #
       # @see Dataset#keywords
       def keywords
-        metadata['keywords'] || []
+        package.keywords
       end
       
       # Where the data is sourced from
       #
       # @see Dataset#sources
       def sources
-        (metadata['sources'] || []).map do |x| 
+        package.sources.map do |x| 
           Source.new(:label => x['name'], :resource => x['web'])
         end
       end
       
       # Date the dataset was modified
       def modified
-        Date.parse metadata["last_modified"] rescue nil
+        package.last_modified
       end
             
       # A history of changes to the Dataset.
@@ -142,16 +151,17 @@ module DataKitten
 
       private
       
-      def metadata
-        @metadata ||= begin
-          if json = load_file("datapackage.json")
-            JSON.parse(json)
+      def package
+        if !@datapackage
+          if origin == :git
+            metadata = load_file("datapackage.json")
+            @datapackage = DataPackage::Package.new( JSON.parse( metadata ) )
           else
-            nil
-          end
+            @datapackage = DataPackage::Package.new( access_url )
+          end        
         end
+        @datapackage         
       end
-
     end
 
   end

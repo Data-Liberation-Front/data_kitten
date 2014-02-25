@@ -9,6 +9,7 @@ require 'linkeddata'
 require 'nokogiri'
 require 'uri'
 require 'curb'
+require 'datapackage'
 
 require 'data_kitten/license'
 require 'data_kitten/rights'
