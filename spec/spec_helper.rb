@@ -6,6 +6,8 @@ require 'fakeweb'
 require 'linkeddata'
 require 'pry'
 
+FakeWeb.allow_net_connect = %w{coveralls.io}
+
 RSpec.configure do |config|
 
   config.order = "random"
