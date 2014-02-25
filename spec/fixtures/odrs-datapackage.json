@@ -1,6 +1,7 @@
 {
     "name": "identifier",
     "title": "ODRS Example",
+    "datapackage_version": "1.0.0",
     "rights": {
         "contentLicense": "http://reference.data.gov.uk/id/open-government-licence",
         "dataLicense": "http://reference.data.gov.uk/id/open-government-licence",

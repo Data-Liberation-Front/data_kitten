@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE.md", "README.md"]
+  s.executables << 'data_kitten'
 
   s.add_dependency "rake"
   s.add_dependency "git"
@@ -23,8 +24,11 @@ Gem::Specification.new do |s|
   s.add_dependency "linkeddata"
   s.add_dependency "nokogiri"
   s.add_dependency "curb"
+  s.add_dependency "datapackage"
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "coveralls"
   s.add_development_dependency "fakeweb", ["~> 1.3"]
+  s.add_development_dependency "pry"
+  
 end

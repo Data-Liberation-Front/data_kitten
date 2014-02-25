@@ -1,34 +1,18 @@
 require 'spec_helper'
 
-#This is required to specify a load_file function which currently
-#is only available on git origin
-#
-#Supply a prefix to separate out test filesTes
-class DataPackageTestDataset < DataKitten::Dataset
-    
-    def initialize( options )
-        @prefix = options[:prefix]
-        super        
-    end
-    
-    def load_file(file)
-        File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "#{@prefix}#{file}" ) )
-    end
-    
-end
-
 describe DataKitten::PublishingFormats::Datapackage do
     
     context "when detecting format" do
-        
+            
         it "should detect datapackage.json" do
-            d = DataPackageTestDataset.new(:access_url => "http://example.org")                    
+            FakeWeb.register_uri(:get, "http://example.org/dataset/datapackage.json", :body=> load_fixture("datapackage.json") ) 
+            d = DataKitten::Dataset.new(:access_url => "http://example.org/dataset/datapackage.json")                    
             expect( d.publishing_format ).to eql(:datapackage)                 
         end
 
         it "should not be a data package if there is no datapackage.json" do
-            d = DataPackageTestDataset.new(:access_url => "http://example.org", 
-                :prefix => "missing")        
+            FakeWeb.register_uri(:get, "http://example.org/not-a-dataset/datapackage.json", :body=>"", :status => ["404", "Not Found"])   
+            d = DataKitten::Dataset.new(:access_url => "http://example.org/not-a-dataset/datapackage.json")        
             expect( d.publishing_format ).to eql(nil)                 
         end        
                 
@@ -37,7 +21,8 @@ describe DataKitten::PublishingFormats::Datapackage do
     context "when reading a basic datapackage.json file" do
         
         before(:each) do 
-            @dataset = DataPackageTestDataset.new(:access_url => "http://example.org")
+          FakeWeb.register_uri(:get, "http://example.org/dataset/datapackage.json", :body=> load_fixture("datapackage.json") ) 
+          @dataset = DataKitten::Dataset.new(:access_url => "http://example.org/dataset/datapackage.json")      
         end
         
         it "should parse basic metadata" do
@@ -73,9 +58,9 @@ describe DataKitten::PublishingFormats::Datapackage do
     context "when reading rights information" do
         
         before(:each) do 
-            @dataset = DataPackageTestDataset.new(
-                :access_url => "http://example.org", :prefix=>"odrs-")
-            @rights = @dataset.rights()
+          FakeWeb.register_uri(:get, "http://example.org/dataset/datapackage.json", :body=> load_fixture("odrs-datapackage.json") ) 
+          @dataset = DataKitten::Dataset.new(:access_url => "http://example.org/dataset/datapackage.json")  
+          @rights = @dataset.rights()
         end        
         
         it "should extract licenses" do
