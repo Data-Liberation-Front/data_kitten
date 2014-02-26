@@ -73,7 +73,7 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
-    rake (10.1.0)
+    rake (10.1.1)
     rdf (1.1.2.1)
     rdf-aggregate-repo (1.1.0)
       rdf (>= 1.1)
