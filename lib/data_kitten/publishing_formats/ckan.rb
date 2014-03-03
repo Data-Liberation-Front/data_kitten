@@ -13,6 +13,7 @@ module DataKitten
         if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
           @@id = package
         else
+
           results = RestClient.get "#{uri.scheme}://#{uri.host}/api/3/action/package_show", {:params => {:id => package}} rescue ""
 
           if results == ""
@@ -20,7 +21,7 @@ module DataKitten
           end
 
           result = JSON.parse results
-          @@id = result["id"]
+          @@id = result["result"]["id"] rescue result["id"]
         end
       rescue
         false
