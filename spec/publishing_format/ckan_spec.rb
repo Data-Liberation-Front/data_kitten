@@ -11,7 +11,7 @@ describe DataKitten::PublishingFormats::CKAN do
 
     it "should detect CKAN Datasets" do
         FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
-        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-fetch-dataset.json" ) )
+        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-search-dataset.json" ) )
         FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => "", :content_type=>"application/json")
         FakeWeb.register_uri(:get, "http://example.org/api/2/rest/dataset/ckan", :body => json, :content_type=>"application/json")
         d = DataKitten::Dataset.new( access_url: "http://example.org/ckan")
@@ -98,7 +98,7 @@ describe DataKitten::PublishingFormats::CKAN do
 
     it "should detect CKAN Datasets" do
         FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
-        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-fetch-dataset.json" ) )
+        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-search-dataset.json" ) )
         FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => json, :content_type=>"application/json")
         d = DataKitten::Dataset.new( access_url: "http://example.org/ckan")
         expect( d.publishing_format ).to eql(:ckan)
@@ -108,9 +108,10 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when parsing CKAN" do
 
       before(:each) do
-          json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-fetch-dataset.json" ) )
-          FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => json, :content_type=>"application/json")
-          FakeWeb.register_uri(:get, "http://example.org/api/rest/package/553b3049-2b8b-46a2-95e6-640d7986a8c1", :body => json, :content_type=>"application/json")
+          search = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-search-dataset.json" ) )
+          fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-fetch-dataset.json" ) )
+          FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => search, :content_type=>"application/json")
+          FakeWeb.register_uri(:get, "http://example.org/api/rest/package/553b3049-2b8b-46a2-95e6-640d7986a8c1", :body => fetch, :content_type=>"application/json")
           FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
           @dataset = DataKitten::Dataset.new( access_url: "http://example.org/ckan")
       end
@@ -159,7 +160,7 @@ describe DataKitten::PublishingFormats::CKAN do
       end
 
       it "should get the modified date" do
-        expect( @dataset.modified ).to eql(Date.parse("2013-11-14T05:44:59.497920"))
+        expect( @dataset.modified ).to eql(Date.parse("2014-03-02T05:44:59.497920"))
       end
     end
   end
