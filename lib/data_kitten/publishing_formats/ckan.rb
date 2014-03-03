@@ -1,11 +1,11 @@
 module DataKitten
 
   module PublishingFormats
-    
+
     module CKAN
-    
+
       private
-    
+
       def self.supported?(instance)
         uri = URI(instance.uri)
         package = uri.path.split("/").last
@@ -13,42 +13,43 @@ module DataKitten
         if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
           @@id = package
         else
-          results = RestClient.get "#{uri.scheme}://#{uri.host}/api/3/action/package_search", {:params => {:q => package}} rescue ""
+
+          results = RestClient.get "#{uri.scheme}://#{uri.host}/api/3/action/package_show", {:params => {:id => package}} rescue ""
 
           if results == ""
-            results = RestClient.get "#{uri.scheme}://#{uri.host}/api/2/search/dataset", {:params => {:q => package}}
+            results = RestClient.get "#{uri.scheme}://#{uri.host}/api/2/rest/dataset/#{package}"
           end
-          
-          search = JSON.parse results
-          @@id = search["result"]["results"][0]["id"] rescue search["results"][0]
+
+          result = JSON.parse results
+          @@id = result["result"]["id"] rescue result["id"]
         end
       rescue
         false
-      end 
-      
+      end
+
       public
-      
+
       # The publishing format for the dataset.
       # @return [Symbol] +:ckan+
       # @see Dataset#publishing_format
       def publishing_format
         :ckan
       end
-      
+
       # The human-readable title of the dataset.
       #
       # @see Dataset#data_title
       def data_title
         metadata["title"] rescue nil
       end
-      
+
       # A brief description of the dataset
       #
       # @see Dataset#description
       def description
         metadata["notes"] rescue nil
       end
-      
+
       # Keywords for the dataset
       #
       # @see Dataset#keywords
@@ -61,7 +62,7 @@ module DataKitten
       rescue
         []
       end
-      
+
       # A list of publishers.
       #
       # @see Dataset#publishers
@@ -79,7 +80,7 @@ module DataKitten
       rescue
         []
       end
-      
+
       # A list of licenses.
       #
       # @see Dataset#licenses
@@ -87,15 +88,15 @@ module DataKitten
         uri = metadata["license_url"] || metadata["extras"]["licence_url"] rescue nil
         name = metadata["license_title"] || metadata["extras"]["licence_url_title"] rescue nil
         [
-          License.new(:id => metadata["license_id"], 
-                      :uri => uri, 
+          License.new(:id => metadata["license_id"],
+                      :uri => uri,
                       :name => name
                       )
         ]
       rescue
         []
       end
-      
+
       # A list of distributions, referred to as +resources+ by Datapackage.
       #
       # @see Dataset#distributions
@@ -113,28 +114,28 @@ module DataKitten
       rescue
         nil
       end
-  
+
       # How frequently the data is updated.
       #
       # @see Dataset#update_frequency
       def update_frequency
         metadata["extras"]["update_frequency"] || metadata["extras"]["frequency-of-update"] rescue nil
       end
-      
+
       # Date the dataset was released
       #
       # @see Dataset#issued
       def issued
         Date.parse metadata["metadata_created"] rescue nil
       end
-      
+
       # Date the dataset was modified
       #
       # @see Dataset#modified
       def modified
         Date.parse metadata["metadata_modified"] rescue nil
       end
-      
+
       # The temporal coverage of the dataset
       #
       # @see Dataset#temporal
@@ -143,14 +144,14 @@ module DataKitten
         end_date = Date.parse metadata["extras"]["temporal_coverage-to"] rescue nil
         Temporal.new(:start => start_date, :end => end_date)
       end
-      
+
       private
-                        
+
       def metadata
         uri = URI(self.uri)
         JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
       end
-    
+
     end
   end
 end
