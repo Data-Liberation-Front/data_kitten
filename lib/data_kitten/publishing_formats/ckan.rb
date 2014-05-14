@@ -145,7 +145,11 @@ module DataKitten
       end
 
       def select_extras(group, key)
-        group['result']['extras'].select {|e| e["key"] == key }.first['value']
+        extra = group["extras"][key] rescue ""
+        if extra == ""
+          extra = group['result']['extras'].select {|e| e["key"] == key }.first['value'] rescue ""
+        end
+        extra
       end
 
       def fetch_publisher(id)
@@ -166,8 +170,8 @@ module DataKitten
         [
           Agent.new(
                     :name => @group["display_name"] || @group["result"]["name"],
-                    :homepage => @group["extras"]["website-url"] || select_extras(@group, "website-url"),
-                    :mbox => @group["extras"]["contact-email"] || select_extras(@group, "contact-email")
+                    :homepage => select_extras(@group, "website-url"),
+                    :mbox => select_extras(@group, "contact-email")
                     )
         ]
       end
