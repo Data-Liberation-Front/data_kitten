@@ -67,16 +67,8 @@ module DataKitten
       #
       # @see Dataset#publishers
       def publishers
-        uri = URI(self.uri)
-        group_id = metadata['organization']['id'] || metadata['groups'][0]
-        group = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/group/#{group_id}"
-        [
-          Agent.new(
-                    :name => group["display_name"],
-                    :homepage => group["extras"]["website-url"],
-                    :mbox => group["extras"]["contact-email"]
-                    )
-        ]
+        id = metadata['organization']['id'] || metadata['groups'][0]
+        fetch_publisher(id)
       rescue
         []
       end
@@ -150,6 +142,38 @@ module DataKitten
       def metadata
         uri = URI(self.uri)
         JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
+      end
+
+      def select_extras(group, key)
+        extra = group["extras"][key] rescue ""
+        if extra == ""
+          extra = group['result']['extras'].select {|e| e["key"] == key }.first['value'] rescue ""
+        end
+        extra
+      end
+
+      def fetch_publisher(id)
+        uri = URI(self.uri)
+        [
+          "#{uri.scheme}://#{uri.host}/api/rest/group/#{id}",
+          "#{uri.scheme}://#{uri.host}/api/3/action/group_show?id=#{id}",
+          "#{uri.scheme}://#{uri.host}/api/3/action/organization_show?id=#{id}"
+        ].each do |uri|
+          begin
+            @group = JSON.parse RestClient.get uri
+            break
+          rescue RestClient::ResourceNotFound
+            nil
+          end
+        end
+
+        [
+          Agent.new(
+                    :name => @group["display_name"] || @group["result"]["name"],
+                    :homepage => select_extras(@group, "website-url"),
+                    :mbox => select_extras(@group, "contact-email")
+                    )
+        ]
       end
 
     end
