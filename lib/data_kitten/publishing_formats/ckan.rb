@@ -4,6 +4,8 @@ module DataKitten
 
     module CKAN
 
+      @@metadata = nil
+
       private
 
       def self.supported?(instance)
@@ -22,6 +24,7 @@ module DataKitten
 
           result = JSON.parse results
           @@id = result["result"]["id"] rescue result["id"]
+          @@metadata = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
         end
       rescue
         false
@@ -140,8 +143,7 @@ module DataKitten
       private
 
       def metadata
-        uri = URI(self.uri)
-        JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
+        @@metadata
       end
 
       def select_extras(group, key)
@@ -153,7 +155,7 @@ module DataKitten
       end
 
       def fetch_publisher(id)
-        uri = URI(self.uri)
+        uri = parsed_uri
         [
           "#{uri.scheme}://#{uri.host}/api/rest/group/#{id}",
           "#{uri.scheme}://#{uri.host}/api/3/action/group_show?id=#{id}",
@@ -174,6 +176,10 @@ module DataKitten
                     :mbox => select_extras(@group, "contact-email")
                     )
         ]
+      end
+
+      def parsed_uri
+        URI(self.uri)
       end
 
     end

@@ -2,6 +2,8 @@ rvm:
 - 1.9.3
 - 2.0.0
 - 2.1.0
+cache: bundler
+sudo: false
 notifications:
   irc:
     channels:
@@ -9,4 +11,4 @@ notifications:
     template:
       - "%{repository} %{branch} - %{message} %{build_url}"
     on_success: change
-    on_failure: always  
+    on_failure: always
