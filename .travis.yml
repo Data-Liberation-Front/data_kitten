@@ -16,7 +16,7 @@ deploy:
   provider: rubygems
   api_key:
     secure: SjJ1OHnL6+U9717P4CFEkH0eHpJ8DG0Ehlc7BOnxJ6fVmDBMmvQYoBQB3cKI41i5GPeMBKEecy6adocKI9WZ5Wi8B0zEIDflI3IwLUR03uMbEI53ZuSLBpLY5wAO2+1oUAgYIlDQ38/OFB0Eau+fyB5OdrVi7SvHWNzEgme3Gi4=
-  gem: cid
+  gem: data_kitten
   on:
     tags: true
     repo: theodi/data_kitten
