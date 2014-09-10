@@ -107,6 +107,64 @@ describe DataKitten::PublishingFormats::CKAN do
         expect( d.supported? ).to eql(true)
     end
 
+    context "when the dataset has a UUID" do
+
+      before(:each) do
+        fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-fetch-dataset.json" ) )
+        FakeWeb.register_uri(:get, "http://example.org/api/rest/package/62766308-cb4f-4275-b4a4-937f52a978c5", :body => fetch, :content_type=>"application/json")
+        FakeWeb.register_uri(:get, "http://example.org/62766308-cb4f-4275-b4a4-937f52a978c5", :body=> "", :content_type=>"text/html")
+        @dataset = DataKitten::Dataset.new( access_url: "http://example.org/62766308-cb4f-4275-b4a4-937f52a978c5")
+      end
+
+      it "should get the title" do
+        expect( @dataset.data_title ).to eql("National Public Toilet Map")
+      end
+
+      it "should get the description" do
+        expect( @dataset.description ).to eql("Here are some notes")
+      end
+
+      it "should get the licence" do
+        expect( @dataset.licenses.length ).to eql(1)
+        licence = @dataset.licenses.first
+        expect( licence.uri ).to eql("http://creativecommons.org/licenses/by/3.0/au/")
+        expect( licence.name ).to eql("Creative Commons Attribution 3.0 Australia")
+        expect( licence.id ).to eql("cc-by")
+      end
+
+      it "should get the keywords" do
+        expect( @dataset.keywords.length ).to eql(2)
+        expect( @dataset.keywords[0] ).to eql("health")
+        expect( @dataset.keywords[1] ).to eql("toilet")
+      end
+
+      it "should get the publisher" do
+        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-publisher.json" ) )
+        FakeWeb.register_uri(:get, "http://example.org/api/rest/group/2df7090e-2ebb-416e-8994-6de43d820d5c", :body=> publisher, :content_type=>"application/json")
+        expect( @dataset.publishers.length ).to eql(1)
+        publisher = @dataset.publishers.first
+        expect( publisher.name ).to eql("Department of Health and Ageing")
+        expect( publisher.uri ).to eql("http://www.example.com")
+        expect( publisher.mbox ).to eql("foo@example.com")
+      end
+
+      it "should list the distributions" do
+        expect( @dataset.distributions.length).to eql(1)
+
+        expect( @dataset.distributions.first.access_url).to eql("http://data.gov.au/storage/f/2013-11-14T05%3A41%3A12.200Z/toiletmapexport-131112-042111.zip")
+        expect( @dataset.distributions.first.description).to eql("Toilet Map")
+      end
+
+      it "should get the issued date" do
+        expect( @dataset.issued ).to eql(Date.parse("2013-05-12T08:42:38.802401"))
+      end
+
+      it "should get the modified date" do
+        expect( @dataset.modified ).to eql(Date.parse("2014-03-02T05:44:59.497920"))
+      end
+
+    end
+
     context "when parsing CKAN" do
 
       before(:each) do
