@@ -24,8 +24,8 @@ module DataKitten
 
           result = JSON.parse results
           @@id = result["result"]["id"] rescue result["id"]
-          @@metadata = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
         end
+        @@metadata = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
       rescue
         false
       end
