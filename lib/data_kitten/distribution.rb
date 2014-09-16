@@ -118,7 +118,7 @@ module DataKitten
     # @return [Boolean] whether the HTTP response returns a success code or not
     def exists?
       if @access_url
-        @response.response_code != 404
+        http_head.response_code != 404
       end
     end
 
@@ -151,6 +151,17 @@ module DataKitten
       end
     end
 
-  end  
+    def http_head
+      if @access_url
+        @http_head ||= begin
+          Curl::Easy.http_head(@access_url) do |c|
+            c.follow_location = true
+            c.useragent = "curb"
+          end
+        end
+      end
+    end
+
+  end
 
 end
