@@ -171,7 +171,7 @@ module DataKitten
 
         [
           Agent.new(
-                    :name => @group["display_name"] || @group["result"]["name"],
+                    :name => @group["display_name"] || @group["result"]["title"],
                     :homepage => select_extras(@group, "website-url"),
                     :mbox => select_extras(@group, "contact-email")
                     )
