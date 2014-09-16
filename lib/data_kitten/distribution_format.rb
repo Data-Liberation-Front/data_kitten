@@ -12,12 +12,11 @@ module DataKitten
 
     # Create a new DistributionFormat object with the relevant extension
     #
-    # @param extension [String] the file extension for the format
-    def initialize(extension, response)
+    # @param distribution [Distribution] the distribution for the format
+    def initialize(distribution)
+      @distribution = distribution
       # Store extension as a lowercase symbol
-      @extension = extension.to_s.downcase.to_sym
-      # Store response for later use
-      @response = response
+      @extension = distribution.extension.to_s.downcase.to_sym
       # Set up format lists
       @@formats ||= {
         csv:     { structured:  true, open:  true },
