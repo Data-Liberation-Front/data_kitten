@@ -2,11 +2,11 @@ module DataKitten
 
   # A specific available form of a dataset, such as a CSV file, an API, or an RSS feed.
   #
-  # Based on {http://www.w3.org/TR/vocab-dcat/#class-distribution dcat:Distribution}, but 
+  # Based on {http://www.w3.org/TR/vocab-dcat/#class-distribution dcat:Distribution}, but
   # with useful aliases for other vocabularies.
   #
   class Distribution
-    
+
     # @!attribute format
     #   @return [DistributionFormat] the file format of the distribution.
     attr_accessor :format
@@ -34,30 +34,30 @@ module DataKitten
     #                  change to a more structured object later.
     attr_accessor :schema
 
+    # @!attribute extension
+    #   @return [String] the file extension of the distribution
+    attr_accessor :extension
+
     # Create a new Distribution. Currently only loads from Datapackage +resource+ hashes.
     #
     # @param dataset [Dataset] the {Dataset} that this is a part of.
     # @param options [Hash] A set of options with which to initialise the distribution.
-    # @option options [String] :datapackage_resource the +resource+ section of a Datapackage 
+    # @option options [String] :datapackage_resource the +resource+ section of a Datapackage
     #                                                representation to load information from.
-    def initialize(dataset, options) 
+    def initialize(dataset, options)
       # Store dataset
       @dataset = dataset
       # Parse datapackage
       if r = options[:datapackage_resource]
         # Load basics
         @description = r['description']
-        # Load HTTP Response for further use
-        if r['url']
-          @response = Curl::Easy.http_head(r['url'])
-        end
         # Work out format
         @format = begin
-          extension = r['format']
-          if extension.nil?
-            extension = r['path'].is_a?(String) ? r['path'].split('.').last.upcase : nil
+          @extension = r['format']
+          if @extension.nil?
+            @extension = r['path'].is_a?(String) ? r['path'].split('.').last.upcase : nil
           end
-          extension ? DistributionFormat.new(extension, @response) : nil
+          @extension ? DistributionFormat.new(self) : nil
         end
         # Get CSV dialect
         @dialect = r['dialect']
@@ -76,19 +76,14 @@ module DataKitten
         @title       = r[:title]
         @description = r[:title]
         @access_url  = r[:accessURL]
+        @extension   = r[:format]
         # Load HTTP Response for further use
-        if @access_url
-          @response = Curl::Easy.http_head(@access_url) do |c|
-                        c.follow_location = true
-                        c.useragent = "curb"
-                      end
-        end
-        @format = r[:format] ? DistributionFormat.new(r[:format], @response) : nil
+        @format = r[:format] ? DistributionFormat.new(self) : nil
     end
       # Set default CSV dialect
       @dialect ||= {
         "delimiter" => ","
-      }     
+      }
     end
 
     # A usable name for the distribution, unique within the {Dataset}.
@@ -112,13 +107,13 @@ module DataKitten
         end
       end
     end
-    
+
     # Whether the file that the distribution represents actually exists
     #
     # @return [Boolean] whether the HTTP response returns a success code or not
     def exists?
       if @access_url
-        @response.response_code != 404
+        http_head.response_code != 404
       end
     end
 
@@ -134,9 +129,9 @@ module DataKitten
         end
         if datafile
           case format.extension
-          when :csv 
+          when :csv
             CSV.parse(
-              datafile, 
+              datafile,
               :headers => true,
               :col_sep => @dialect["delimiter"]
             )
@@ -151,6 +146,17 @@ module DataKitten
       end
     end
 
-  end  
+    def http_head
+      if @access_url
+        @http_head ||= begin
+          Curl::Easy.http_head(@access_url) do |c|
+            c.follow_location = true
+            c.useragent = "curb"
+          end
+        end
+      end
+    end
+
+  end
 
 end

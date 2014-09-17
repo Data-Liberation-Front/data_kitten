@@ -1,23 +1,22 @@
 module DataKitten
 
   # A file format for a distribution
-  # 
+  #
   # For instance CSV, XML, etc.
   #
   class DistributionFormat
-   
+
     #@!attribute extension
     #@return [Symbol] a symbol for the file extension. For instance, :csv.
     attr_reader :extension
 
     # Create a new DistributionFormat object with the relevant extension
     #
-    # @param extension [String] the file extension for the format
-    def initialize(extension, response)
+    # @param distribution [Distribution] the distribution for the format
+    def initialize(distribution)
+      @distribution = distribution
       # Store extension as a lowercase symbol
-      @extension = extension.to_s.downcase.to_sym
-      # Store response for later use
-      @response = response
+      @extension = distribution.extension.to_s.downcase.to_sym
       # Set up format lists
       @@formats ||= {
         csv:     { structured:  true, open:  true },
@@ -37,7 +36,7 @@ module DataKitten
         shp:     { structured:  true, open:  true },
         html:    { structured: false, open:  true },
         doc:     { structured: false, open:  false },
-        pdf:     { structured: false, open:  true },  
+        pdf:     { structured: false, open:  true },
       }
     end
 
@@ -54,7 +53,7 @@ module DataKitten
     def open?
       @@formats[@extension][:open] rescue nil
     end
-    
+
     # Whether the format of the file matches the extension given by the data
     #
     # @return [Boolean] whether the MIME type given in the HTTP response matches the data or not
@@ -62,12 +61,12 @@ module DataKitten
       begin
         mimes = []
         MIME::Types.type_for(@extension.to_s).each { |i| mimes << i.content_type }
-        !!(@response.content_type =~ /#{mimes.join('|')}/) || false
+        !!(@distribution.http_head.content_type =~ /#{mimes.join('|')}/) || false
       rescue
         nil
       end
     end
 
-  end  
+  end
 
 end
