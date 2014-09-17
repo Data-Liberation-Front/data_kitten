@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    data_kitten (1.0.1)
+    data_kitten (1.0.2)
       curb
       datapackage
       git
