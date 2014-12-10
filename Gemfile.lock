@@ -14,6 +14,7 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.3.6)
     builder (3.2.2)
     coderay (1.1.0)
     colorize (0.7.3)
@@ -45,7 +46,8 @@ GEM
     json (1.8.1)
     json-ld (1.1.7)
       rdf (~> 1.1, >= 1.1.4)
-    json-schema (2.4.1)
+    json-schema (2.5.0)
+      addressable (~> 2.3)
     linkeddata (1.1.1)
       equivalent-xml (>= 0.4.0)
       json-ld (>= 1.1.1)
@@ -74,7 +76,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    rake (10.4.1)
+    rake (10.4.2)
     rdf (1.1.6)
     rdf-aggregate-repo (1.1.0)
       rdf (>= 1.1)
