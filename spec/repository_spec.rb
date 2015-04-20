@@ -14,17 +14,17 @@ describe DataKitten::Dataset do
 
     it 'correctly identified https URLs' do
       r = DataKitten::Dataset.new(access_url: "https://github.com/theodi/github-viewer-test-data.git")
-      r.host.should == :github
+      expect(r.host).to eq(:github)
     end
     
     it 'correctly identified http URLs' do
       r = DataKitten::Dataset.new(access_url: "http://github.com/theodi/github-viewer-test-data.git")
-      r.host.should == :github
+      expect(r.host).to eq(:github)
     end
     
     it 'correctly identified git URLs' do
       r = DataKitten::Dataset.new(access_url: "git://github.com/theodi/github-viewer-test-data.git")
-      r.host.should == :github
+      expect(r.host).to eq(:github)
     end
 
   end
