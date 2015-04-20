@@ -10,8 +10,8 @@ module DataKitten
   
       private
   
-      def self.supported?(uri)
-        uri =~ /\A(git|https?):\/\/.*\.git\Z/
+      def self.supported?(resource)
+        resource.to_s =~ /\A(git|https?):\/\/.*\.git\Z/
       end
 
       public

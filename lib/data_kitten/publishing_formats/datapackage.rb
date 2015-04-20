@@ -17,7 +17,7 @@ module DataKitten
             datapackage = DataPackage::Package.new( JSON.parse( metadata ) )
             return datapackage.datapackage_version != nil
           else
-            datapackage = DataPackage::Package.new( instance.uri )
+            datapackage = DataPackage::Package.new( instance.url )
             return datapackage.datapackage_version != nil
           end
         rescue => e
@@ -157,7 +157,7 @@ module DataKitten
             metadata = load_file("datapackage.json")
             @datapackage = DataPackage::Package.new( JSON.parse( metadata ) )
           else
-            @datapackage = DataPackage::Package.new( access_url )
+            @datapackage = DataPackage::Package.new( url )
           end        
         end
         @datapackage         

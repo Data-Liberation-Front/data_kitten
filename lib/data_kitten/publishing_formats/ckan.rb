@@ -9,7 +9,7 @@ module DataKitten
       private
 
       def self.supported?(instance)
-        uri = URI(instance.uri)
+        uri = instance.uri
         package = uri.path.split("/").last
         # If the package is a UUID - it's more than likely to be a CKAN ID
         if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)

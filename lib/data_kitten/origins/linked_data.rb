@@ -10,15 +10,10 @@ module DataKitten
   
       private
   
-      def self.supported?(uri)
-        content_type = RestClient.head(uri).headers[:content_type]
-        return nil unless content_type
-        
-        return RDF::Format.content_types.keys.include?( 
-            content_type.split(";").first )    
-            
-      rescue
-          false
+      def self.supported?(resource)
+        if type = resource.content_type_format
+          RDF::Format.content_types.keys.include?(type)
+        end
       end
 
       public
