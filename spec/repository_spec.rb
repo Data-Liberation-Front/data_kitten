@@ -6,10 +6,6 @@ describe DataKitten::Dataset do
     @r = DataKitten::Dataset.new(access_url: "http://github.com/theodi/github-viewer-test-data.git")
   end
 
-  # it "can generate a stripped version of the uri for descriptions and links" do
-  #   @r.stripped_uri.should == 'github.com/theodi/github-viewer-test-data'
-  # end
-
   context 'with data on github' do
 
     it 'correctly identified https URLs' do
