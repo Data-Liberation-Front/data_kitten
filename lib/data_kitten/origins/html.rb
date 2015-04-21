@@ -10,10 +10,8 @@ module DataKitten
   
       private
   
-      def self.supported?(uri)
-        RestClient.get(uri).headers[:content_type] =~ /text\/html/
-      rescue
-          false
+      def self.supported?(resource)
+        resource.html?
       end
 
       public

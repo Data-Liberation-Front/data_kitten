@@ -9,7 +9,7 @@ module DataKitten
       private
 
       def self.supported?(instance)
-        uri = URI(instance.uri)
+        uri = instance.uri
         package = uri.path.split("/").last
         # If the package is a UUID - it's more than likely to be a CKAN ID
         if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
@@ -80,8 +80,9 @@ module DataKitten
       #
       # @see Dataset#licenses
       def licenses
-        uri = metadata["license_url"] || metadata["extras"]["licence_url"] rescue nil
-        name = metadata["license_title"] || metadata["extras"]["licence_url_title"] rescue nil
+        extras = metadata["extras"] || {}
+        uri = metadata["license_url"] || extras["licence_url"]
+        name = metadata["license_title"] || extras["licence_url_title"]
         [
           License.new(:id => metadata["license_id"],
                       :uri => uri,

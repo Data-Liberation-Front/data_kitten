@@ -19,6 +19,7 @@ require 'data_kitten/temporal'
 require 'data_kitten/dataset'
 require 'data_kitten/distribution_format'
 require 'data_kitten/distribution'
+require 'data_kitten/fetcher'
 
 # A collection of classes that represent Datasets and other concepts, modeled on {http://www.w3.org/TR/vocab-dcat/ DCAT}.
 #

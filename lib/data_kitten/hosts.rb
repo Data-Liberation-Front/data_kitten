@@ -14,7 +14,8 @@ module DataKitten
         DataKitten::Hosts::Bitbucket,
         DataKitten::Hosts::Gist
       ].each do |host|
-        extend host if host.supported?(@access_url)
+        extend host if host.supported?(url)
+        break
       end
     end
 

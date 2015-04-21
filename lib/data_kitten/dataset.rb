@@ -28,8 +28,6 @@ module DataKitten
     # @!attribute access_url
     #   @return [String] the URL that gives access to the dataset
     attr_accessor :access_url
-    alias_method :uri, :access_url
-    alias_method :url, :access_url
 
     # Create a new Dataset object
     # 
@@ -38,10 +36,18 @@ module DataKitten
     #                                      The class will attempt to auto-load metadata from this URL.
     #
     def initialize(options)
-      @access_url = options[:access_url]
+      @access_url = DataKitten::Fetcher.wrap(options[:access_url])
       detect_origin
       detect_host
       detect_publishing_format
+    end
+
+    def uri
+      URI(@access_url.to_s)
+    end
+
+    def url
+      @access_url.to_s
     end
   
     # Can metadata be loaded for this Dataset?

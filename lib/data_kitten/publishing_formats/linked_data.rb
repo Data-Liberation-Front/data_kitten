@@ -26,7 +26,7 @@ module DataKitten
       #Supports content negotiation for various RDF serializations. Attempts "dataset autodiscovery" if it receives
       #an HTML response. This leaves the RDFa Publishing Format to just parse RDFa responses
       def self.create_graph(uri)
-        
+
         resp = RestClient.get uri, 
             :accept=>ACCEPT_HEADER            
         return false if resp.code != 200
@@ -55,15 +55,13 @@ module DataKitten
         graph << reader.new( StringIO.new( resp.body ))
                
         return graph     
-      rescue => e
-        #puts e
-        #puts e.backtrace
+      rescue
         nil
       end
 
       #Can we create an RDF graph for this object containing the description of a dataset?
       def self.supported?(instance)
-          graph = create_graph(instance.uri)
+          graph = create_graph(instance.url)
           return false unless graph
           return true if first_of_type(graph, 
               [RDF::Vocabulary.new("http://www.w3.org/ns/dcat#").Dataset, 
@@ -80,21 +78,14 @@ module DataKitten
         :rdf
       end
             
-      def uri
-        access_url
-      end
-      
       private
       
       def dataset_uri
-        access_url
+        url
       end
             
       def graph
-        if !@graph
-          @graph = LinkedData.create_graph(access_url)
-        end
-        @graph   
+        @graph ||= LinkedData.create_graph(dataset_uri)
       end
       
     end
