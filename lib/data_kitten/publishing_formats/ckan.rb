@@ -81,16 +81,14 @@ module DataKitten
       # @see Dataset#licenses
       def licenses
         extras = metadata["extras"] || {}
+        id = metadata["license_id"]
         uri = metadata["license_url"] || extras["licence_url"]
         name = metadata["license_title"] || extras["licence_url_title"]
-        [
-          License.new(:id => metadata["license_id"],
-                      :uri => uri,
-                      :name => name
-                      )
-        ]
-      rescue
-        []
+        if [id, uri, name].any?
+          [License.new(:id => id, :uri => uri, :name => name)]
+        else
+          []
+        end
       end
 
       # A list of distributions, referred to as +resources+ by Datapackage.
