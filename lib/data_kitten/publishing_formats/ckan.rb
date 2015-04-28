@@ -76,6 +76,14 @@ module DataKitten
         []
       end
 
+      def maintainers
+        extract_agent('maintainer', 'maintainer_email')
+      end
+
+      def contributors
+        extract_agent('author', 'author_email')
+      end
+
       # A list of licenses.
       #
       # @see Dataset#licenses
@@ -179,6 +187,16 @@ module DataKitten
 
       def parsed_uri
         URI(self.uri)
+      end
+
+      def extract_agent(name_field, email_field)
+        name = metadata[name_field]
+        email = metadata[email_field]
+        if [name, email].any?
+          [Agent.new(name: name, mbox: email)]
+        else
+          []
+        end
       end
 
     end
