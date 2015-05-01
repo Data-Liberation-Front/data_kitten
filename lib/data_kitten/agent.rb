@@ -33,6 +33,10 @@ module DataKitten
     attr_accessor :mbox
     alias_method :email, :mbox
 
+    def ==(agent)
+      agent.is_a?(Agent) && ([name, homepage, mbox] == [agent.name, agent.homepage, agent.mbox])
+    end
+
   end  
 
 end

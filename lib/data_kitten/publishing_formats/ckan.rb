@@ -76,21 +76,27 @@ module DataKitten
         []
       end
 
+      def maintainers
+        extract_agent('maintainer', 'maintainer_email')
+      end
+
+      def contributors
+        extract_agent('author', 'author_email')
+      end
+
       # A list of licenses.
       #
       # @see Dataset#licenses
       def licenses
         extras = metadata["extras"] || {}
+        id = metadata["license_id"]
         uri = metadata["license_url"] || extras["licence_url"]
         name = metadata["license_title"] || extras["licence_url_title"]
-        [
-          License.new(:id => metadata["license_id"],
-                      :uri => uri,
-                      :name => name
-                      )
-        ]
-      rescue
-        []
+        if [id, uri, name].any?
+          [License.new(:id => id, :uri => uri, :name => name)]
+        else
+          []
+        end
       end
 
       # A list of distributions, referred to as +resources+ by Datapackage.
@@ -181,6 +187,16 @@ module DataKitten
 
       def parsed_uri
         URI(self.uri)
+      end
+
+      def extract_agent(name_field, email_field)
+        name = metadata[name_field]
+        email = metadata[email_field]
+        if [name, email].any?
+          [Agent.new(name: name, mbox: email)]
+        else
+          []
+        end
       end
 
     end

@@ -68,6 +68,15 @@ describe DataKitten::PublishingFormats::CKAN do
         expect( publisher.mbox ).to eql("foo@example.com")
       end
 
+      it "gets the maintainer" do
+        expect(@dataset.maintainers).to eq([DataKitten::Agent.new(name: 'Mx Maintainer', mbox: 'mx@maintainer.org')])
+      end
+
+      it "gets the author as a contributor" do
+        expect(@dataset.contributors).to eq([DataKitten::Agent.new(name: 'Mx Author', mbox: 'mx@author.org')])
+      end
+
+
       it "should list the distributions" do
         expect( @dataset.distributions.length).to eql(1)
 
