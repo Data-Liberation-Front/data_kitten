@@ -54,6 +54,10 @@ module DataKitten
       rescue 
         nil
       end
+      
+      def identifier
+        metadata["name"] rescue nil
+      end
 
       # Keywords for the dataset
       #
