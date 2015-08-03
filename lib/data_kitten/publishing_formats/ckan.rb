@@ -50,7 +50,9 @@ module DataKitten
       #
       # @see Dataset#description
       def description
-        metadata["notes"] rescue nil
+        metadata["notes"] || metadata["description"]
+      rescue 
+        nil
       end
 
       # Keywords for the dataset
