@@ -168,6 +168,11 @@ module DataKitten
         Temporal.new(:start => start_date, :end => end_date)
       end
 
+      def language
+        metadata.lookup("language") ||
+        metadata.lookup("metadata_language")
+      end
+
       private
 
       def metadata
