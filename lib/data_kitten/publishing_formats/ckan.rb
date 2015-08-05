@@ -159,8 +159,12 @@ module DataKitten
       #
       # @see Dataset#temporal
       def temporal
-        start_date = Date.parse metadata.lookup("extras", "temporal_coverage-from") rescue nil
-        end_date = Date.parse metadata.lookup("extras", "temporal_coverage-to") rescue nil
+        from = metadata.lookup("extras", "temporal_coverage-from") ||
+               metadata.lookup("extras", "temporal-extent-begin")
+        to = metadata.lookup("extras", "temporal_coverage-to") ||
+             metadata.lookup("extras", "temporal-extent-end")
+        start_date = Date.parse from rescue nil
+        end_date = Date.parse to rescue nil
         Temporal.new(:start => start_date, :end => end_date)
       end
 
