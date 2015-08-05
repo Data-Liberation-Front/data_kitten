@@ -46,20 +46,20 @@ module DataKitten
       #
       # @see Dataset#data_title
       def data_title
-        metadata["title"] rescue nil
+        metadata.lookup("title")
       end
 
       # A brief description of the dataset
       #
       # @see Dataset#description
       def description
-        metadata["notes"] || metadata["description"]
+        metadata.lookup("notes") || metadata.lookup("description")
       rescue 
         nil
       end
       
       def identifier
-        metadata["name"] rescue nil
+        metadata.lookup("name")
       end
 
       # Keywords for the dataset
@@ -67,7 +67,7 @@ module DataKitten
       # @see Dataset#keywords
       def keywords
         keywords = []
-        metadata["tags"].each do |tag|
+        metadata.lookup("tags").each do |tag|
           keywords << tag
         end
         return keywords
@@ -79,7 +79,7 @@ module DataKitten
       #
       # @see Dataset#publishers
       def publishers
-        id = metadata['organization']['id'] || metadata['groups'][0]
+        id = metadata.lookup('organization', 'id') || metadata.lookup('groups', 0)
         fetch_publisher(id)
       rescue
         []
@@ -97,10 +97,9 @@ module DataKitten
       #
       # @see Dataset#licenses
       def licenses
-        extras = metadata["extras"] || {}
-        id = metadata["license_id"]
-        uri = metadata["license_url"] || extras["licence_url"]
-        name = metadata["license_title"] || extras["licence_url_title"]
+        id = metadata.lookup("license_id")
+        uri = metadata.lookup("license_url") || metadata.lookup("extras", "licence_url")
+        name = metadata.lookup("license_title") || metadata.lookup("extras", "licence_url_title")
         if [id, uri, name].any?
           [License.new(:id => id, :uri => uri, :name => name)]
         else
@@ -113,7 +112,7 @@ module DataKitten
       # @see Dataset#distributions
       def distributions
         distributions = []
-        metadata["resources"].each do |resource|
+        metadata.lookup("resources").each do |resource|
           distribution = {
             :title => resource["description"],
             :accessURL => resource["url"],
@@ -130,10 +129,9 @@ module DataKitten
       #
       # @see Dataset#update_frequency
       def update_frequency
-        metadata["extras"]["update_frequency"] ||
-        metadata["extras"]["frequency-of-update"] ||
-        metadata["extras"]["accrualPeriodicity"] ||
-        metadata["extras"]["accrual_periodicity"]
+        metadata.lookup("extras", "update_frequency") ||
+        metadata.lookup("extras", "frequency-of-update") ||
+        metadata.lookup("extras", "accrual_periodicity")
       rescue
         nil
       end
@@ -142,22 +140,22 @@ module DataKitten
       #
       # @see Dataset#issued
       def issued
-        Date.parse metadata["metadata_created"] rescue nil
+        Date.parse metadata.lookup("metadata_created")
       end
 
       # Date the dataset was modified
       #
       # @see Dataset#modified
       def modified
-        Date.parse metadata["metadata_modified"] rescue nil
+        Date.parse metadata.lookup("metadata_modified")
       end
 
       # The temporal coverage of the dataset
       #
       # @see Dataset#temporal
       def temporal
-        start_date = Date.parse metadata["extras"]["temporal_coverage-from"] rescue nil
-        end_date = Date.parse metadata["extras"]["temporal_coverage-to"] rescue nil
+        start_date = Date.parse metadata.lookup("extras", "temporal_coverage-from") rescue nil
+        end_date = Date.parse metadata.lookup("extras", "temporal_coverage-to") rescue nil
         Temporal.new(:start => start_date, :end => end_date)
       end
 
@@ -204,8 +202,8 @@ module DataKitten
       end
 
       def extract_agent(name_field, email_field)
-        name = metadata[name_field]
-        email = metadata[email_field]
+        name = metadata.lookup(name_field)
+        email = metadata.lookup(email_field)
         if [name, email].any?
           [Agent.new(name: name, mbox: email)]
         else
