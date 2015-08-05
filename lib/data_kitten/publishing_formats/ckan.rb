@@ -61,6 +61,11 @@ module DataKitten
       def identifier
         metadata.lookup("name")
       end
+      
+      def landingPage
+        metadata.lookup("extras", "landingPage")
+        # TODO: somehow get original package URL
+      end
 
       # Keywords for the dataset
       #
