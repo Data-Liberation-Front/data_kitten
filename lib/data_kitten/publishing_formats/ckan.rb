@@ -1,3 +1,5 @@
+require 'data_kitten/utils/guessable_lookup.rb'
+
 module DataKitten
 
   module PublishingFormats
@@ -26,6 +28,7 @@ module DataKitten
           @@id = result["result"]["id"] rescue result["id"]
         end
         @@metadata = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
+        @@metadata.extend(GuessableLookup)
       rescue
         false
       end
