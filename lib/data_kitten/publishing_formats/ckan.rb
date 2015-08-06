@@ -57,14 +57,21 @@ module DataKitten
       rescue 
         nil
       end
-      
+
+      # An identifier for the dataset
+      #
+      # @see Dataset#identifier
       def identifier
-        metadata.lookup("name")
+        metadata.lookup("name") || @@id
       end
-      
-      def landingPage
-        metadata.lookup("extras", "landingPage")
-        # TODO: somehow get original package URL
+
+      # A web page which can be used to gain access to the dataset
+      #
+      # @see Dataset#landing_page
+      def landing_page
+        metadata.lookup("extras", "landing_page") ||
+        metadata.lookup("url") ||
+        metadata.lookup("ckan_url")
       end
 
       # Keywords for the dataset

@@ -40,6 +40,14 @@ describe DataKitten::PublishingFormats::CKAN do
         expect( @dataset.description ).to eql("MoD present and future disposal properties that are in the public domain that is provided for reference in the House of Commons library\r\n")
       end
 
+      it "should get the identifier" do
+        expect( @dataset.identifier ).to eql("defence-infrastructure-organisation-disposals-database-house-of-commons-report")
+      end
+
+      it "should get the landing page" do
+        expect( @dataset.landing_page ).to eql("http://data.gov.uk/dataset/defence-infrastructure-organisation-disposals-database-house-of-commons-report")
+      end
+
       it "should get the licence" do
         expect( @dataset.licenses.length ).to eql(1)
         licence = @dataset.licenses.first
