@@ -347,6 +347,10 @@ describe DataKitten::PublishingFormats::CKAN do
     it "should get the modified date" do
       expect( @dataset.modified ).to eql(Date.parse("2014-02-18T16:38:37.394178"))
     end
+    
+    it "should get the language" do
+      expect( @dataset.language ).to eql("eng")
+    end
 
   end
 

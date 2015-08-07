@@ -206,7 +206,14 @@ module DataKitten
     def contributors
       []
     end
-    
+
+    # The language of the dataset.
+    #
+    # @return [String] the language of the dataset
+    def language
+      nil
+    end
+
     # Has the data been crowdsourced?
     #
     # @return [Boolean] Whether the data has been crowdsourced or not.

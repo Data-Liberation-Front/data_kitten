@@ -175,9 +175,15 @@ module DataKitten
         Temporal.new(:start => start_date, :end => end_date)
       end
 
+      # The language of the dataset
+      #
+      # @see Dataset#language
       def language
         metadata.lookup("language") ||
-        metadata.lookup("metadata_language")
+        metadata.lookup("metadata_language") ||
+        metadata.lookup("extras", "metadata_language") ||
+        metadata.lookup("extras", "language", 0) ||
+        metadata.lookup("extras", "language")
       end
 
       private
