@@ -358,6 +358,10 @@ describe DataKitten::PublishingFormats::CKAN do
       expect( @dataset.distributions.length).to eql(0)
     end
 
+    it "should get the update frequency" do
+      expect( @dataset.update_frequency ).to eql("biannually")
+    end
+
     it "should get the issued date" do
       expect( @dataset.issued ).to eql(Date.parse("2012-12-21T11:41:36.523040"))
     end
