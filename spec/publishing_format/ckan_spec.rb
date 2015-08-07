@@ -176,6 +176,10 @@ describe DataKitten::PublishingFormats::CKAN do
         expect( temporal.start ).to eql(Date.parse("2012-11-01"))
         expect( temporal.end ).to eql(Date.parse("2013-10-31"))
       end
+
+      it "should get the theme" do
+        expect( @dataset.theme ).to eql("Defence")
+      end
     end
   end
 
@@ -246,6 +250,9 @@ describe DataKitten::PublishingFormats::CKAN do
         expect( @dataset.modified ).to eql(Date.parse("2014-03-02T05:44:59.497920"))
       end
 
+      it "should get the theme" do
+        expect( @dataset.theme ).to eql("community")
+      end
     end
 
     context "when parsing CKAN" do
@@ -297,6 +304,10 @@ describe DataKitten::PublishingFormats::CKAN do
 
       it "should get the modified date" do
         expect( @dataset.modified ).to eql(Date.parse("2014-03-02T05:44:59.497920"))
+      end
+
+      it "should get the theme" do
+        expect( @dataset.theme ).to eql("community")
       end
     end
   end
@@ -350,6 +361,10 @@ describe DataKitten::PublishingFormats::CKAN do
     
     it "should get the language" do
       expect( @dataset.language ).to eql("eng")
+    end
+
+    it "should get the theme" do
+      expect( @dataset.theme ).to eql("Mapping")
     end
 
   end

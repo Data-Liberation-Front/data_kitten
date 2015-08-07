@@ -186,6 +186,16 @@ module DataKitten
         metadata.lookup("extras", "language")
       end
 
+      # The main category of the dataset
+      #
+      # @see Dataset#theme
+      def theme
+        metadata.lookup("extras", "theme", 0) ||
+        metadata.lookup("extras", "theme-primary") ||
+        metadata.lookup("groups", 0, "name") ||
+        metadata.lookup("groups", 0)
+      end
+
       private
 
       def metadata

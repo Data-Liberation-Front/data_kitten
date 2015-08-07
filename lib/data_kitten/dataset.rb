@@ -214,6 +214,13 @@ module DataKitten
       nil
     end
 
+    # The main category the dataset belongs to.
+    #
+    # @return [String]
+    def theme
+      nil
+    end
+
     # Has the data been crowdsourced?
     #
     # @return [Boolean] Whether the data has been crowdsourced or not.
