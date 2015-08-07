@@ -62,6 +62,13 @@ describe DataKitten::PublishingFormats::CKAN do
         :content_type => "application/json"
       },
       
+      # Cadastral dataset
+      
+      "/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349" => {
+        :body => load_fixture("ckan/rest-dataset-cadastral.json"),
+        :content_type => "application/json"
+      },
+
       # Groups/Organizations
 
       "/api/rest/group/2df7090e-2ebb-416e-8994-6de43d820d5c" => {
@@ -292,6 +299,55 @@ describe DataKitten::PublishingFormats::CKAN do
         expect( @dataset.modified ).to eql(Date.parse("2014-03-02T05:44:59.497920"))
       end
     end
+  end
+
+  context "with cadastral dataset" do
+
+    before(:each) do
+      @dataset = DataKitten::Dataset.new( access_url: "http://example.org/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349")
+    end
+    
+    it "should get the title" do
+      expect( @dataset.data_title ).to eql("LPS Cadastral Parcels NI (Metadata)")
+    end
+
+    it "should get the description" do
+      expect( @dataset.description ).to eql("The dataset contains the boundaries of each individual freehold title to land.")
+    end
+
+    it "should get the identifier" do
+      expect( @dataset.identifier ).to eql("lps-cadastral-parcels-ni-metadata")
+    end
+
+    it "should get the landing page" do
+      expect( @dataset.landing_page ).to eql("http://data.gov.uk/dataset/lps-cadastral-parcels-ni-metadata")
+    end
+
+    it "should get no licence" do
+      expect( @dataset.licenses.length ).to eql(0)
+    end
+
+    it "should get the keywords" do
+      expect( @dataset.keywords.length ).to eql(18)
+      expect( @dataset.keywords[0] ).to eql("Cadastral")
+    end
+
+    it "should get no publishers" do
+      expect( @dataset.publishers.length ).to eql(0)
+    end
+
+    it "should list no distributions" do
+      expect( @dataset.distributions.length).to eql(0)
+    end
+
+    it "should get the issued date" do
+      expect( @dataset.issued ).to eql(Date.parse("2012-12-21T11:41:36.523040"))
+    end
+
+    it "should get the modified date" do
+      expect( @dataset.modified ).to eql(Date.parse("2014-02-18T16:38:37.394178"))
+    end
+
   end
 
 end
