@@ -3,19 +3,87 @@ require 'spec_helper'
 describe DataKitten::PublishingFormats::CKAN do
 
   before(:all) do
-      FakeWeb.clean_registry
-      FakeWeb.allow_net_connect = false
+    FakeWeb.clean_registry
+    FakeWeb.allow_net_connect = false
+    
+    @urls = {
+      
+      # Defence dataset
+      
+      "/dataset/defence" => {
+        :body => "", 
+        :content_type => "text/html"
+      },
+      "/api/3/action/package_show?id=defence" => {
+        :body => "", 
+        :content_type => "application/json"
+      }, 
+      "/api/2/rest/dataset/defence" => {
+        :body => load_fixture("ckan/rest-dataset-defence.json"),
+        :content_type => "application/json"
+      },
+      "/api/2/search/dataset?q=defence" => {
+        :body => load_fixture("ckan/rest-dataset-defence.json"),
+        :content_type => "application/json"
+      },
+      "/api/rest/package/47f7438a-506d-49c9-b565-7573f8df031e" => {
+        :body => load_fixture("ckan/rest-dataset-defence.json"),
+        :content_type => "application/json"
+      },
+      
+      # Toilets dataset
+      
+      "/dataset/toilets" => {
+        :body => "",
+        :content_type => "text/html"
+      },
+      "/dataset/62766308-cb4f-4275-b4a4-937f52a978c5" => {
+        :body => "",
+        :content_type => "text/html"
+      },
+      "/api/3/action/package_show?id=toilets" => {
+        :body => load_fixture("ckan/package_show-toilets.json"), 
+        :content_type => "application/json"
+      }, 
+      "/api/2/rest/dataset/toilets" => {
+        :body => load_fixture("ckan/rest-dataset-toilets.json"),
+        :content_type => "application/json"
+      },
+      "/api/2/search/dataset?q=toilets" => {
+        :body => load_fixture("ckan/rest-dataset-toilets.json"),
+        :content_type => "application/json"
+      },
+      "/api/rest/package/553b3049-2b8b-46a2-95e6-640d7986a8c1" => {
+        :body => load_fixture("ckan/rest-dataset-toilets.json"),
+        :content_type => "application/json"
+      },
+      "/api/rest/package/62766308-cb4f-4275-b4a4-937f52a978c5" => {
+        :body => load_fixture("ckan/rest-dataset-toilets.json"),
+        :content_type => "application/json"
+      },
+      
+      # Groups/Organizations
+
+      "/api/rest/group/2df7090e-2ebb-416e-8994-6de43d820d5c" => {
+        :body => load_fixture("ckan/rest-organization-health.json"),
+        :content_type => "application/json"
+      },
+      
+      "/api/rest/group/a3969e37-3ac3-42fe-8317-c8575a9f5317" => {
+        :body => load_fixture("ckan/rest-organization-defence.json"),
+        :content_type => "application/json"
+      }
+    }
+
+    @urls.each do |path, options|
+      FakeWeb.register_uri(:get, "http://example.org#{path}", options)
+    end
   end
 
   context "With a CKAN 2 endpoint" do
 
     it "should detect CKAN Datasets" do
-        FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
-        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-defence.json" ) )
-        FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => "", :content_type=>"application/json")
-        FakeWeb.register_uri(:get, "http://example.org/api/2/rest/dataset/ckan", :body => json, :content_type=>"application/json")
-        FakeWeb.register_uri(:get, "http://example.org/api/rest/package/47f7438a-506d-49c9-b565-7573f8df031e", :body => json, :content_type=>"application/json")
-        d = DataKitten::Dataset.new( access_url: "http://example.org/ckan")
+        d = DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
         expect( d.publishing_format ).to eql(:ckan)
         expect( d.supported? ).to eql(true)
     end
@@ -23,13 +91,7 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when parsing CKAN" do
 
       before(:each) do
-          search = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-defence.json" ) )
-          fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-defence.json" ) )
-          FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_search?q=ckan", :body => "", :content_type=>"application/json")
-          FakeWeb.register_uri(:get, "http://example.org/api/2/search/dataset?q=ckan", :body => search, :content_type=>"application/json")
-          FakeWeb.register_uri(:get, "http://example.org/api/rest/package/47f7438a-506d-49c9-b565-7573f8df031e", :body => fetch, :content_type=>"application/json")
-          FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
-          @dataset = DataKitten::Dataset.new( access_url: "http://example.org/ckan")
+        @dataset = DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
       end
 
       it "should get the title" do
@@ -67,8 +129,6 @@ describe DataKitten::PublishingFormats::CKAN do
       end
 
       it "should get the publisher" do
-        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-organization-defence.json" ) )
-        FakeWeb.register_uri(:get, "http://example.org/api/rest/group/a3969e37-3ac3-42fe-8317-c8575a9f5317", :body=> publisher, :content_type=>"application/json")
         expect( @dataset.publishers.length ).to eql(1)
         publisher = @dataset.publishers.first
         expect( publisher.name ).to eql("Defence Infrastructure Organisation")
@@ -115,11 +175,7 @@ describe DataKitten::PublishingFormats::CKAN do
   context "With a CKAN 3 endpoint" do
 
     it "should detect CKAN Datasets" do
-        FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
-        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/package_show-toilets.json" ) )
-        FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => json, :content_type=>"application/json")
-        FakeWeb.register_uri(:get, "http://example.org/api/rest/package/553b3049-2b8b-46a2-95e6-640d7986a8c1", :body => json, :content_type=>"application/json")
-        d = DataKitten::Dataset.new( access_url: "http://example.org/ckan")
+        d = DataKitten::Dataset.new( access_url: "http://example.org/dataset/toilets")
         expect( d.publishing_format ).to eql(:ckan)
         expect( d.supported? ).to eql(true)
     end
@@ -127,10 +183,7 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when the dataset has a UUID" do
 
       before(:each) do
-        fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-toilets.json" ) )
-        FakeWeb.register_uri(:get, "http://example.org/api/rest/package/62766308-cb4f-4275-b4a4-937f52a978c5", :body => fetch, :content_type=>"application/json")
-        FakeWeb.register_uri(:get, "http://example.org/62766308-cb4f-4275-b4a4-937f52a978c5", :body=> "", :content_type=>"text/html")
-        @dataset = DataKitten::Dataset.new( access_url: "http://example.org/62766308-cb4f-4275-b4a4-937f52a978c5")
+        @dataset = DataKitten::Dataset.new( access_url: "http://example.org/dataset/62766308-cb4f-4275-b4a4-937f52a978c5")
       end
 
       it "should get the title" do
@@ -156,8 +209,6 @@ describe DataKitten::PublishingFormats::CKAN do
       end
 
       it "should get the publisher" do
-        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-organization-health.json" ) )
-        FakeWeb.register_uri(:get, "http://example.org/api/rest/group/2df7090e-2ebb-416e-8994-6de43d820d5c", :body=> publisher, :content_type=>"application/json")
         expect( @dataset.publishers.length ).to eql(1)
         publisher = @dataset.publishers.first
         expect( publisher.name ).to eql("Department of Health and Ageing")
@@ -185,12 +236,7 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when parsing CKAN" do
 
       before(:each) do
-          search = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/package_show-toilets.json" ) )
-          fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-toilets.json" ) )
-          FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => search, :content_type=>"application/json")
-          FakeWeb.register_uri(:get, "http://example.org/api/rest/package/553b3049-2b8b-46a2-95e6-640d7986a8c1", :body => fetch, :content_type=>"application/json")
-          FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
-          @dataset = DataKitten::Dataset.new( access_url: "http://example.org/ckan")
+        @dataset = DataKitten::Dataset.new( access_url: "http://example.org/dataset/toilets")
       end
 
       it "should get the title" do
@@ -216,8 +262,6 @@ describe DataKitten::PublishingFormats::CKAN do
       end
 
       it "should get the publisher" do
-        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-organization-health.json" ) )
-        FakeWeb.register_uri(:get, "http://example.org/api/rest/group/2df7090e-2ebb-416e-8994-6de43d820d5c", :body=> publisher, :content_type=>"application/json")
         expect( @dataset.publishers.length ).to eql(1)
         publisher = @dataset.publishers.first
         expect( publisher.name ).to eql("Department of Health and Ageing")
