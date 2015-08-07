@@ -71,6 +71,11 @@ describe DataKitten::PublishingFormats::CKAN do
 
       # Groups/Organizations
 
+      "/api/3/action/organization_show?id=cd937140-1310-4e2a-b211-5de8bebd910d" => {
+        :body => load_fixture("ckan/organization_show-ni-spatial.json"),
+        :content_type => "application/json"
+      },
+
       "/api/rest/group/2df7090e-2ebb-416e-8994-6de43d820d5c" => {
         :body => load_fixture("ckan/rest-organization-health.json"),
         :content_type => "application/json"
@@ -343,8 +348,10 @@ describe DataKitten::PublishingFormats::CKAN do
       expect( @dataset.keywords[0] ).to eql("Cadastral")
     end
 
-    it "should get no publishers" do
-      expect( @dataset.publishers.length ).to eql(0)
+    it "should get the publisher" do
+      expect( @dataset.publishers.length ).to eql(1)
+      publisher = @dataset.publishers.first
+      expect( publisher.name ).to eql("Northern Ireland Spatial Data Infrastructure")
     end
 
     it "should list no distributions" do

@@ -213,14 +213,16 @@ module DataKitten
       def fetch_publisher(id)
         uri = parsed_uri
         [
-          "#{uri.scheme}://#{uri.host}/api/rest/group/#{id}",
+          "#{uri.scheme}://#{uri.host}/api/3/action/organization_show?id=#{id}",
           "#{uri.scheme}://#{uri.host}/api/3/action/group_show?id=#{id}",
-          "#{uri.scheme}://#{uri.host}/api/3/action/organization_show?id=#{id}"
+          "#{uri.scheme}://#{uri.host}/api/rest/group/#{id}"
         ].each do |uri|
           begin
             @group = JSON.parse RestClient.get uri
             break
-          rescue RestClient::ResourceNotFound
+          rescue
+            # FakeWeb raises FakeWeb::NetConnectNotAllowedError, whereas 
+            # RestClient raises RestClient::ResourceNotFound in the "real world".
             nil
           end
         end
