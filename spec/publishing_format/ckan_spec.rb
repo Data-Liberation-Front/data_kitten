@@ -11,7 +11,7 @@ describe DataKitten::PublishingFormats::CKAN do
 
     it "should detect CKAN Datasets" do
         FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
-        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-search-dataset.json" ) )
+        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-defence.json" ) )
         FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => "", :content_type=>"application/json")
         FakeWeb.register_uri(:get, "http://example.org/api/2/rest/dataset/ckan", :body => json, :content_type=>"application/json")
         FakeWeb.register_uri(:get, "http://example.org/api/rest/package/47f7438a-506d-49c9-b565-7573f8df031e", :body => json, :content_type=>"application/json")
@@ -23,8 +23,8 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when parsing CKAN" do
 
       before(:each) do
-          search = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-search-dataset.json" ) )
-          fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-fetch-dataset.json" ) )
+          search = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-defence.json" ) )
+          fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-defence.json" ) )
           FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_search?q=ckan", :body => "", :content_type=>"application/json")
           FakeWeb.register_uri(:get, "http://example.org/api/2/search/dataset?q=ckan", :body => search, :content_type=>"application/json")
           FakeWeb.register_uri(:get, "http://example.org/api/rest/package/47f7438a-506d-49c9-b565-7573f8df031e", :body => fetch, :content_type=>"application/json")
@@ -67,7 +67,7 @@ describe DataKitten::PublishingFormats::CKAN do
       end
 
       it "should get the publisher" do
-        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-publisher.json" ) )
+        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-organization-defence.json" ) )
         FakeWeb.register_uri(:get, "http://example.org/api/rest/group/a3969e37-3ac3-42fe-8317-c8575a9f5317", :body=> publisher, :content_type=>"application/json")
         expect( @dataset.publishers.length ).to eql(1)
         publisher = @dataset.publishers.first
@@ -116,7 +116,7 @@ describe DataKitten::PublishingFormats::CKAN do
 
     it "should detect CKAN Datasets" do
         FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
-        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-search-dataset.json" ) )
+        json = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/package_show-toilets.json" ) )
         FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => json, :content_type=>"application/json")
         FakeWeb.register_uri(:get, "http://example.org/api/rest/package/553b3049-2b8b-46a2-95e6-640d7986a8c1", :body => json, :content_type=>"application/json")
         d = DataKitten::Dataset.new( access_url: "http://example.org/ckan")
@@ -127,7 +127,7 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when the dataset has a UUID" do
 
       before(:each) do
-        fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-fetch-dataset.json" ) )
+        fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-toilets.json" ) )
         FakeWeb.register_uri(:get, "http://example.org/api/rest/package/62766308-cb4f-4275-b4a4-937f52a978c5", :body => fetch, :content_type=>"application/json")
         FakeWeb.register_uri(:get, "http://example.org/62766308-cb4f-4275-b4a4-937f52a978c5", :body=> "", :content_type=>"text/html")
         @dataset = DataKitten::Dataset.new( access_url: "http://example.org/62766308-cb4f-4275-b4a4-937f52a978c5")
@@ -156,7 +156,7 @@ describe DataKitten::PublishingFormats::CKAN do
       end
 
       it "should get the publisher" do
-        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-publisher.json" ) )
+        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-organization-health.json" ) )
         FakeWeb.register_uri(:get, "http://example.org/api/rest/group/2df7090e-2ebb-416e-8994-6de43d820d5c", :body=> publisher, :content_type=>"application/json")
         expect( @dataset.publishers.length ).to eql(1)
         publisher = @dataset.publishers.first
@@ -185,8 +185,8 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when parsing CKAN" do
 
       before(:each) do
-          search = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-search-dataset.json" ) )
-          fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-fetch-dataset.json" ) )
+          search = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/package_show-toilets.json" ) )
+          fetch = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-dataset-toilets.json" ) )
           FakeWeb.register_uri(:get, "http://example.org/api/3/action/package_show?id=ckan", :body => search, :content_type=>"application/json")
           FakeWeb.register_uri(:get, "http://example.org/api/rest/package/553b3049-2b8b-46a2-95e6-640d7986a8c1", :body => fetch, :content_type=>"application/json")
           FakeWeb.register_uri(:get, "http://example.org/ckan", :body=> "", :content_type=>"text/html")
@@ -216,7 +216,7 @@ describe DataKitten::PublishingFormats::CKAN do
       end
 
       it "should get the publisher" do
-        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan-3-publisher.json" ) )
+        publisher = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "ckan/rest-organization-health.json" ) )
         FakeWeb.register_uri(:get, "http://example.org/api/rest/group/2df7090e-2ebb-416e-8994-6de43d820d5c", :body=> publisher, :content_type=>"application/json")
         expect( @dataset.publishers.length ).to eql(1)
         publisher = @dataset.publishers.first
