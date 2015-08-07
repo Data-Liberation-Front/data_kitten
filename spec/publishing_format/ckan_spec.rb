@@ -194,6 +194,14 @@ describe DataKitten::PublishingFormats::CKAN do
         expect( @dataset.description ).to eql("Here are some notes")
       end
 
+      it "should get the identifier" do
+        expect( @dataset.identifier ).to eql("national-public-toilet-map")
+      end
+
+      it "should get the landing page" do
+        expect( @dataset.landing_page ).to eql("http://www.toiletmap.gov.au/default.aspx")
+      end
+
       it "should get the licence" do
         expect( @dataset.licenses.length ).to eql(1)
         licence = @dataset.licenses.first
