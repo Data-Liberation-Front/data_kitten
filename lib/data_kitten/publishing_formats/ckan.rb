@@ -152,14 +152,14 @@ module DataKitten
       #
       # @see Dataset#issued
       def issued
-        Date.parse metadata.lookup("metadata_created")
+        Date.parse metadata.lookup("metadata_created") rescue nil
       end
 
       # Date the dataset was modified
       #
       # @see Dataset#modified
       def modified
-        Date.parse metadata.lookup("metadata_modified")
+        Date.parse metadata.lookup("metadata_modified") rescue nil
       end
 
       # The temporal coverage of the dataset
