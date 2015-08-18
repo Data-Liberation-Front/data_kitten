@@ -1,0 +1,73 @@
+{
+    "help": "Return the details of a organization.\n\n    :param id: the id or name of the organization\n    :type id: string\n    :param include_datasets: include a list of the organization's datasets\n         (optional, default: ``True``)\n    :type id: boolean\n\n    :rtype: dictionary\n\n    .. note:: Only its first 1000 datasets are returned\n    ",
+    "success": true,
+    "result": {
+        "groups": [{
+            "capacity": "public",
+            "name": "natural-environment-research-council"
+        }],
+        "abbreviation": "CEH",
+        "foi-email": "foi@ceh.ac.uk",
+        "id": "866f4088-ae4f-43b8-ba8c-6d3141a327f2",
+        "users": [],
+        "category": "",
+        "packages": [],
+        "approval_status": "pending",
+        "title": "Centre for Ecology & Hydrology",
+        "closed": false,
+        "foi-web": "http://www.ceh.ac.uk/",
+        "description": "The <a href=\"http://www.ceh.ac.uk/data/\" target=\"_blank\">Centre for Ecology &amp; Hydrology</a> is the UK's Centre of  Excellence for integrated research in terrestrial and freshwater  ecosystems and their interaction with the atmosphere. As part of the <a href=\"http://www.nerc.ac.uk/\" target=\"_blank\">Natural Environment Research Council</a>,  we provide National Capability based on innovative, independent and  interdisciplinary science and long-term environmental monitoring,  forming an integral part of NERC's vision and strategy.</p> <p>Working in partnership with the research community,  policy-makers, industry and society, we deliver world-class solutions to  the most complex environmental challenges facing humankind. CEH is a member of <a href=\"http://www.peer.eu/\">PEER</a> (the Partnership for European Environmental Research).",
+        "contact-email": "enquiries@ceh.ac.uk",
+        "tags": [],
+        "foi-name": "Centre for Ecology & Hydrology enquiry service",
+        "contact-phone": "",
+        "replaced_by": [],
+        "contact-name": "Centre for Ecology & Hydrology enquiry service",
+        "name": "centre-for-ecology-hydrology",
+        "image_display_url": "",
+        "type": "organization",
+        "is_organization": true,
+        "extras": [{
+            "value": "CEH",
+            "key": "abbreviation"
+        }, {
+            "value": "",
+            "key": "category"
+        }, {
+            "value": "false",
+            "key": "closed"
+        }, {
+            "value": "enquiries@ceh.ac.uk",
+            "key": "contact-email"
+        }, {
+            "value": "Centre for Ecology & Hydrology enquiry service",
+            "key": "contact-name"
+        }, {
+            "value": "",
+            "key": "contact-phone"
+        }, {
+            "value": "foi@ceh.ac.uk",
+            "key": "foi-email"
+        }, {
+            "value": "Centre for Ecology & Hydrology enquiry service",
+            "key": "foi-name"
+        }, {
+            "value": "01491 692371",
+            "key": "foi-phone"
+        }, {
+            "value": "http://www.ceh.ac.uk/",
+            "key": "foi-web"
+        }, {
+            "value": "[]",
+            "key": "replaced_by"
+        }, {
+            "value": "Centre for Ecology & Hydrology",
+            "key": "website-name"
+        }, {
+            "value": "http://www.ceh.ac.uk/",
+            "key": "website-url"
+        }],
+        "image_url": "",
+        "foi-phone": "01491 692371"
+    }
+}

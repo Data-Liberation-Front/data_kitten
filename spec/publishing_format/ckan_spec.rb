@@ -69,10 +69,22 @@ describe DataKitten::PublishingFormats::CKAN do
         :content_type => "application/json"
       },
 
+      # Pollinator dataset
+
+      "/api/rest/package/10d394fd-88b9-489f-9552-b7b567f927e2" => {
+        :body => load_fixture("ckan/rest-dataset-pollinator.json"),
+        :content_type => "application/json"
+      },
+
       # Groups/Organizations
 
       "/api/3/action/organization_show?id=cd937140-1310-4e2a-b211-5de8bebd910d" => {
         :body => load_fixture("ckan/organization_show-ni-spatial.json"),
+        :content_type => "application/json"
+      },
+      
+      "/api/3/action/organization_show?id=866f4088-ae4f-43b8-ba8c-6d3141a327f2" => {
+        :body => load_fixture("ckan/organization_show-ecology.json"),
         :content_type => "application/json"
       },
 
@@ -389,6 +401,98 @@ describe DataKitten::PublishingFormats::CKAN do
         [-5.2563, 53.8869]
       )
     end
+
+  end
+
+  context "with pollinator dataset" do
+
+    before(:each) do
+      @dataset = DataKitten::Dataset.new( access_url: "http://example.org/api/rest/package/10d394fd-88b9-489f-9552-b7b567f927e2")
+    end
+
+    it "should get the title" do
+      expect( @dataset.data_title ).to eql("Pollinator visitation data on oilseed rape varieties")
+    end
+
+    it "should get the description" do
+      expect( @dataset.description ).to start_with("This dataset contains counts of pollinators visiting different varieties of oilseed rape (OSR).")
+    end
+
+    it "should get the identifier" do
+      expect( @dataset.identifier ).to eql("pollinator-visitation-data-on-oilseed-rape-varieties")
+    end
+
+    it "should get the landing page" do
+      expect( @dataset.landing_page ).to eql("http://data.gov.uk/dataset/pollinator-visitation-data-on-oilseed-rape-varieties")
+    end
+
+    it "should get the licence" do
+      expect( @dataset.licenses.length ).to eql(1)
+      licence = @dataset.licenses.first
+      expect( licence.uri ).to eql("http://eidc.ceh.ac.uk/administration-folder/tools/ceh-standard-licence-texts/ceh-open-government-licence/plain")
+      expect( licence.name ).to eql("This resource is made available under the terms of the Open Government Licence")
+      expect( licence.id ).to be_nil
+    end
+
+    it "should get the keywords" do
+      expect( @dataset.keywords.length ).to eql(12)
+      expect( @dataset.keywords ).to include("bibionidae", "bumblebees")
+    end
+
+    it "should get the publisher" do
+      expect( @dataset.publishers.length ).to eql(1)
+      publisher = @dataset.publishers.first
+      expect( publisher.name ).to eql("Centre for Ecology & Hydrology")
+    end
+
+    it "should list distributions" do
+      expect( @dataset.distributions.length ).to eql(2)
+      expect( @dataset.distributions.first.access_url).to eql("http://eidc.ceh.ac.uk/metadata/d7b25308-3ec7-4cff-8eed-fe20b815f964/zip_export")
+      expect( @dataset.distributions.first.description).to start_with("Supporting information available")
+    end
+
+    it "should get the update frequency" do
+      expect( @dataset.update_frequency ).to eql("notPlanned")
+    end
+
+    it "should get the issued date" do
+      expect( @dataset.issued ).to eql(Date.parse("2014-08-11T08:29:37.215826"))
+    end
+
+    it "should get the modified date" do
+      expect( @dataset.modified ).to eql(Date.parse("2015-08-17T15:29:04.733151"))
+    end
+    
+    it "should get the language" do
+      expect( @dataset.language ).to eql("eng")
+    end
+
+    it "should get the theme" do
+      expect( @dataset.theme ).to eql("Environment")
+    end
+    
+    it "should get the temporal coverage" do
+      temporal = @dataset.temporal
+      expect( temporal.start ).to eql(Date.parse("2012-05-01"))
+      expect( temporal.end ).to eql(Date.parse("2012-05-31"))
+    end
+
+    it "should get the spatial coverage" do
+      spatial = @dataset.spatial
+      expect( spatial["type"] ).to eql("Polygon")
+      east = 1.5329
+      north = 53.206
+      south = 51.616
+      west = -1.095
+      expect( spatial["coordinates"][0] ).to eql([
+        [west, north],
+        [east, north],
+        [east, south],
+        [west, south],
+        [west, north]
+      ])
+    end
+
   end
 
 end
