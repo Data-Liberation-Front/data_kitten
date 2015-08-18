@@ -75,7 +75,15 @@ module DataKitten
     def host
       nil
     end
-    
+
+    # A unique identifier of the dataset.
+    #
+    # @return [String] the identifier of the dataset
+    #
+    def identifier
+      nil
+    end
+
     # The human-readable title of the dataset.
     #
     # @return [String] the title of the dataset.
@@ -124,6 +132,13 @@ module DataKitten
     #
     # @return [Date] the dataset's last modified date
     def modified
+      nil
+    end
+
+    # A web page that can be used to gain access to the dataset, its distributions and/or additional information.
+    #
+    # @return [String] The URL to the dataset
+    def landing_page
       nil
     end
     
@@ -191,7 +206,21 @@ module DataKitten
     def contributors
       []
     end
-    
+
+    # The language of the dataset.
+    #
+    # @return [String] the language of the dataset
+    def language
+      nil
+    end
+
+    # The main category the dataset belongs to.
+    #
+    # @return [String]
+    def theme
+      nil
+    end
+
     # Has the data been crowdsourced?
     #
     # @return [Boolean] Whether the data has been crowdsourced or not.
@@ -227,6 +256,13 @@ module DataKitten
     # @return [Array] An array of changes. Exact format depends on the origin and publishing format.
     def change_history
       []
+    end
+
+    # Spatial coverage of the dataset
+    #
+    # @return [GeoJSON Geometry] A GeoJSON geometry object of the spatial coverage
+    def spatial
+      nil
     end
 
   end

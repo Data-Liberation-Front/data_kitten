@@ -1,3 +1,5 @@
+require 'data_kitten/utils/guessable_lookup.rb'
+
 module DataKitten
 
   module PublishingFormats
@@ -26,6 +28,7 @@ module DataKitten
           @@id = result["result"]["id"] rescue result["id"]
         end
         @@metadata = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
+        @@metadata.extend(GuessableLookup)
       rescue
         false
       end
@@ -43,14 +46,32 @@ module DataKitten
       #
       # @see Dataset#data_title
       def data_title
-        metadata["title"] rescue nil
+        metadata.lookup("title")
       end
 
       # A brief description of the dataset
       #
       # @see Dataset#description
       def description
-        metadata["notes"] rescue nil
+        metadata.lookup("notes") || metadata.lookup("description")
+      rescue 
+        nil
+      end
+
+      # An identifier for the dataset
+      #
+      # @see Dataset#identifier
+      def identifier
+        metadata.lookup("name") || @@id
+      end
+
+      # A web page which can be used to gain access to the dataset
+      #
+      # @see Dataset#landing_page
+      def landing_page
+        metadata.lookup("extras", "landing_page") ||
+        metadata.lookup("url") ||
+        metadata.lookup("ckan_url")
       end
 
       # Keywords for the dataset
@@ -58,7 +79,7 @@ module DataKitten
       # @see Dataset#keywords
       def keywords
         keywords = []
-        metadata["tags"].each do |tag|
+        metadata.lookup("tags").each do |tag|
           keywords << tag
         end
         return keywords
@@ -70,7 +91,7 @@ module DataKitten
       #
       # @see Dataset#publishers
       def publishers
-        id = metadata['organization']['id'] || metadata['groups'][0]
+        id = metadata.lookup('organization', 'id') || metadata.lookup('groups', 0)
         fetch_publisher(id)
       rescue
         []
@@ -88,10 +109,9 @@ module DataKitten
       #
       # @see Dataset#licenses
       def licenses
-        extras = metadata["extras"] || {}
-        id = metadata["license_id"]
-        uri = metadata["license_url"] || extras["licence_url"]
-        name = metadata["license_title"] || extras["licence_url_title"]
+        id = metadata.lookup("license_id")
+        uri = metadata.lookup("license_url") || metadata.lookup("extras", "licence_url")
+        name = metadata.lookup("license_title") || metadata.lookup("extras", "licence_url_title")
         if [id, uri, name].any?
           [License.new(:id => id, :uri => uri, :name => name)]
         else
@@ -104,7 +124,7 @@ module DataKitten
       # @see Dataset#distributions
       def distributions
         distributions = []
-        metadata["resources"].each do |resource|
+        metadata.lookup("resources").each do |resource|
           distribution = {
             :title => resource["description"],
             :accessURL => resource["url"],
@@ -121,30 +141,66 @@ module DataKitten
       #
       # @see Dataset#update_frequency
       def update_frequency
-        metadata["extras"]["update_frequency"] || metadata["extras"]["frequency-of-update"] rescue nil
+        metadata.lookup("extras", "update_frequency") ||
+        metadata.lookup("extras", "frequency-of-update") ||
+        metadata.lookup("extras", "accrual_periodicity")
+      rescue
+        nil
       end
 
       # Date the dataset was released
       #
       # @see Dataset#issued
       def issued
-        Date.parse metadata["metadata_created"] rescue nil
+        Date.parse metadata.lookup("metadata_created") rescue nil
       end
 
       # Date the dataset was modified
       #
       # @see Dataset#modified
       def modified
-        Date.parse metadata["metadata_modified"] rescue nil
+        Date.parse metadata.lookup("metadata_modified") rescue nil
       end
 
       # The temporal coverage of the dataset
       #
       # @see Dataset#temporal
       def temporal
-        start_date = Date.parse metadata["extras"]["temporal_coverage-from"] rescue nil
-        end_date = Date.parse metadata["extras"]["temporal_coverage-to"] rescue nil
+        from = metadata.lookup("extras", "temporal_coverage-from") ||
+               metadata.lookup("extras", "temporal-extent-begin")
+        to = metadata.lookup("extras", "temporal_coverage-to") ||
+             metadata.lookup("extras", "temporal-extent-end")
+        start_date = Date.parse from rescue nil
+        end_date = Date.parse to rescue nil
         Temporal.new(:start => start_date, :end => end_date)
+      end
+
+      # The language of the dataset
+      #
+      # @see Dataset#language
+      def language
+        metadata.lookup("language") ||
+        metadata.lookup("metadata_language") ||
+        metadata.lookup("extras", "metadata_language") ||
+        metadata.lookup("extras", "language", 0) ||
+        metadata.lookup("extras", "language")
+      end
+
+      # The main category of the dataset
+      #
+      # @see Dataset#theme
+      def theme
+        metadata.lookup("extras", "theme", 0) ||
+        metadata.lookup("extras", "theme-primary") ||
+        metadata.lookup("groups", 0, "name") ||
+        metadata.lookup("groups", 0)
+      end
+
+      # Spatial coverage of the dataset
+      #
+      # @see Dataset#spatial
+      def spatial
+        extract_spatial || extract_bbox
       end
 
       private
@@ -161,17 +217,45 @@ module DataKitten
         extra
       end
 
+      def extract_spatial
+        geometry = JSON.parse metadata.lookup("extras", "spatial")
+        return geometry if !geometry["type"].nil?
+      rescue
+        nil
+      end
+      
+      def extract_bbox
+        west = Float(metadata.lookup("extras", "bbox-west-long"))
+        east = Float(metadata.lookup("extras", "bbox-east-long"))
+        north = Float(metadata.lookup("extras", "bbox-north-lat"))
+        south = Float(metadata.lookup("extras", "bbox-south-lat"))
+
+        { "type" => "Polygon", "coordinates" => [
+          [
+            [west, north],
+            [east, north],
+            [east, south],
+            [west, south],
+            [west, north]
+          ]
+        ] }
+      rescue
+        nil
+      end
+
       def fetch_publisher(id)
         uri = parsed_uri
         [
-          "#{uri.scheme}://#{uri.host}/api/rest/group/#{id}",
+          "#{uri.scheme}://#{uri.host}/api/3/action/organization_show?id=#{id}",
           "#{uri.scheme}://#{uri.host}/api/3/action/group_show?id=#{id}",
-          "#{uri.scheme}://#{uri.host}/api/3/action/organization_show?id=#{id}"
+          "#{uri.scheme}://#{uri.host}/api/rest/group/#{id}"
         ].each do |uri|
           begin
             @group = JSON.parse RestClient.get uri
             break
-          rescue RestClient::ResourceNotFound
+          rescue
+            # FakeWeb raises FakeWeb::NetConnectNotAllowedError, whereas 
+            # RestClient raises RestClient::ResourceNotFound in the "real world".
             nil
           end
         end
@@ -190,8 +274,8 @@ module DataKitten
       end
 
       def extract_agent(name_field, email_field)
-        name = metadata[name_field]
-        email = metadata[email_field]
+        name = metadata.lookup(name_field)
+        email = metadata.lookup(email_field)
         if [name, email].any?
           [Agent.new(name: name, mbox: email)]
         else
