@@ -378,6 +378,17 @@ describe DataKitten::PublishingFormats::CKAN do
       expect( @dataset.theme ).to eql("Mapping")
     end
 
+    it "should get the spatial coverage" do
+      spatial = @dataset.spatial
+      expect( spatial["type"] ).to eql("Polygon") 
+      expect( spatial["coordinates"][0] ).to include(
+        [-5.2563, 53.8869],
+        [-5.2563, 55.5369],
+        [-8.1906, 55.5369],
+        [-8.1906, 53.8869],
+        [-5.2563, 53.8869]
+      )
+    end
   end
 
 end

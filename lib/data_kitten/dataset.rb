@@ -258,5 +258,12 @@ module DataKitten
       []
     end
 
+    # Spatial coverage of the dataset
+    #
+    # @return [GeoJSON Geometry] The _____ TODO
+    def spatial
+      nil
+    end
+
   end
 end

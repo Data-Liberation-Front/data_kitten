@@ -196,6 +196,13 @@ module DataKitten
         metadata.lookup("groups", 0)
       end
 
+      # Spatial coverage of the dataset
+      #
+      # @see Dataset#spatial
+      def spatial
+        extract_spatial || extract_bbox
+      end
+
       private
 
       def metadata
@@ -208,6 +215,32 @@ module DataKitten
           extra = group['result']['extras'].select {|e| e["key"] == key }.first['value'] rescue ""
         end
         extra
+      end
+
+      def extract_spatial
+        geometry = JSON.parse metadata.lookup("extras", "spatial")
+        return geometry if !geometry["type"].nil?
+      rescue
+        nil
+      end
+      
+      def extract_bbox
+        west = Float(metadata.lookup("extras", "bbox-west-long"))
+        east = Float(metadata.lookup("extras", "bbox-east-long"))
+        north = Float(metadata.lookup("extras", "bbox-north-lat"))
+        south = Float(metadata.lookup("extras", "bbox-south-lat"))
+
+        { "type" => "Polygon", "coordinates" => [
+          [
+            [west, north],
+            [east, north],
+            [east, south],
+            [west, south],
+            [west, north]
+          ]
+        ] }
+      rescue
+        nil
       end
 
       def fetch_publisher(id)
