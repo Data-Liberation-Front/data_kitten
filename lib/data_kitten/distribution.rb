@@ -14,8 +14,11 @@ module DataKitten
     # @!attribute access_url
     #   @return [String] a URL to access the distribution.
     attr_accessor :access_url
-    alias_method :uri, :access_url
-    alias_method :download_url, :access_url
+
+    # @!attribute download_url
+    #   @return [String] a URL to the file of the distribution.
+    attr_accessor :download_url
+    alias_method :uri, :download_url
 
     # @!attribute path
     #   @return [String] the path of the distribution within the source, if appropriate
@@ -28,6 +31,22 @@ module DataKitten
     # @!attribute description
     #   @return [String] a textual description
     attr_accessor :description
+
+    # @!attribute issued
+    #   @return [Date] date created
+    attr_accessor :issued
+
+    # @!attribute modified
+    #   @return [Date] date modified
+    attr_accessor :modified
+
+    # @!attribute byte_size
+    #   @return [Integer] size of file in bytes
+    attr_accessor :byte_size
+
+    # @!attribute media_type
+    #   @return [String] the IANA media type (MIME type) of the distribution
+    attr_accessor :media_type
 
     # @!attribute schema
     #   @return [Hash] a hash representing the schema of the data within the distribution. Will
@@ -65,7 +84,7 @@ module DataKitten
         @schema = r['schema']
         # Get path
         @path = r['path']
-        @access_url = r['url']
+        @download_url = r['url']
         # Set title
         @title = @path || @uri
       elsif r = options[:dcat_resource]
@@ -73,10 +92,15 @@ module DataKitten
         @description = r[:title]
         @access_url  = r[:accessURL]
       elsif r = options[:ckan_resource]
-        @title       = r[:title]
-        @description = r[:title]
-        @access_url  = r[:accessURL]
-        @extension   = r[:format]
+        @title        = r[:title]
+        @description  = r[:title]
+        @issued       = r[:issued]
+        @modified     = r[:modified]
+        @access_url   = r[:accessURL]
+        @download_url = r[:downloadURL]
+        @byte_size    = r[:byteSize]
+        @media_type   = r[:mediaType]
+        @extension    = r[:format]
         # Load HTTP Response for further use
         @format = r[:format] ? DistributionFormat.new(self) : nil
       end
@@ -112,7 +136,7 @@ module DataKitten
     #
     # @return [Boolean] whether the HTTP response returns a success code or not
     def exists?
-      if @access_url
+      if @download_url
         http_head.response_code != 404
       end
     end
@@ -124,8 +148,8 @@ module DataKitten
       @data ||= begin
         if @path
           datafile = @dataset.send(:load_file, @path)
-        elsif @access_url
-          datafile = RestClient.get @access_url rescue nil
+        elsif @download_url
+          datafile = RestClient.get @download_url rescue nil
         end
         if datafile
           case format.extension
@@ -147,9 +171,9 @@ module DataKitten
     end
 
     def http_head
-      if @access_url
+      if @download_url
         @http_head ||= begin
-          Curl::Easy.http_head(@access_url) do |c|
+          Curl::Easy.http_head(@download_url) do |c|
             c.follow_location = true
             c.useragent = "curb"
           end

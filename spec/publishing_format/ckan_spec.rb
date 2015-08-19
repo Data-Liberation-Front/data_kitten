@@ -172,8 +172,13 @@ describe DataKitten::PublishingFormats::CKAN do
       it "should list the distributions" do
         expect( @dataset.distributions.length).to eql(1)
 
-        expect( @dataset.distributions.first.access_url).to eql("https://www.gov.uk/government/publications/disposal-database-house-of-commons-report")
         expect( @dataset.distributions.first.description).to eql("Disposals Database House of Commons Report January 2013")
+        expect( @dataset.distributions.first.issued).to eql(Date.parse("2012-11-23T12:34:54.297808"))
+        expect( @dataset.distributions.first.modified).to eql(Date.parse("2013-11-16T02:37:37.294479"))
+        expect( @dataset.distributions.first.access_url).to eql("http://data.gov.uk/dataset/defence-infrastructure-organisation-disposals-database-house-of-commons-report")
+        expect( @dataset.distributions.first.download_url).to eql("https://www.gov.uk/government/publications/disposal-database-house-of-commons-report")
+        expect( @dataset.distributions.first.byte_size).to eql(23806)
+        expect( @dataset.distributions.first.media_type).to eql("text/html")
       end
 
       it "should get the update frequency" do
@@ -255,8 +260,13 @@ describe DataKitten::PublishingFormats::CKAN do
       it "should list the distributions" do
         expect( @dataset.distributions.length).to eql(1)
 
-        expect( @dataset.distributions.first.access_url).to eql("http://data.gov.au/storage/f/2013-11-14T05%3A41%3A12.200Z/toiletmapexport-131112-042111.zip")
         expect( @dataset.distributions.first.description).to eql("Toilet Map")
+        expect( @dataset.distributions.first.issued).to eql(Date.parse("2013-05-12T08:42:48.397216"))
+        expect( @dataset.distributions.first.modified).to eql(Date.parse("2013-12-10T00:35:29.489574"))
+        expect( @dataset.distributions.first.access_url).to eql("http://www.toiletmap.gov.au/default.aspx")
+        expect( @dataset.distributions.first.download_url).to eql("http://data.gov.au/storage/f/2013-11-14T05%3A41%3A12.200Z/toiletmapexport-131112-042111.zip")
+        expect( @dataset.distributions.first.byte_size).to eql(1112225)
+        expect( @dataset.distributions.first.media_type).to eql("application/zip")
       end
 
       it "should get the issued date" do
@@ -311,8 +321,13 @@ describe DataKitten::PublishingFormats::CKAN do
       it "should list the distributions" do
         expect( @dataset.distributions.length).to eql(1)
 
-        expect( @dataset.distributions.first.access_url).to eql("http://data.gov.au/storage/f/2013-11-14T05%3A41%3A12.200Z/toiletmapexport-131112-042111.zip")
         expect( @dataset.distributions.first.description).to eql("Toilet Map")
+        expect( @dataset.distributions.first.issued).to eql(Date.parse("2013-05-12T08:42:48.397216"))
+        expect( @dataset.distributions.first.modified).to eql(Date.parse("2013-12-10T00:35:29.489574"))
+        expect( @dataset.distributions.first.access_url).to eql("http://www.toiletmap.gov.au/default.aspx")
+        expect( @dataset.distributions.first.download_url).to eql("http://data.gov.au/storage/f/2013-11-14T05%3A41%3A12.200Z/toiletmapexport-131112-042111.zip")
+        expect( @dataset.distributions.first.byte_size).to eql(1112225)
+        expect( @dataset.distributions.first.media_type).to eql("application/zip")
       end
 
       it "should get the issued date" do
@@ -445,10 +460,16 @@ describe DataKitten::PublishingFormats::CKAN do
       expect( publisher.name ).to eql("Centre for Ecology & Hydrology")
     end
 
-    it "should list distributions" do
+    it "should list the distributions" do
       expect( @dataset.distributions.length ).to eql(2)
-      expect( @dataset.distributions.first.access_url).to eql("http://eidc.ceh.ac.uk/metadata/d7b25308-3ec7-4cff-8eed-fe20b815f964/zip_export")
-      expect( @dataset.distributions.first.description).to start_with("Supporting information available")
+
+      expect( @dataset.distributions.first.description).to start_with("Supporting information")
+      expect( @dataset.distributions.first.issued).to eql(Date.parse("2015-08-17T16:29:04.843110"))
+      expect( @dataset.distributions.first.modified).to be_nil
+      expect( @dataset.distributions.first.access_url).to eql("http://data.gov.uk/dataset/pollinator-visitation-data-on-oilseed-rape-varieties")
+      expect( @dataset.distributions.first.download_url).to eql("http://eidc.ceh.ac.uk/metadata/d7b25308-3ec7-4cff-8eed-fe20b815f964/zip_export")
+      expect( @dataset.distributions.first.byte_size).to be_nil
+      expect( @dataset.distributions.first.media_type).to be_nil
     end
 
     it "should get the update frequency" do
