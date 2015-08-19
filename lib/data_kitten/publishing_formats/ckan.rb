@@ -127,9 +127,14 @@ module DataKitten
         metadata.lookup("resources").each do |resource|
           distribution = {
             :title => resource["description"],
-            :accessURL => resource["url"],
-            :format => resource["format"]
+            :accessURL => landing_page,
+            :downloadURL => resource["url"],
+            :format => resource["format"],
+            :mediaType => resource["mimetype"] || resource["content_type"],
           }
+          distribution[:issued] = Date.parse(resource["created"]) rescue nil
+          distribution[:modified] = Date.parse(resource["last_modified"] || resource["revision_timestamp"]) rescue nil
+          distribution[:byteSize] = Integer(resource["size"]) rescue nil
           distributions << Distribution.new(self, ckan_resource: distribution)
         end
         return distributions

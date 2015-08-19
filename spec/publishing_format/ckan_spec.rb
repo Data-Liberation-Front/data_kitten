@@ -5,19 +5,19 @@ describe DataKitten::PublishingFormats::CKAN do
   before(:all) do
     FakeWeb.clean_registry
     FakeWeb.allow_net_connect = false
-    
+
     @urls = {
-      
+
       # Defence dataset
-      
+
       "/dataset/defence" => {
-        :body => "", 
+        :body => "",
         :content_type => "text/html"
       },
       "/api/3/action/package_show?id=defence" => {
-        :body => "", 
+        :body => "",
         :content_type => "application/json"
-      }, 
+      },
       "/api/2/rest/dataset/defence" => {
         :body => load_fixture("ckan/rest-dataset-defence.json"),
         :content_type => "application/json"
@@ -30,9 +30,9 @@ describe DataKitten::PublishingFormats::CKAN do
         :body => load_fixture("ckan/rest-dataset-defence.json"),
         :content_type => "application/json"
       },
-      
+
       # Toilets dataset
-      
+
       "/dataset/toilets" => {
         :body => "",
         :content_type => "text/html"
@@ -42,9 +42,9 @@ describe DataKitten::PublishingFormats::CKAN do
         :content_type => "text/html"
       },
       "/api/3/action/package_show?id=toilets" => {
-        :body => load_fixture("ckan/package_show-toilets.json"), 
+        :body => load_fixture("ckan/package_show-toilets.json"),
         :content_type => "application/json"
-      }, 
+      },
       "/api/2/rest/dataset/toilets" => {
         :body => load_fixture("ckan/rest-dataset-toilets.json"),
         :content_type => "application/json"
@@ -61,9 +61,9 @@ describe DataKitten::PublishingFormats::CKAN do
         :body => load_fixture("ckan/rest-dataset-toilets.json"),
         :content_type => "application/json"
       },
-      
+
       # Cadastral dataset
-      
+
       "/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349" => {
         :body => load_fixture("ckan/rest-dataset-cadastral.json"),
         :content_type => "application/json"
@@ -82,7 +82,7 @@ describe DataKitten::PublishingFormats::CKAN do
         :body => load_fixture("ckan/organization_show-ni-spatial.json"),
         :content_type => "application/json"
       },
-      
+
       "/api/3/action/organization_show?id=866f4088-ae4f-43b8-ba8c-6d3141a327f2" => {
         :body => load_fixture("ckan/organization_show-ecology.json"),
         :content_type => "application/json"
@@ -92,7 +92,7 @@ describe DataKitten::PublishingFormats::CKAN do
         :body => load_fixture("ckan/rest-organization-health.json"),
         :content_type => "application/json"
       },
-      
+
       "/api/rest/group/a3969e37-3ac3-42fe-8317-c8575a9f5317" => {
         :body => load_fixture("ckan/rest-organization-defence.json"),
         :content_type => "application/json"
@@ -172,8 +172,13 @@ describe DataKitten::PublishingFormats::CKAN do
       it "should list the distributions" do
         expect( @dataset.distributions.length).to eql(1)
 
-        expect( @dataset.distributions.first.access_url).to eql("https://www.gov.uk/government/publications/disposal-database-house-of-commons-report")
         expect( @dataset.distributions.first.description).to eql("Disposals Database House of Commons Report January 2013")
+        expect( @dataset.distributions.first.issued).to eql(Date.parse("2012-11-23T12:34:54.297808"))
+        expect( @dataset.distributions.first.modified).to eql(Date.parse("2013-11-16T02:37:37.294479"))
+        expect( @dataset.distributions.first.access_url).to eql("http://data.gov.uk/dataset/defence-infrastructure-organisation-disposals-database-house-of-commons-report")
+        expect( @dataset.distributions.first.download_url).to eql("https://www.gov.uk/government/publications/disposal-database-house-of-commons-report")
+        expect( @dataset.distributions.first.byte_size).to eql(23806)
+        expect( @dataset.distributions.first.media_type).to eql("text/html")
       end
 
       it "should get the update frequency" do
@@ -255,8 +260,13 @@ describe DataKitten::PublishingFormats::CKAN do
       it "should list the distributions" do
         expect( @dataset.distributions.length).to eql(1)
 
-        expect( @dataset.distributions.first.access_url).to eql("http://data.gov.au/storage/f/2013-11-14T05%3A41%3A12.200Z/toiletmapexport-131112-042111.zip")
         expect( @dataset.distributions.first.description).to eql("Toilet Map")
+        expect( @dataset.distributions.first.issued).to eql(Date.parse("2013-05-12T08:42:48.397216"))
+        expect( @dataset.distributions.first.modified).to eql(Date.parse("2013-12-10T00:35:29.489574"))
+        expect( @dataset.distributions.first.access_url).to eql("http://www.toiletmap.gov.au/default.aspx")
+        expect( @dataset.distributions.first.download_url).to eql("http://data.gov.au/storage/f/2013-11-14T05%3A41%3A12.200Z/toiletmapexport-131112-042111.zip")
+        expect( @dataset.distributions.first.byte_size).to eql(1112225)
+        expect( @dataset.distributions.first.media_type).to eql("application/zip")
       end
 
       it "should get the issued date" do
@@ -311,8 +321,13 @@ describe DataKitten::PublishingFormats::CKAN do
       it "should list the distributions" do
         expect( @dataset.distributions.length).to eql(1)
 
-        expect( @dataset.distributions.first.access_url).to eql("http://data.gov.au/storage/f/2013-11-14T05%3A41%3A12.200Z/toiletmapexport-131112-042111.zip")
         expect( @dataset.distributions.first.description).to eql("Toilet Map")
+        expect( @dataset.distributions.first.issued).to eql(Date.parse("2013-05-12T08:42:48.397216"))
+        expect( @dataset.distributions.first.modified).to eql(Date.parse("2013-12-10T00:35:29.489574"))
+        expect( @dataset.distributions.first.access_url).to eql("http://www.toiletmap.gov.au/default.aspx")
+        expect( @dataset.distributions.first.download_url).to eql("http://data.gov.au/storage/f/2013-11-14T05%3A41%3A12.200Z/toiletmapexport-131112-042111.zip")
+        expect( @dataset.distributions.first.byte_size).to eql(1112225)
+        expect( @dataset.distributions.first.media_type).to eql("application/zip")
       end
 
       it "should get the issued date" do
@@ -334,7 +349,7 @@ describe DataKitten::PublishingFormats::CKAN do
     before(:each) do
       @dataset = DataKitten::Dataset.new( access_url: "http://example.org/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349")
     end
-    
+
     it "should get the title" do
       expect( @dataset.data_title ).to eql("LPS Cadastral Parcels NI (Metadata)")
     end
@@ -381,7 +396,7 @@ describe DataKitten::PublishingFormats::CKAN do
     it "should get the modified date" do
       expect( @dataset.modified ).to eql(Date.parse("2014-02-18T16:38:37.394178"))
     end
-    
+
     it "should get the language" do
       expect( @dataset.language ).to eql("eng")
     end
@@ -392,7 +407,7 @@ describe DataKitten::PublishingFormats::CKAN do
 
     it "should get the spatial coverage" do
       spatial = @dataset.spatial
-      expect( spatial["type"] ).to eql("Polygon") 
+      expect( spatial["type"] ).to eql("Polygon")
       expect( spatial["coordinates"][0] ).to include(
         [-5.2563, 53.8869],
         [-5.2563, 55.5369],
@@ -445,10 +460,16 @@ describe DataKitten::PublishingFormats::CKAN do
       expect( publisher.name ).to eql("Centre for Ecology & Hydrology")
     end
 
-    it "should list distributions" do
+    it "should list the distributions" do
       expect( @dataset.distributions.length ).to eql(2)
-      expect( @dataset.distributions.first.access_url).to eql("http://eidc.ceh.ac.uk/metadata/d7b25308-3ec7-4cff-8eed-fe20b815f964/zip_export")
-      expect( @dataset.distributions.first.description).to start_with("Supporting information available")
+
+      expect( @dataset.distributions.first.description).to start_with("Supporting information")
+      expect( @dataset.distributions.first.issued).to eql(Date.parse("2015-08-17T16:29:04.843110"))
+      expect( @dataset.distributions.first.modified).to be_nil
+      expect( @dataset.distributions.first.access_url).to eql("http://data.gov.uk/dataset/pollinator-visitation-data-on-oilseed-rape-varieties")
+      expect( @dataset.distributions.first.download_url).to eql("http://eidc.ceh.ac.uk/metadata/d7b25308-3ec7-4cff-8eed-fe20b815f964/zip_export")
+      expect( @dataset.distributions.first.byte_size).to be_nil
+      expect( @dataset.distributions.first.media_type).to be_nil
     end
 
     it "should get the update frequency" do
@@ -462,7 +483,7 @@ describe DataKitten::PublishingFormats::CKAN do
     it "should get the modified date" do
       expect( @dataset.modified ).to eql(Date.parse("2015-08-17T15:29:04.733151"))
     end
-    
+
     it "should get the language" do
       expect( @dataset.language ).to eql("eng")
     end
@@ -470,7 +491,7 @@ describe DataKitten::PublishingFormats::CKAN do
     it "should get the theme" do
       expect( @dataset.theme ).to eql("Environment")
     end
-    
+
     it "should get the temporal coverage" do
       temporal = @dataset.temporal
       expect( temporal.start ).to eql(Date.parse("2012-05-01"))

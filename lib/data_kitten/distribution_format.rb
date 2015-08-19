@@ -21,6 +21,7 @@ module DataKitten
       @@formats ||= {
         csv:     { structured:  true, open:  true },
         xls:     { structured:  true, open: false },
+        xlsx:    { structured:  true, open:  true },
         rdf:     { structured:  true, open:  true },
         xml:     { structured:  true, open:  true },
         wms:     { structured:  true, open:  true },
@@ -33,6 +34,7 @@ module DataKitten
         sparql:  { structured:  true, open:  true },
         kml:     { structured:  true, open:  true },
         georss:  { structured:  true, open:  true },
+        geojson: { structured:  true, open:  true },
         shp:     { structured:  true, open:  true },
         html:    { structured: false, open:  true },
         doc:     { structured: false, open:  false },
