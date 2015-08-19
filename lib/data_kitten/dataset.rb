@@ -49,7 +49,11 @@ module DataKitten
     def url
       @access_url.to_s
     end
-  
+
+    def source
+      @access_url.as_json if @access_url.ok?
+    end
+
     # Can metadata be loaded for this Dataset?
     #
     # @return [Boolean] true if metadata can be loaded, false if it's 
