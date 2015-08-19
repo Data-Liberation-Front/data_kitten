@@ -5,19 +5,19 @@ describe DataKitten::PublishingFormats::CKAN do
   before(:all) do
     FakeWeb.clean_registry
     FakeWeb.allow_net_connect = false
-    
+
     @urls = {
-      
+
       # Defence dataset
-      
+
       "/dataset/defence" => {
-        :body => "", 
+        :body => "",
         :content_type => "text/html"
       },
       "/api/3/action/package_show?id=defence" => {
-        :body => "", 
+        :body => "",
         :content_type => "application/json"
-      }, 
+      },
       "/api/2/rest/dataset/defence" => {
         :body => load_fixture("ckan/rest-dataset-defence.json"),
         :content_type => "application/json"
@@ -30,9 +30,9 @@ describe DataKitten::PublishingFormats::CKAN do
         :body => load_fixture("ckan/rest-dataset-defence.json"),
         :content_type => "application/json"
       },
-      
+
       # Toilets dataset
-      
+
       "/dataset/toilets" => {
         :body => "",
         :content_type => "text/html"
@@ -42,9 +42,9 @@ describe DataKitten::PublishingFormats::CKAN do
         :content_type => "text/html"
       },
       "/api/3/action/package_show?id=toilets" => {
-        :body => load_fixture("ckan/package_show-toilets.json"), 
+        :body => load_fixture("ckan/package_show-toilets.json"),
         :content_type => "application/json"
-      }, 
+      },
       "/api/2/rest/dataset/toilets" => {
         :body => load_fixture("ckan/rest-dataset-toilets.json"),
         :content_type => "application/json"
@@ -61,9 +61,9 @@ describe DataKitten::PublishingFormats::CKAN do
         :body => load_fixture("ckan/rest-dataset-toilets.json"),
         :content_type => "application/json"
       },
-      
+
       # Cadastral dataset
-      
+
       "/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349" => {
         :body => load_fixture("ckan/rest-dataset-cadastral.json"),
         :content_type => "application/json"
@@ -82,7 +82,7 @@ describe DataKitten::PublishingFormats::CKAN do
         :body => load_fixture("ckan/organization_show-ni-spatial.json"),
         :content_type => "application/json"
       },
-      
+
       "/api/3/action/organization_show?id=866f4088-ae4f-43b8-ba8c-6d3141a327f2" => {
         :body => load_fixture("ckan/organization_show-ecology.json"),
         :content_type => "application/json"
@@ -92,7 +92,7 @@ describe DataKitten::PublishingFormats::CKAN do
         :body => load_fixture("ckan/rest-organization-health.json"),
         :content_type => "application/json"
       },
-      
+
       "/api/rest/group/a3969e37-3ac3-42fe-8317-c8575a9f5317" => {
         :body => load_fixture("ckan/rest-organization-defence.json"),
         :content_type => "application/json"
@@ -334,7 +334,7 @@ describe DataKitten::PublishingFormats::CKAN do
     before(:each) do
       @dataset = DataKitten::Dataset.new( access_url: "http://example.org/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349")
     end
-    
+
     it "should get the title" do
       expect( @dataset.data_title ).to eql("LPS Cadastral Parcels NI (Metadata)")
     end
@@ -381,7 +381,7 @@ describe DataKitten::PublishingFormats::CKAN do
     it "should get the modified date" do
       expect( @dataset.modified ).to eql(Date.parse("2014-02-18T16:38:37.394178"))
     end
-    
+
     it "should get the language" do
       expect( @dataset.language ).to eql("eng")
     end
@@ -392,7 +392,7 @@ describe DataKitten::PublishingFormats::CKAN do
 
     it "should get the spatial coverage" do
       spatial = @dataset.spatial
-      expect( spatial["type"] ).to eql("Polygon") 
+      expect( spatial["type"] ).to eql("Polygon")
       expect( spatial["coordinates"][0] ).to include(
         [-5.2563, 53.8869],
         [-5.2563, 55.5369],
@@ -462,7 +462,7 @@ describe DataKitten::PublishingFormats::CKAN do
     it "should get the modified date" do
       expect( @dataset.modified ).to eql(Date.parse("2015-08-17T15:29:04.733151"))
     end
-    
+
     it "should get the language" do
       expect( @dataset.language ).to eql("eng")
     end
@@ -470,7 +470,7 @@ describe DataKitten::PublishingFormats::CKAN do
     it "should get the theme" do
       expect( @dataset.theme ).to eql("Environment")
     end
-    
+
     it "should get the temporal coverage" do
       temporal = @dataset.temporal
       expect( temporal.start ).to eql(Date.parse("2012-05-01"))
