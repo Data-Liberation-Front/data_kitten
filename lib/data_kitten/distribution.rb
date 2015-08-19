@@ -79,7 +79,7 @@ module DataKitten
         @extension   = r[:format]
         # Load HTTP Response for further use
         @format = r[:format] ? DistributionFormat.new(self) : nil
-    end
+      end
       # Set default CSV dialect
       @dialect ||= {
         "delimiter" => ","
