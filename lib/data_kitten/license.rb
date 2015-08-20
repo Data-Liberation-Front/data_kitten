@@ -3,6 +3,23 @@ module DataKitten
   # A license for a {Dataset} or {Distribution}
   #
   class License
+    
+    LICENSES = {
+      /opendatacommons.org.*\/by(\/|$)/ => "odc-by",
+      /opendatacommons.org.*\/odbl(\/|$)/ => "odc-odbl",
+      /opendatacommons.org.*\/pddl(\/|$)/ => "odc-pddl",
+      /opendefinition.org.*\/odc-by(\/|$)/ => "odc-by",
+      /opendefinition.org.*\/odc-pddl(\/|$)/ => "odc-pddl",
+      /opendefinition.org.*\/cc-zero(\/|$)/ => "cc-zero",
+      /opendefinition.org.*\/cc-by(\/|$)/ => "cc-by",
+      /opendefinition.org.*\/cc-by-sa(\/|$)/ => "cc-by-sa",
+      /opendefinition.org.*\/gfdl(\/|$)/ => "gfdl",
+      /creativecommons.org.*\/zero(\/|$)/ => "cc-zero",
+      /creativecommons.org.*\/by-sa(\/|$)/ => "cc-by-sa",
+      /creativecommons.org.*\/by(\/|$)/ => "cc-by",
+      /(data|nationalarchives).gov.uk.*\/open-government-licence(\/|$)/ => "ogl-uk",
+      /usa.gov\/publicdomain(\/|$)/ => "us-pd"
+    }
 
     # @!attribute is
     #   @return [String] a short ID that identifies the license.
@@ -19,6 +36,10 @@ module DataKitten
     # @!attribute type
     #   @return [String] the type of information this license applies to. Could be +:data+ or +:content+.
     attr_accessor :type
+    
+    # @!attribute abbr
+    #   @return [String] the license abbreviation
+    attr_accessor :abbr
 
     # Create a new License object.
     #
@@ -32,6 +53,12 @@ module DataKitten
       @name = options[:name]
       @uri = options[:uri]
       @type = options[:type]
+      @abbr = get_license_abbr(@uri) if @uri
+    end
+    
+    def get_license_abbr(uri)
+      license = LICENSES.find { |regex, abbr| uri =~ regex }
+      license.last if license
     end
 
   end  
