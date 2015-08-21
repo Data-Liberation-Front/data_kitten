@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DataKitten::License do
 
-  describe 'with known licenses' do
+  describe 'with known license URIs' do
     
     known_licenses = {
       "http://www.opendefinition.org/licenses/cc-by" => "cc-by",
@@ -22,9 +22,15 @@ describe DataKitten::License do
     end
   end
   
-  describe 'with an unknown license' do
+  describe 'with an unknown license URI' do
     it 'should not provide an abbreviation' do
       expect(described_class.new(:uri => "http://made-up-cc-by-sa.com/cc-by").abbr).to be_nil
+    end
+  end
+  
+  describe 'with no license URI' do
+    it 'should not provide an abbreviation' do
+      expect(described_class.new({}).abbr).to be_nil
     end
   end
 
