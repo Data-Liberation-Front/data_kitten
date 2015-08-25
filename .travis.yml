@@ -21,3 +21,5 @@ deploy:
     tags: true
     repo: theodi/data_kitten
     all_branches: true
+  env:
+    - COVERAGE=1

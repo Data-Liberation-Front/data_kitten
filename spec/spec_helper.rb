@@ -1,12 +1,13 @@
-require 'coveralls'
-Coveralls.wear!
-
 require 'data_kitten'
 require 'fakeweb'
 require 'linkeddata'
 require 'pry'
 
-FakeWeb.allow_net_connect = %w{coveralls.io}
+if ENV['COVERAGE']
+  require 'coveralls'
+  Coveralls.wear!
+  FakeWeb.allow_net_connect = %r{^https://coveralls.io}
+end
 
 RSpec.configure do |config|
 
