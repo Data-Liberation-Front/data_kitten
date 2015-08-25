@@ -108,6 +108,8 @@ module DataKitten
       @dialect ||= {
         "delimiter" => ","
       }
+
+      @download = Fetcher.wrap(@download_url)
     end
 
     # A usable name for the distribution, unique within the {Dataset}.
@@ -136,9 +138,7 @@ module DataKitten
     #
     # @return [Boolean] whether the HTTP response returns a success code or not
     def exists?
-      if @download_url
-        http_head.response_code != 404
-      end
+      @download.exists?
     end
 
     # A CSV object representing the loaded data.
@@ -148,8 +148,8 @@ module DataKitten
       @data ||= begin
         if @path
           datafile = @dataset.send(:load_file, @path)
-        elsif @download_url
-          datafile = RestClient.get @download_url rescue nil
+        elsif @download.ok?
+          datafile = @download.body
         end
         if datafile
           case format.extension
@@ -167,17 +167,6 @@ module DataKitten
         end
       rescue
         nil
-      end
-    end
-
-    def http_head
-      if @download_url
-        @http_head ||= begin
-          Curl::Easy.http_head(@download_url) do |c|
-            c.follow_location = true
-            c.useragent = "curb"
-          end
-        end
       end
     end
 

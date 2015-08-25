@@ -16,6 +16,16 @@ module DataKitten
       @url = url
     end
 
+    def exists?
+      if @requested
+        ok?
+      else
+        RestClient.head(url).code == 200
+      end
+    rescue RestClient::ExceptionWithResponse => error
+      false
+    end
+
     def ok?
       code == 200
     end

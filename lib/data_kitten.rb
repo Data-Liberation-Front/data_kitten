@@ -8,7 +8,6 @@ require 'rdf'
 require 'linkeddata'
 require 'nokogiri'
 require 'uri'
-require 'curb'
 require 'datapackage'
 
 require 'data_kitten/license'
