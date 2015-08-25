@@ -22,12 +22,6 @@ describe DataKitten::Fetcher do
     end
   end
 
-  describe 'wrapping returns same instance' do
-    before do
-
-    end
-  end
-
   describe 'present resource' do
     before do
       FakeWeb.register_uri(:get, "http://example.org/resource", :body=> "<p>text</p>", :content_type=>"text/html; encoding=utf-8")
