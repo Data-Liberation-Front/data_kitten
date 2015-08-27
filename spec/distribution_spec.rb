@@ -3,6 +3,7 @@ require 'spec_helper'
 describe DataKitten::Distribution do
   before(:all) do
     FakeWeb.allow_net_connect = false
+    FakeWeb.clean_registry
     # Defence dataset
     @urls = {
       "/dataset/defence" => {
