@@ -112,6 +112,13 @@ describe DataKitten::PublishingFormats::CKAN do
         expect( d.supported? ).to eql(true)
     end
 
+    it 'can have 2 instances in memory at the same time' do
+      d1 = DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
+      d2 = DataKitten::Dataset.new( access_url: "http://example.org/dataset/toilets")
+      expect(d1.data_title).to eq("Defence Infrastructure Organisation Disposals Database House of Commons Report")
+      expect(d2.data_title).to eq("National Public Toilet Map")
+    end
+
     context "when parsing CKAN" do
 
       before(:each) do

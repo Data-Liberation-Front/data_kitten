@@ -6,8 +6,6 @@ module DataKitten
 
     module CKAN
 
-      @@metadata = nil
-
       private
 
       def self.supported?(instance)
@@ -15,7 +13,7 @@ module DataKitten
         package = uri.path.split("/").last
         # If the package is a UUID - it's more than likely to be a CKAN ID
         if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
-          @@id = package
+          instance.identifier = package
         else
 
           results = RestClient.get "#{uri.scheme}://#{uri.host}/api/3/action/package_show", {:params => {:id => package}} rescue ""
@@ -25,10 +23,12 @@ module DataKitten
           end
 
           result = JSON.parse results
-          @@id = result["result"]["id"] rescue result["id"]
+          instance.identifier = result["result"]["id"] rescue result["id"]
         end
-        @@metadata = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
-        @@metadata.extend(GuessableLookup)
+        instance.metadata = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{instance.identifier}"
+        instance.metadata.extend(GuessableLookup)
+        instance.source = instance.metadata
+        return true
       rescue
         false
       end
@@ -62,7 +62,7 @@ module DataKitten
       #
       # @see Dataset#identifier
       def identifier
-        metadata.lookup("name") || @@id
+        metadata.lookup("name") || @identifier
       end
 
       # A web page which can be used to gain access to the dataset
@@ -209,10 +209,6 @@ module DataKitten
       end
 
       private
-
-      def metadata
-        @@metadata
-      end
 
       def select_extras(group, key)
         extra = group["extras"][key] rescue ""

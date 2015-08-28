@@ -51,8 +51,10 @@ module DataKitten
     end
 
     def source
-      @access_url.as_json if @access_url.ok?
+      @source ||= @access_url.as_json if @access_url.ok?
     end
+
+    attr_writer :source
 
     # Can metadata be loaded for this Dataset?
     #
@@ -84,9 +86,7 @@ module DataKitten
     #
     # @return [String] the identifier of the dataset
     #
-    def identifier
-      nil
-    end
+    attr_accessor :identifier
 
     # The human-readable title of the dataset.
     #
@@ -268,6 +268,8 @@ module DataKitten
     def spatial
       nil
     end
+
+    attr_accessor :metadata
 
   end
 end
