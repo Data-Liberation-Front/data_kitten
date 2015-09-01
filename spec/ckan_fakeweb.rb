@@ -81,6 +81,30 @@ module CKANFakeweb
     })
   end
 
+  def register_dataset(base_uri, name, fixture)
+    data = {
+      body: fixture, content_type: "application/json"
+    }
+    {
+      "dataset/#{name}" => {
+        :body => "",
+        :content_type => "text/html"
+      },
+      "api/3/action/package_show?id=#{name}" => {
+        :body => "",
+        :content_type => "application/json"
+      },
+      "api/2/rest/dataset/#{name}" => data,
+      "api/2/search/dataset?q=#{name}" => data,
+      "api/rest/package/#{name}" => data,
+      "api/rest/package/#{fixture['id']}" => data
+    }.each do |path, options|
+      FakeWeb.register_uri(:get, (base_uri + path).to_s, options)
+    end
+
+    return (base_uri + "dataset/#{name}").to_s
+  end
+
   def register_urls(base_uri, urls)
     urls.each do |path, options|
       FakeWeb.register_uri(:get, base_uri + path, options)

@@ -10,22 +10,29 @@ module DataKitten
 
       def self.supported?(instance)
         uri = instance.uri
-        package = uri.path.split("/").last
+        base_uri = uri.merge("/")
+        *base, package = uri.path.split('/')
+        # If the 2nd to last element in the path is 'dataset' then it's probably
+        # the CKAN dataset view page, the last element will be the dataset id
+        # or name
+        if base.last == "dataset"
+          instance.identifier = package
+          # build a base URI ending with a /
+          base_uri = uri.merge(base[0...-1].join('/') + '/')
         # If the package is a UUID - it's more than likely to be a CKAN ID
-        if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
+        elsif package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
           instance.identifier = package
         else
-
-          results = RestClient.get "#{uri.scheme}://#{uri.host}/api/3/action/package_show", {:params => {:id => package}} rescue ""
+          results = RestClient.get base_uri.merge("api/3/action/package_show").to_s, {:params => {:id => package}} rescue ""
 
           if results == ""
-            results = RestClient.get "#{uri.scheme}://#{uri.host}/api/2/rest/dataset/#{package}"
+            results = RestClient.get base_uri.merge("api/2/rest/dataset/#{package}").to_s
           end
 
           result = JSON.parse results
           instance.identifier = result["result"]["id"] rescue result["id"]
         end
-        instance.metadata = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{instance.identifier}"
+        instance.metadata = JSON.parse RestClient.get base_uri.merge("api/rest/package/#{instance.identifier}").to_s
         instance.metadata.extend(GuessableLookup)
         instance.source = instance.metadata
         return true

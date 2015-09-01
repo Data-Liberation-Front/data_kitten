@@ -115,6 +115,18 @@ describe DataKitten::PublishingFormats::CKAN do
         expect( @dataset.theme ).to eql("Defence")
       end
     end
+
+    context "and CKAN is not running on the root of the domain" do
+      it 'loads the dataset' do
+        url = CKANFakeweb.register_dataset(
+          URI("http://other.org/some/path/"),
+          "defence",
+          load_fixture("ckan/rest-dataset-defence.json"))
+
+        dataset = DataKitten::Dataset.new(access_url: url)
+        expect(dataset.publishing_format).to eq(:ckan)
+      end
+    end
   end
 
   context "With a CKAN 3 endpoint" do
