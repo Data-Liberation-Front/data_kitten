@@ -7,6 +7,20 @@ describe DataKitten::Dataset do
     FakeWeb.clean_registry
   end
 
+  describe 'constructing a dataset' do
+    before { CKANFakeweb.register_defence_dataset }
+    let(:url) { "http://example.org/dataset/defence" }
+
+    it 'accepts access_url symbol option' do
+      dataset = DataKitten::Dataset.new(access_url: url)
+      expect(dataset.publishing_format).to eql(:ckan)
+    end
+
+    it 'accepts url option' do
+      dataset = DataKitten::Dataset.new(url)
+      expect(dataset.publishing_format).to eql(:ckan)
+    end
+  end
   describe 'with a supported format' do
     it 'returns the original source' do
       datapackage = load_fixture("datapackage.json")

@@ -30,13 +30,25 @@ module DataKitten
     attr_accessor :access_url
 
     # Create a new Dataset object
-    # 
-    # @param [Hash] options the details of the Dataset.
-    # @option options [String] :access_url A URL that can be used to access the Dataset. 
-    #                                      The class will attempt to auto-load metadata from this URL.
     #
-    def initialize(options)
-      @access_url = DataKitten::Fetcher.wrap(options[:access_url])
+    # The class will attempt to auto-load metadata from this URL.
+    #
+    # @overload new(url)
+    #   @param [String] url A URL that can be used to access the Dataset
+    #
+    # @overload new(options)
+    #   @param [Hash] options the details of the Dataset.
+    #   @option options [String] :access_url A URL that can be used to access the Dataset. 
+    #
+    def initialize(url_or_options)
+      url = case url_or_options
+      when Hash
+        url_or_options[:access_url]
+      else
+        url_or_options
+      end
+      @access_url = DataKitten::Fetcher.wrap(url)
+
       detect_origin
       detect_host
       detect_publishing_format
