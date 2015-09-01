@@ -2,23 +2,22 @@ require 'spec_helper'
 
 describe DataKitten::PublishingFormats::RDFa do
 
-    before(:all) do
+    before(:each) do
         FakeWeb.clean_registry
-        FakeWeb.allow_net_connect = false
     end
     
     context "when detecting RDFa" do
         
         it "should ignore errors" do       
             FakeWeb.register_uri(:get, "http://example.org/not-found", :status => ["404", "Not Found"])            
-            d = DataKitten::Dataset.new( access_url: "http://example.org/not-found")        
+            d = DataKitten::Dataset.new("http://example.org/not-found")
             expect( d.supported? ).to eql(false)        
         end
 
         it "should detect DCAT Datasets" do
-            dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "basic-dcat-rdfa.html" ) )         
+            dcat_rdfa = load_fixture("basic-dcat-rdfa.html")
             FakeWeb.register_uri(:get, "http://example.org/rdfa", :body=>dcat_rdfa, :content_type=>"text/html")            
-            d = DataKitten::Dataset.new( access_url: "http://example.org/rdfa")
+            d = DataKitten::Dataset.new("http://example.org/rdfa")
             expect( d.publishing_format ).to eql(:rdfa)        
             expect( d.supported? ).to eql(true)                    
         end
@@ -27,9 +26,9 @@ describe DataKitten::PublishingFormats::RDFa do
     context "when parsing RDFa" do
         
         before(:each) do
-            dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "basic-dcat-rdfa.html" ) )         
+            dcat_rdfa = load_fixture("basic-dcat-rdfa.html")
             FakeWeb.register_uri(:get, "http://example.org/rdfa", :body=>dcat_rdfa, :content_type=>"text/html")            
-            @dataset = DataKitten::Dataset.new( access_url: "http://example.org/rdfa")        
+            @dataset = DataKitten::Dataset.new("http://example.org/rdfa")
         end        
         
         it "should extract the title" do
@@ -82,9 +81,9 @@ describe DataKitten::PublishingFormats::RDFa do
     context "when parsing rights statements" do
         
         before(:each) do
-            dcat_rdfa = File.read( File.join( File.dirname(File.realpath(__FILE__)) , "..", "fixtures", "dcat-odrs-rdfa.html" ) )         
+            dcat_rdfa = load_fixture("dcat-odrs-rdfa.html")
             FakeWeb.register_uri(:get, "http://example.org/rights", :body=>dcat_rdfa, :content_type=>"text/html")            
-            @dataset = DataKitten::Dataset.new( access_url: "http://example.org/rights")        
+            @dataset = DataKitten::Dataset.new("http://example.org/rights")
         end        
         
         it "should extract licence URIs" do

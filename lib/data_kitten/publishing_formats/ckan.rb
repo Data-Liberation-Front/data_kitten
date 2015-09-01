@@ -6,29 +6,36 @@ module DataKitten
 
     module CKAN
 
-      @@metadata = nil
-
       private
 
       def self.supported?(instance)
         uri = instance.uri
-        package = uri.path.split("/").last
+        base_uri = uri.merge("/")
+        *base, package = uri.path.split('/')
+        # If the 2nd to last element in the path is 'dataset' then it's probably
+        # the CKAN dataset view page, the last element will be the dataset id
+        # or name
+        if base.last == "dataset"
+          instance.identifier = package
+          # build a base URI ending with a /
+          base_uri = uri.merge(base[0...-1].join('/') + '/')
         # If the package is a UUID - it's more than likely to be a CKAN ID
-        if package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
-          @@id = package
+        elsif package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
+          instance.identifier = package
         else
-
-          results = RestClient.get "#{uri.scheme}://#{uri.host}/api/3/action/package_show", {:params => {:id => package}} rescue ""
-
-          if results == ""
-            results = RestClient.get "#{uri.scheme}://#{uri.host}/api/2/rest/dataset/#{package}"
+          results = begin
+            RestClient.get base_uri.merge("api/3/action/package_show").to_s, {:params => {:id => package}}
+          rescue RestClient::Exception
+            RestClient.get base_uri.merge("api/2/rest/dataset/#{package}").to_s
           end
 
           result = JSON.parse results
-          @@id = result["result"]["id"] rescue result["id"]
+          instance.identifier = result.fetch("result", result)["id"]
         end
-        @@metadata = JSON.parse RestClient.get "#{uri.scheme}://#{uri.host}/api/rest/package/#{@@id}"
-        @@metadata.extend(GuessableLookup)
+        instance.metadata = JSON.parse RestClient.get base_uri.merge("api/rest/package/#{instance.identifier}").to_s
+        instance.metadata.extend(GuessableLookup)
+        instance.source = instance.metadata
+        return true
       rescue
         false
       end
@@ -62,7 +69,7 @@ module DataKitten
       #
       # @see Dataset#identifier
       def identifier
-        metadata.lookup("name") || @@id
+        metadata.lookup("name") || @identifier
       end
 
       # A web page which can be used to gain access to the dataset
@@ -209,10 +216,6 @@ module DataKitten
       end
 
       private
-
-      def metadata
-        @@metadata
-      end
 
       def select_extras(group, key)
         extra = group["extras"][key] rescue ""

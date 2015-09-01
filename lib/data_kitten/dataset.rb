@@ -13,7 +13,7 @@ module DataKitten
   # use the Datapackage metadata format.
   #
   # @example Load a Dataset from a git repository
-  #   dataset = Dataset.new(access_url: 'git://github.com/theodi/dataset-metadata-survey.git')
+  #   dataset = Dataset.new('git://github.com/theodi/dataset-metadata-survey.git')
   #   dataset.supported?         # => true
   #   dataset.origin             # => :git
   #   dataset.host               # => :github
@@ -30,13 +30,25 @@ module DataKitten
     attr_accessor :access_url
 
     # Create a new Dataset object
-    # 
-    # @param [Hash] options the details of the Dataset.
-    # @option options [String] :access_url A URL that can be used to access the Dataset. 
-    #                                      The class will attempt to auto-load metadata from this URL.
     #
-    def initialize(options)
-      @access_url = DataKitten::Fetcher.wrap(options[:access_url])
+    # The class will attempt to auto-load metadata from this URL.
+    #
+    # @overload new(url)
+    #   @param [String] url A URL that can be used to access the Dataset
+    #
+    # @overload new(options)
+    #   @param [Hash] options the details of the Dataset.
+    #   @option options [String] :access_url A URL that can be used to access the Dataset. 
+    #
+    def initialize(url_or_options)
+      url = case url_or_options
+      when Hash
+        url_or_options[:access_url]
+      else
+        url_or_options
+      end
+      @access_url = DataKitten::Fetcher.wrap(url)
+
       detect_origin
       detect_host
       detect_publishing_format
@@ -51,8 +63,10 @@ module DataKitten
     end
 
     def source
-      @access_url.as_json if @access_url.ok?
+      @source ||= @access_url.as_json if @access_url.ok?
     end
+
+    attr_writer :source
 
     # Can metadata be loaded for this Dataset?
     #
@@ -84,9 +98,7 @@ module DataKitten
     #
     # @return [String] the identifier of the dataset
     #
-    def identifier
-      nil
-    end
+    attr_accessor :identifier
 
     # The human-readable title of the dataset.
     #
@@ -268,6 +280,8 @@ module DataKitten
     def spatial
       nil
     end
+
+    attr_accessor :metadata
 
   end
 end

@@ -1,40 +1,14 @@
 require 'spec_helper'
+require 'ckan_fakeweb'
 
 describe DataKitten::Distribution do
-  before(:all) do
-    FakeWeb.allow_net_connect = false
+  before(:each) do
     FakeWeb.clean_registry
-    # Defence dataset
-    @urls = {
-      "/dataset/defence" => {
-        :body => "",
-        :content_type => "text/html"
-      },
-      "/api/3/action/package_show?id=defence" => {
-        :body => "",
-        :content_type => "application/json"
-      },
-      "/api/2/rest/dataset/defence" => {
-        :body => load_fixture("ckan/rest-dataset-defence.json"),
-        :content_type => "application/json"
-      },
-      "/api/2/search/dataset?q=defence" => {
-        :body => load_fixture("ckan/rest-dataset-defence.json"),
-        :content_type => "application/json"
-      },
-      "/api/rest/package/47f7438a-506d-49c9-b565-7573f8df031e" => {
-        :body => load_fixture("ckan/rest-dataset-defence.json"),
-        :content_type => "application/json"
-      }
-    }
-
-    @urls.each do |path, options|
-      FakeWeb.register_uri(:get, "http://example.org#{path}", options)
-    end
+    CKANFakeweb.register_defence_dataset
   end
 
   let(:dataset) do
-    DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
+    DataKitten::Dataset.new("http://example.org/dataset/defence")
   end
 
   subject(:distribution) { dataset.distributions[0] }

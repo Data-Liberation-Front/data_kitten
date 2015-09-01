@@ -30,7 +30,7 @@ module DataKitten
       # @return [String] The supplied path with the Gist base URL prepended
       #
       # @example
-      #   dataset = Dataset.new(access_url: 'git://gist.github.com/5633865.git')
+      #   dataset = Dataset.new('git://gist.github.com/5633865.git')
       #   dataset.gist_path           # => 'https://gist.github.com/5633865'
       #   dataset.gist_path('download') # => 'https://gist.github.com/5633865/download'
       def gist_path(path = '')

@@ -30,7 +30,7 @@ module DataKitten
       # @return [String] The supplied path with the Bitbucket base URL prepended
       #
       # @example
-      #   dataset = Dataset.new(access_url: 'https://bitbucket.org/floppy/hot-drinks.git')
+      #   dataset = Dataset.new('https://bitbucket.org/floppy/hot-drinks.git')
       #   dataset.bitbucket_path           # => 'https://bitbucket.org/floppy/hot-drinks/'
       #   dataset.bitbucket_path('pull-requests') # => 'https://bitbucket.org/floppy/hot-drinks/pull-requests'
       def bitbucket_path(path = '')

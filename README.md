@@ -45,7 +45,7 @@ Require if you need to:
 	
 Request a dataset:
 	
-	dataset = DataKitten::Dataset.new(access_url: "https://github.com/theodi/dataset-mod-disposals.git")
+	dataset = DataKitten::Dataset.new("https://github.com/theodi/dataset-mod-disposals.git")
 	
 Use the results:
 

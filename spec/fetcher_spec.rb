@@ -2,9 +2,8 @@ require 'spec_helper'
 
 describe DataKitten::Fetcher do
 
-  before(:all) do
+  before(:each) do
     FakeWeb.clean_registry
-    FakeWeb.allow_net_connect = false
   end
 
   describe 'wrapping returns same instance' do
