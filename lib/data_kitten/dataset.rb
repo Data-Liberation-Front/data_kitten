@@ -13,7 +13,7 @@ module DataKitten
   # use the Datapackage metadata format.
   #
   # @example Load a Dataset from a git repository
-  #   dataset = Dataset.new(access_url: 'git://github.com/theodi/dataset-metadata-survey.git')
+  #   dataset = Dataset.new('git://github.com/theodi/dataset-metadata-survey.git')
   #   dataset.supported?         # => true
   #   dataset.origin             # => :git
   #   dataset.host               # => :github

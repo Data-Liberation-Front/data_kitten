@@ -8,7 +8,7 @@ describe DataKitten::Distribution do
   end
 
   let(:dataset) do
-    DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
+    DataKitten::Dataset.new("http://example.org/dataset/defence")
   end
 
   subject(:distribution) { dataset.distributions[0] }

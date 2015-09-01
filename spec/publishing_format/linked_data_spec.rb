@@ -10,7 +10,7 @@ describe DataKitten::PublishingFormats::LinkedData do
     
         it "should ignore errors" do       
             FakeWeb.register_uri(:get, "http://example.org/not-found", :status => ["404", "Not Found"])            
-            d = DataKitten::Dataset.new( access_url: "http://example.org/not-found")        
+            d = DataKitten::Dataset.new("http://example.org/not-found")
             expect( d.supported? ).to eql(false)        
         end
         
@@ -34,7 +34,7 @@ describe DataKitten::PublishingFormats::LinkedData do
             FakeWeb.register_uri(:get, "http://example.org/doc/dataset", :body=>html_body, :content_type=>"text/html")            
             FakeWeb.register_uri(:get, "http://example.org/doc/dataset.rdf", :body=>rdf_body, :content_type=>"application/rdf+xml")
             
-            d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset")        
+            d = DataKitten::Dataset.new("http://example.org/doc/dataset")
             expect( d.publishing_format ).to eql(:rdf)        
         end
         
@@ -44,7 +44,7 @@ describe DataKitten::PublishingFormats::LinkedData do
             EOL
     
             FakeWeb.register_uri(:get, "http://example.org/doc/dataset", :body=>body, :content_type=>"text/turtle") 
-            d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset")        
+            d = DataKitten::Dataset.new("http://example.org/doc/dataset")
             expect( d.publishing_format ).to eql(:rdf)                 
         end
 
@@ -54,7 +54,7 @@ describe DataKitten::PublishingFormats::LinkedData do
             EOL
     
             FakeWeb.register_uri(:get, "http://example.org/doc/dataset.ttl", :body=>body, :content_type=>"text/plain") 
-            d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset.ttl")        
+            d = DataKitten::Dataset.new("http://example.org/doc/dataset.ttl")
             expect( d.publishing_format ).to eql(:rdf)                 
         end        
                 
@@ -64,7 +64,7 @@ describe DataKitten::PublishingFormats::LinkedData do
             EOL
     
             FakeWeb.register_uri(:get, "http://example.org/doc/dataset", :body=>body, :content_type=>"text/turtle") 
-            d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset")        
+            d = DataKitten::Dataset.new("http://example.org/doc/dataset")
             expect( d.publishing_format ).to eql(:rdf)                 
         end    
         
@@ -74,7 +74,7 @@ describe DataKitten::PublishingFormats::LinkedData do
             EOL
     
             FakeWeb.register_uri(:get, "http://example.org/doc/dataset", :body=>body, :content_type=>"text/turtle") 
-            d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset")        
+            d = DataKitten::Dataset.new("http://example.org/doc/dataset")
             expect( d.publishing_format ).to eql(nil)                 
         end      
     end
@@ -89,7 +89,7 @@ describe DataKitten::PublishingFormats::LinkedData do
             EOL
     
             FakeWeb.register_uri(:get, "http://example.org/doc/dataset", :body=>body, :content_type=>"text/turtle") 
-            d = DataKitten::Dataset.new( access_url: "http://example.org/doc/dataset")        
+            d = DataKitten::Dataset.new("http://example.org/doc/dataset")
             expect( d.data_title ).to eql("Dataset Title")                 
         end        
         

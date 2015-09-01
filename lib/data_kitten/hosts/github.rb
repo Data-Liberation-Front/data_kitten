@@ -30,7 +30,7 @@ module DataKitten
       # @return [String] The supplied path with the GitHub base URL prepended
       #
       # @example
-      #   dataset = Dataset.new(access_url: 'git://github.com/theodi/dataset-metadata-survey.git')
+      #   dataset = Dataset.new('git://github.com/theodi/dataset-metadata-survey.git')
       #   dataset.github_path           # => 'https://github.com/theodi/dataset-metadata-survey/'
       #   dataset.github_path('issues') # => 'https://github.com/theodi/dataset-metadata-survey/issues'
       def github_path(path = '')

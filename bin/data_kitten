@@ -9,7 +9,7 @@ if ARGV.length == 0
   exit 1
 end
 
-dataset = DataKitten::Dataset.new(access_url: ARGV[0])
+dataset = DataKitten::Dataset.new(ARGV[0])
 
 if dataset.publishing_format == nil
   puts "Unable to determine format for dataset metadata"

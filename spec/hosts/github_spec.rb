@@ -10,8 +10,7 @@ describe DataKitten::Dataset do
 
     %w[https http git].each do |protocol|
       it "correctly identified #{protocol} URLs p" do
-        dataset = DataKitten::Dataset.new(
-          access_url: "#{protocol}://github.com/theodi/github-viewer-test-data.git")
+        dataset = DataKitten::Dataset.new(access_url(protocol))
         expect(dataset.host).to eq(:github)
       end
     end

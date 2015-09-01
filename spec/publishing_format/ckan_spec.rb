@@ -11,15 +11,15 @@ describe DataKitten::PublishingFormats::CKAN do
     before { CKANFakeweb.register_defence_dataset }
 
     it "should detect CKAN Datasets" do
-        d = DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
+        d = DataKitten::Dataset.new("http://example.org/dataset/defence")
         expect( d.publishing_format ).to eql(:ckan)
         expect( d.supported? ).to eql(true)
     end
 
     it 'can have 2 instances in memory at the same time' do
       CKANFakeweb.register_toilets_dataset
-      d1 = DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
-      d2 = DataKitten::Dataset.new( access_url: "http://example.org/dataset/toilets")
+      d1 = DataKitten::Dataset.new("http://example.org/dataset/defence")
+      d2 = DataKitten::Dataset.new("http://example.org/dataset/toilets")
       expect(d1.data_title).to eq("Defence Infrastructure Organisation Disposals Database House of Commons Report")
       expect(d2.data_title).to eq("National Public Toilet Map")
     end
@@ -27,7 +27,7 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when parsing CKAN" do
 
       before(:each) do
-        @dataset = DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
+        @dataset = DataKitten::Dataset.new("http://example.org/dataset/defence")
       end
 
       it "should get the title" do
@@ -123,7 +123,7 @@ describe DataKitten::PublishingFormats::CKAN do
           "defence",
           load_fixture("ckan/rest-dataset-defence.json"))
 
-        dataset = DataKitten::Dataset.new(access_url: url)
+        dataset = DataKitten::Dataset.new(url)
         expect(dataset.publishing_format).to eq(:ckan)
       end
     end
@@ -133,7 +133,7 @@ describe DataKitten::PublishingFormats::CKAN do
     before { CKANFakeweb.register_toilets_dataset }
 
     it "should detect CKAN Datasets" do
-        d = DataKitten::Dataset.new( access_url: "http://example.org/dataset/toilets")
+        d = DataKitten::Dataset.new("http://example.org/dataset/toilets")
         expect( d.publishing_format ).to eql(:ckan)
         expect( d.supported? ).to eql(true)
     end
@@ -141,7 +141,7 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when the dataset has a UUID" do
 
       before(:each) do
-        @dataset = DataKitten::Dataset.new( access_url: "http://example.org/dataset/62766308-cb4f-4275-b4a4-937f52a978c5")
+        @dataset = DataKitten::Dataset.new("http://example.org/dataset/62766308-cb4f-4275-b4a4-937f52a978c5")
       end
 
       it "should get the title" do
@@ -210,7 +210,7 @@ describe DataKitten::PublishingFormats::CKAN do
     context "when parsing CKAN" do
 
       before(:each) do
-        @dataset = DataKitten::Dataset.new( access_url: "http://example.org/dataset/toilets")
+        @dataset = DataKitten::Dataset.new("http://example.org/dataset/toilets")
       end
 
       it "should get the title" do
@@ -273,7 +273,7 @@ describe DataKitten::PublishingFormats::CKAN do
     before { CKANFakeweb.register_cadastral_dataset }
 
     before(:each) do
-      @dataset = DataKitten::Dataset.new( access_url: "http://example.org/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349")
+      @dataset = DataKitten::Dataset.new("http://example.org/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349")
     end
 
     it "should get the title" do
@@ -349,7 +349,7 @@ describe DataKitten::PublishingFormats::CKAN do
 
     before(:each) do
       CKANFakeweb.register_pollinator_dataset
-      @dataset = DataKitten::Dataset.new( access_url: "http://example.org/api/rest/package/10d394fd-88b9-489f-9552-b7b567f927e2")
+      @dataset = DataKitten::Dataset.new("http://example.org/api/rest/package/10d394fd-88b9-489f-9552-b7b567f927e2")
     end
 
     it "should get the title" do

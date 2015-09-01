@@ -25,7 +25,7 @@ describe DataKitten::Dataset do
     it 'returns the original source' do
       datapackage = load_fixture("datapackage.json")
       FakeWeb.register_uri(:get, "http://example.org/datapackage.json", :body => datapackage, :content_type => "application/json")
-      dataset = DataKitten::Dataset.new( access_url: "http://example.org/datapackage.json")
+      dataset = DataKitten::Dataset.new("http://example.org/datapackage.json")
       source = JSON.parse(datapackage)
       expect(dataset.source).to eql(source)
     end
@@ -33,7 +33,7 @@ describe DataKitten::Dataset do
     it 'returns the ckan api source after lookup' do
       url = CKANFakeweb.register_defence_dataset
       data = JSON.parse(load_fixture("ckan/rest-dataset-defence.json"))
-      dataset = DataKitten::Dataset.new(access_url: "http://example.org/dataset/defence")
+      dataset = DataKitten::Dataset.new("http://example.org/dataset/defence")
       expect(dataset.source).to eql(data)
     end
   end
@@ -41,7 +41,7 @@ describe DataKitten::Dataset do
   describe 'with an unsupported format' do
     before do
       FakeWeb.register_uri(:get, "http://example.org/something.html", :body => "", :content_type => "text/html")
-      @dataset = DataKitten::Dataset.new( access_url: "http://example.org/something.html")
+      @dataset = DataKitten::Dataset.new("http://example.org/something.html")
     end
 
     it 'returns nil' do
@@ -52,7 +52,7 @@ describe DataKitten::Dataset do
   describe 'when resource does not exist' do
     before do
       FakeWeb.register_uri(:get, "http://example.org/something.html", :body => "Not found", :status => [404, "Not found"])
-      @dataset = DataKitten::Dataset.new( access_url: "http://example.org/something.html")
+      @dataset = DataKitten::Dataset.new("http://example.org/something.html")
     end
 
     it 'returns nil' do
