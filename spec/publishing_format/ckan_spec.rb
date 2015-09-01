@@ -1,110 +1,15 @@
 require 'spec_helper'
+require 'ckan_fakeweb'
 
 describe DataKitten::PublishingFormats::CKAN do
 
   before(:all) do
     FakeWeb.clean_registry
     FakeWeb.allow_net_connect = false
-
-    @urls = {
-
-      # Defence dataset
-
-      "/dataset/defence" => {
-        :body => "",
-        :content_type => "text/html"
-      },
-      "/api/3/action/package_show?id=defence" => {
-        :body => "",
-        :content_type => "application/json"
-      },
-      "/api/2/rest/dataset/defence" => {
-        :body => load_fixture("ckan/rest-dataset-defence.json"),
-        :content_type => "application/json"
-      },
-      "/api/2/search/dataset?q=defence" => {
-        :body => load_fixture("ckan/rest-dataset-defence.json"),
-        :content_type => "application/json"
-      },
-      "/api/rest/package/47f7438a-506d-49c9-b565-7573f8df031e" => {
-        :body => load_fixture("ckan/rest-dataset-defence.json"),
-        :content_type => "application/json"
-      },
-
-      # Toilets dataset
-
-      "/dataset/toilets" => {
-        :body => "",
-        :content_type => "text/html"
-      },
-      "/dataset/62766308-cb4f-4275-b4a4-937f52a978c5" => {
-        :body => "",
-        :content_type => "text/html"
-      },
-      "/api/3/action/package_show?id=toilets" => {
-        :body => load_fixture("ckan/package_show-toilets.json"),
-        :content_type => "application/json"
-      },
-      "/api/2/rest/dataset/toilets" => {
-        :body => load_fixture("ckan/rest-dataset-toilets.json"),
-        :content_type => "application/json"
-      },
-      "/api/2/search/dataset?q=toilets" => {
-        :body => load_fixture("ckan/rest-dataset-toilets.json"),
-        :content_type => "application/json"
-      },
-      "/api/rest/package/553b3049-2b8b-46a2-95e6-640d7986a8c1" => {
-        :body => load_fixture("ckan/rest-dataset-toilets.json"),
-        :content_type => "application/json"
-      },
-      "/api/rest/package/62766308-cb4f-4275-b4a4-937f52a978c5" => {
-        :body => load_fixture("ckan/rest-dataset-toilets.json"),
-        :content_type => "application/json"
-      },
-
-      # Cadastral dataset
-
-      "/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349" => {
-        :body => load_fixture("ckan/rest-dataset-cadastral.json"),
-        :content_type => "application/json"
-      },
-
-      # Pollinator dataset
-
-      "/api/rest/package/10d394fd-88b9-489f-9552-b7b567f927e2" => {
-        :body => load_fixture("ckan/rest-dataset-pollinator.json"),
-        :content_type => "application/json"
-      },
-
-      # Groups/Organizations
-
-      "/api/3/action/organization_show?id=cd937140-1310-4e2a-b211-5de8bebd910d" => {
-        :body => load_fixture("ckan/organization_show-ni-spatial.json"),
-        :content_type => "application/json"
-      },
-
-      "/api/3/action/organization_show?id=866f4088-ae4f-43b8-ba8c-6d3141a327f2" => {
-        :body => load_fixture("ckan/organization_show-ecology.json"),
-        :content_type => "application/json"
-      },
-
-      "/api/rest/group/2df7090e-2ebb-416e-8994-6de43d820d5c" => {
-        :body => load_fixture("ckan/rest-organization-health.json"),
-        :content_type => "application/json"
-      },
-
-      "/api/rest/group/a3969e37-3ac3-42fe-8317-c8575a9f5317" => {
-        :body => load_fixture("ckan/rest-organization-defence.json"),
-        :content_type => "application/json"
-      }
-    }
-
-    @urls.each do |path, options|
-      FakeWeb.register_uri(:get, "http://example.org#{path}", options)
-    end
   end
 
   context "With a CKAN 2 endpoint" do
+    before { CKANFakeweb.register_defence_dataset }
 
     it "should detect CKAN Datasets" do
         d = DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
@@ -113,6 +18,7 @@ describe DataKitten::PublishingFormats::CKAN do
     end
 
     it 'can have 2 instances in memory at the same time' do
+      CKANFakeweb.register_toilets_dataset
       d1 = DataKitten::Dataset.new( access_url: "http://example.org/dataset/defence")
       d2 = DataKitten::Dataset.new( access_url: "http://example.org/dataset/toilets")
       expect(d1.data_title).to eq("Defence Infrastructure Organisation Disposals Database House of Commons Report")
@@ -213,6 +119,7 @@ describe DataKitten::PublishingFormats::CKAN do
   end
 
   context "With a CKAN 3 endpoint" do
+    before { CKANFakeweb.register_toilets_dataset }
 
     it "should detect CKAN Datasets" do
         d = DataKitten::Dataset.new( access_url: "http://example.org/dataset/toilets")
@@ -352,6 +259,7 @@ describe DataKitten::PublishingFormats::CKAN do
   end
 
   context "with cadastral dataset" do
+    before { CKANFakeweb.register_cadastral_dataset }
 
     before(:each) do
       @dataset = DataKitten::Dataset.new( access_url: "http://example.org/api/rest/package/65493c4b-46d5-4125-b7d4-fc1df2b33349")
@@ -429,6 +337,7 @@ describe DataKitten::PublishingFormats::CKAN do
   context "with pollinator dataset" do
 
     before(:each) do
+      CKANFakeweb.register_pollinator_dataset
       @dataset = DataKitten::Dataset.new( access_url: "http://example.org/api/rest/package/10d394fd-88b9-489f-9552-b7b567f927e2")
     end
 

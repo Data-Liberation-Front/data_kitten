@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ckan_fakeweb'
 
 describe DataKitten::Dataset do
 
@@ -8,15 +9,19 @@ describe DataKitten::Dataset do
   end
 
   describe 'with a supported format' do
-    before do
+    it 'returns the original source' do
       datapackage = load_fixture("datapackage.json")
       FakeWeb.register_uri(:get, "http://example.org/datapackage.json", :body => datapackage, :content_type => "application/json")
-      @dataset = DataKitten::Dataset.new( access_url: "http://example.org/datapackage.json")
-      @source = JSON.parse(datapackage)
+      dataset = DataKitten::Dataset.new( access_url: "http://example.org/datapackage.json")
+      source = JSON.parse(datapackage)
+      expect(dataset.source).to eql(source)
     end
 
-    it 'returns the original source' do
-      expect( @dataset.source ).to eql(@source)
+    it 'returns the ckan api source after lookup' do
+      url = CKANFakeweb.register_defence_dataset
+      data = JSON.parse(load_fixture("ckan/rest-dataset-defence.json"))
+      dataset = DataKitten::Dataset.new(access_url: "http://example.org/dataset/defence")
+      expect(dataset.source).to eql(data)
     end
   end
 
