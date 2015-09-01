@@ -3,9 +3,8 @@ require 'ckan_fakeweb'
 
 describe DataKitten::Dataset do
 
-  before :all do
+  before :each do
     FakeWeb.clean_registry
-    FakeWeb.allow_net_connect = false
   end
 
   describe 'with a supported format' do

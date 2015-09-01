@@ -3,9 +3,8 @@ require 'ckan_fakeweb'
 
 describe DataKitten::PublishingFormats::CKAN do
 
-  before(:all) do
+  before(:each) do
     FakeWeb.clean_registry
-    FakeWeb.allow_net_connect = false
   end
 
   context "With a CKAN 2 endpoint" do

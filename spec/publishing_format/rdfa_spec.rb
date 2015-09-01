@@ -2,9 +2,8 @@ require 'spec_helper'
 
 describe DataKitten::PublishingFormats::RDFa do
 
-    before(:all) do
+    before(:each) do
         FakeWeb.clean_registry
-        FakeWeb.allow_net_connect = false
     end
     
     context "when detecting RDFa" do

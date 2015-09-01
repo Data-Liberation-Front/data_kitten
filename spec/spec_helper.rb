@@ -3,6 +3,8 @@ require 'fakeweb'
 require 'linkeddata'
 require 'pry'
 
+FakeWeb.allow_net_connect = false
+
 if ENV['COVERAGE']
   require 'coveralls'
   Coveralls.wear!
@@ -10,9 +12,7 @@ if ENV['COVERAGE']
 end
 
 RSpec.configure do |config|
-
   config.order = "random"
-
 end
 
 def load_fixture(file)
