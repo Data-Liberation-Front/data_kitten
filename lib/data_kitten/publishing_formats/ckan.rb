@@ -23,10 +23,10 @@ module DataKitten
         elsif package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
           instance.identifier = package
         else
-          results = RestClient.get base_uri.merge("api/3/action/package_show").to_s, {:params => {:id => package}} rescue ""
-
-          if results == ""
-            results = RestClient.get base_uri.merge("api/2/rest/dataset/#{package}").to_s
+          results = begin
+            RestClient.get base_uri.merge("api/3/action/package_show").to_s, {:params => {:id => package}}
+          rescue RestClient::Exception
+            RestClient.get base_uri.merge("api/2/rest/dataset/#{package}").to_s
           end
 
           result = JSON.parse results
