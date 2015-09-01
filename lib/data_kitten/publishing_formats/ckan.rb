@@ -30,7 +30,7 @@ module DataKitten
           end
 
           result = JSON.parse results
-          instance.identifier = result["result"]["id"] rescue result["id"]
+          instance.identifier = result.fetch("result", result)["id"]
         end
         instance.metadata = JSON.parse RestClient.get base_uri.merge("api/rest/package/#{instance.identifier}").to_s
         instance.metadata.extend(GuessableLookup)
