@@ -36,6 +36,12 @@ describe DataKitten::Dataset do
       dataset = DataKitten::Dataset.new("http://example.org/dataset/defence")
       expect(dataset.source).to eql(data)
     end
+
+    it 'returns the ckan base_uri' do
+      url = CKANFakeweb.register_defence_dataset
+      dataset = DataKitten::Dataset.new("http://example.org/dataset/defence")
+      expect(dataset.base_uri).to eql(URI("http://example.org/"))
+    end
   end
 
   describe 'with an unsupported format' do

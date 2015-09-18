@@ -282,6 +282,7 @@ module DataKitten
     end
 
     attr_accessor :metadata
+    attr_accessor :base_uri
 
   end
 end
