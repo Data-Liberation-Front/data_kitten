@@ -35,6 +35,7 @@ module DataKitten
         instance.metadata = JSON.parse RestClient.get base_uri.merge("api/rest/package/#{instance.identifier}").to_s
         instance.metadata.extend(GuessableLookup)
         instance.source = instance.metadata
+        instance.base_uri = base_uri
         return true
       rescue
         false
