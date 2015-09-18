@@ -24,10 +24,11 @@ Gem::Specification.new do |s|
   s.add_dependency "linkeddata"
   s.add_dependency "nokogiri"
   s.add_dependency "datapackage"
+  s.add_dependency "redcarpet"
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "coveralls"
   s.add_development_dependency "fakeweb", ["~> 1.3"]
   s.add_development_dependency "pry"
-  
+
 end

@@ -1,3 +1,4 @@
+require 'redcarpet'
 require 'data_kitten/utils/guessable_lookup.rb'
 
 module DataKitten
@@ -60,9 +61,13 @@ module DataKitten
       #
       # @see Dataset#description
       def description
-        metadata.lookup("notes") || metadata.lookup("description")
-      rescue 
-        nil
+        description = metadata.lookup("notes") || metadata.lookup("description")
+
+        begin
+          Redcarpet::Markdown.new(Redcarpet::Render::HTML.new).render(description)
+        rescue
+          description
+        end
       end
 
       # An identifier for the dataset
