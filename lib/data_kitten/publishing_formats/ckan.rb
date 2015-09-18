@@ -253,14 +253,13 @@ module DataKitten
       end
 
       def fetch_publisher(id)
-        uri = parsed_uri
         [
-          "#{uri.scheme}://#{uri.host}/api/3/action/organization_show?id=#{id}",
-          "#{uri.scheme}://#{uri.host}/api/3/action/group_show?id=#{id}",
-          "#{uri.scheme}://#{uri.host}/api/rest/group/#{id}"
+          base_uri.merge("/api/3/action/organization_show?id=#{id}"),
+          base_uri.merge("/api/3/action/group_show?id=#{id}"),
+          base_uri.merge("/api/rest/group/#{id}")
         ].each do |uri|
           begin
-            @group = JSON.parse RestClient.get uri
+            @group = JSON.parse RestClient.get(uri.to_s)
             break
           rescue
             # FakeWeb raises FakeWeb::NetConnectNotAllowedError, whereas 
