@@ -62,6 +62,10 @@ module DataKitten
       !!(content_type_format =~ %r{^text/html}i)
     end
 
+    def json?
+      !!(content_type_format =~ %r{^application/json}i)
+    end
+
     private
     def response
       unless @requested
