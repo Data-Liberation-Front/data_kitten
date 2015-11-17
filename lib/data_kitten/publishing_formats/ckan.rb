@@ -12,27 +12,37 @@ module DataKitten
         uri = instance.uri
         base_uri = uri.merge("/")
         *base, package = uri.path.split('/')
-        # If the 2nd to last element in the path is 'dataset' then it's probably
-        # the CKAN dataset view page, the last element will be the dataset id
-        # or name
-        if base.last == "dataset"
-          instance.identifier = package
-          # build a base URI ending with a /
-          base_uri = uri.merge(base[0...-1].join('/') + '/')
-        # If the package is a UUID - it's more than likely to be a CKAN ID
-        elsif package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
-          instance.identifier = package
+        if uri.path =~ %r{api/\d+/action/package_show/?$}
+          result = JSON.parse(RestClient.get(uri.to_s))
+          instance.identifier = result['result']['id']
+          instance.metadata = result['result']
+        elsif uri.path =~ %r{api/\d+/rest/dataset/}
+          result = JSON.parse(RestClient.get(uri.to_s))
+          instance.identifier = result['id']
+          instance.metadata = result
         else
-          results = begin
-            RestClient.get base_uri.merge("api/3/action/package_show").to_s, {:params => {:id => package}}
-          rescue RestClient::Exception
-            RestClient.get base_uri.merge("api/2/rest/dataset/#{package}").to_s
-          end
+          # If the 2nd to last element in the path is 'dataset' then it's probably
+          # the CKAN dataset view page, the last element will be the dataset id
+          # or name
+          if base.last == "dataset"
+            instance.identifier = package
+            # build a base URI ending with a /
+            base_uri = uri.merge(base[0...-1].join('/') + '/')
+          # If the package is a UUID - it's more than likely to be a CKAN ID
+          elsif package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
+            instance.identifier = package
+          else
+            results = begin
+              RestClient.get base_uri.merge("api/3/action/package_show").to_s, {:params => {:id => package}}
+            rescue RestClient::Exception
+              RestClient.get base_uri.merge("api/2/rest/dataset/#{package}").to_s
+            end
 
-          result = JSON.parse results
-          instance.identifier = result.fetch("result", result)["id"]
+            result = JSON.parse results
+            instance.identifier = result.fetch("result", result)["id"]
+          end
+          instance.metadata = JSON.parse RestClient.get base_uri.merge("api/rest/package/#{instance.identifier}").to_s
         end
-        instance.metadata = JSON.parse RestClient.get base_uri.merge("api/rest/package/#{instance.identifier}").to_s
         instance.metadata.extend(GuessableLookup)
         instance.source = instance.metadata
         return true

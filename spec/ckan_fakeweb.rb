@@ -81,6 +81,19 @@ module CKANFakeweb
     })
   end
 
+  def register_frozen_animals_dataset
+    register_urls(URI("http://example.org"), {
+      "/api/3/action/package_show?id=frozen-animals" => {
+        :body => load_fixture("ckan/package-show-frozen-animals.json"),
+        :content_type => "application/json"
+      },
+      "/api/3/action/organization_show?id=e70862ec-8167-48e6-a27c-a0e9db1ebc87" => {
+        :body => load_fixture("ckan/organization-show-peterborough.json"),
+        :content_type => "application/json"
+      }
+    })
+  end
+
   def register_dataset(base_uri, name, fixture)
     data = {
       body: fixture, content_type: "application/json"

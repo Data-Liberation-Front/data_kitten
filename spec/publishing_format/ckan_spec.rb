@@ -443,4 +443,22 @@ describe DataKitten::PublishingFormats::CKAN do
 
   end
 
+  context "when a v3 api url is provided" do
+    it "loads the dataset" do
+      CKANFakeweb.register_frozen_animals_dataset
+      d = DataKitten::Dataset.new("http://example.org/api/3/action/package_show?id=frozen-animals")
+      expect( d.publishing_format ).to eql(:ckan)
+      expect( d.supported? ).to eql(true)
+    end
+  end
+
+  context "when a 'rest' api url is provided" do
+    it "loads the dataset" do
+      CKANFakeweb.register_defence_dataset
+      d = DataKitten::Dataset.new("http://example.org/api/2/rest/dataset/defence")
+      expect( d.publishing_format ).to eql(:ckan)
+      expect( d.supported? ).to eql(true)
+    end
+  end
+
 end
