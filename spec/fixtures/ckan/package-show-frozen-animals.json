@@ -60,7 +60,16 @@
         ],
         "num_resources": 2,
         "contact-email": "",
-        "tags": [],
+        "tags": [
+          {
+            "vocabulary_id": null,
+            "display_name": "Environment",
+            "name": "environment",
+            "revision_timestamp": "2013-02-11T10:40:55.330719",
+            "state": "active",
+            "id": "f5624e90-3567-4554-a582-cf5eeca87dab"
+          }
+        ],
         "title": "Peterborough City Council - Frozen animals",
         "foi-name": "",
         "tracking_summary": {

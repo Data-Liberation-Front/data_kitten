@@ -1,4 +1,5 @@
 require 'data_kitten/utils/guessable_lookup.rb'
+require 'data_kitten/utils/ckan3_hash.rb'
 
 module DataKitten
 
@@ -13,9 +14,12 @@ module DataKitten
         base_uri = instance.base_uri
         *base, package = uri.path.split('/')
         if uri.path =~ %r{api/\d+/action/package_show/?$}
-          result = JSON.parse(RestClient.get(uri.to_s))
-          instance.identifier = result['result']['id']
-          instance.metadata = result['result']
+          result = JSON.parse(RestClient.get(uri.to_s))['result']
+
+          instance.identifier = result['id']
+          result['extras'] = CKAN3Hash.new(result['extras'], 'key', 'value')
+          result['tags'] = CKAN3Hash.new(result['tags'], 'name', 'display_name').values
+          instance.metadata = result
         elsif uri.path =~ %r{api/\d+/rest/dataset/}
           result = JSON.parse(RestClient.get(uri.to_s))
           instance.identifier = result['id']

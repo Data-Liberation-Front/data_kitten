@@ -444,11 +444,22 @@ describe DataKitten::PublishingFormats::CKAN do
   end
 
   context "when a v3 api url is provided" do
-    it "loads the dataset" do
+    let(:dataset) do
       CKANFakeweb.register_frozen_animals_dataset
       d = DataKitten::Dataset.new("http://example.org/api/3/action/package_show?id=frozen-animals")
-      expect( d.publishing_format ).to eql(:ckan)
-      expect( d.supported? ).to eql(true)
+    end
+
+    it "loads the dataset" do
+      expect( dataset.publishing_format ).to eql(:ckan)
+      expect( dataset.supported? ).to eql(true)
+    end
+
+    it 'converts extras to a hash' do
+      expect(dataset.metadata['extras'].keys).to include("geographic_coverage",  "temporal_coverage-from", "theme-primary")
+    end
+
+    it 'converts tags to a list' do
+      expect(dataset.metadata['tags']).to include("Environment")
     end
   end
 
