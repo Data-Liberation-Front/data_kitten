@@ -10,7 +10,7 @@ module DataKitten
 
       def self.supported?(instance)
         uri = instance.uri
-        base_uri = uri.merge("/")
+        base_uri = instance.base_uri
         *base, package = uri.path.split('/')
         if uri.path =~ %r{api/\d+/action/package_show/?$}
           result = JSON.parse(RestClient.get(uri.to_s))

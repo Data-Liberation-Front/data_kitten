@@ -10,6 +10,7 @@ describe DataKitten::Dataset do
 
     %w[https http git].each do |protocol|
       it "correctly identified #{protocol} URLs p" do
+        FakeWeb.register_uri(:get, access_url(protocol), :body => "")
         dataset = DataKitten::Dataset.new(access_url(protocol))
         expect(dataset.host).to eq(:github)
       end

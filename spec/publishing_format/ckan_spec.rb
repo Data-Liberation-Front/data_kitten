@@ -461,4 +461,21 @@ describe DataKitten::PublishingFormats::CKAN do
     end
   end
 
+  context "when not on the root of a domain" do
+
+    it "accepts a specified base_uri for v3" do
+      CKANFakeweb.register_frozen_animals_dataset("http://example.net/hidden_ckan/")
+      d = DataKitten::Dataset.new("http://example.net/hidden_ckan/api/3/action/package_show?id=frozen-animals", "http://example.net/hidden_ckan/")
+      expect( d.publishing_format ).to eql(:ckan)
+      expect( d.supported? ).to eql(true)
+    end
+
+    it "accepts a specified base_uri for 'rest'" do
+      CKANFakeweb.register_defence_dataset("http://example.net/hidden_ckan/")
+      d = DataKitten::Dataset.new("http://example.net/hidden_ckan/api/2/rest/dataset/defence", "http://example.net/hidden_ckan/")
+      expect( d.publishing_format ).to eql(:ckan)
+      expect( d.supported? ).to eql(true)
+    end
+  end
+
 end
