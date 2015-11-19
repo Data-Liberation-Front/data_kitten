@@ -20,6 +20,10 @@ describe CKAN3Hash do
     expect(hash['mystery']).to be_nil
   end
 
+  it 'can be constructed with nil data' do
+    expect { CKAN3Hash.new(nil, 'key', 'value') }.to_not raise_error
+  end
+
   it 'maps values' do
     values = ["Transportation", "Highways Agency", "Roadworks", "Planned Roadworks"]
     expect(hash.values).to contain_exactly(*values)
