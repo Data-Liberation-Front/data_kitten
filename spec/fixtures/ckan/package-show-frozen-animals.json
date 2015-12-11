@@ -1,0 +1,270 @@
+{
+    "help": "http://data.gov.uk/api/3/action/help_show?name=package_show",
+    "success": true,
+    "result": {
+        "license_title": "UK Open Government Licence (OGL)",
+        "maintainer": null,
+        "groups": [],
+        "temporal_coverage-from": "1/1/2012",
+        "relationships_as_object": [],
+        "data_dict": "{\"license_title\": \"UK Open Government Licence (OGL)\", \"maintainer\": null, \"relationships_as_object\": [], \"private\": false, \"maintainer_email\": null, \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"metadata_created\": \"2014-07-10T13:01:55.052900\", \"metadata_modified\": \"2014-07-10T13:01:55.066211\", \"author\": null, \"author_email\": null, \"state\": \"active\", \"version\": null, \"creator_user_id\": \"61e179a9-a9e5-4286-831d-42f688a5e22b\", \"type\": \"dataset\", \"resources\": [{\"resource_group_id\": \"a8a50585-fd1f-4871-b454-1bd87f31c62a\", \"cache_last_updated\": null, \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"webstore_last_updated\": null, \"id\": \"3fe95f4b-90b7-4fba-ad8c-258e4ed078f2\", \"size\": null, \"state\": \"active\", \"last_modified\": null, \"hash\": \"\", \"description\": \"Frozen animals\", \"format\": \"HTML\", \"tracking_summary\": {\"total\": 0, \"recent\": 0}, \"mimetype_inner\": null, \"url_type\": null, \"mimetype\": null, \"cache_url\": null, \"name\": null, \"created\": \"2014-07-10T14:01:55.091967\", \"url\": \"http://data.peterborough.gov.uk/View/environmental-protection-animal-welfare/animals-frozen-including-type-and-quantity\", \"webstore_url\": null, \"position\": 0, \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"resource_type\": \"file\"}, {\"resource_group_id\": \"a8a50585-fd1f-4871-b454-1bd87f31c62a\", \"cache_last_updated\": null, \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"webstore_last_updated\": null, \"id\": \"03635365-29a2-4752-9e50-d68ae50192c2\", \"size\": null, \"state\": \"active\", \"last_modified\": null, \"hash\": \"\", \"description\": \"Frozen animals\", \"format\": \"CSV\", \"tracking_summary\": {\"total\": 0, \"recent\": 0}, \"mimetype_inner\": null, \"url_type\": null, \"mimetype\": null, \"cache_url\": null, \"name\": null, \"created\": \"2014-07-10T14:01:55.091988\", \"url\": \"http://data.peterborough.gov.uk/View/environmental-protection-animal-welfare/animals-frozen-including-type-and-quantity#\", \"webstore_url\": null, \"position\": 1, \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"resource_type\": \"file\"}], \"num_resources\": 2, \"tags\": [], \"tracking_summary\": {\"total\": 0, \"recent\": 0}, \"groups\": [], \"license_id\": \"uk-ogl\", \"relationships_as_subject\": [], \"num_tags\": 0, \"organization\": {\"description\": \"\", \"title\": \"Peterborough City Council\", \"created\": \"2014-01-31T16:33:33.959076\", \"approval_status\": \"pending\", \"revision_timestamp\": \"2014-01-31T16:33:33.911635\", \"is_organization\": true, \"state\": \"active\", \"image_url\": \"\", \"revision_id\": \"bd38de89-3194-4c84-b758-a8cd78242549\", \"type\": \"organization\", \"id\": \"e70862ec-8167-48e6-a27c-a0e9db1ebc87\", \"name\": \"peterborough-city-council\"}, \"name\": \"peterborough-city-council-frozen-animals\", \"isopen\": true, \"url\": null, \"notes\": \"Animals frozen, including type and quantity\", \"owner_org\": \"e70862ec-8167-48e6-a27c-a0e9db1ebc87\", \"extras\": [{\"state\": \"active\", \"value\": \"\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"contact-email\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"674b1a0a-4c56-4390-a8ff-914f6c1a3597\"}, {\"state\": \"active\", \"value\": \"\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"contact-name\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"9cf1a5fa-e802-4c1d-acc0-17faca55b41d\"}, {\"state\": \"active\", \"value\": \"\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"contact-phone\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"cd3a8460-85ef-4f92-aa75-e0ece311e838\"}, {\"state\": \"active\", \"value\": \"\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"foi-email\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"59ddf3f1-35c7-40e5-bac8-7f4db84e2f13\"}, {\"state\": \"active\", \"value\": \"\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"foi-name\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"c8553399-7869-4107-bed2-faee3d6dadb3\"}, {\"state\": \"active\", \"value\": \"\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"foi-phone\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"dcc3c9bb-c7f5-4514-a419-86c4f2eac960\"}, {\"state\": \"active\", \"value\": \"\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"foi-web\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"b644d641-9903-487c-b51a-37487c9df0e1\"}, {\"state\": \"active\", \"value\": \"100000: England\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"geographic_coverage\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"f9146159-5471-47dd-9953-d068053c4178\"}, {\"state\": \"active\", \"value\": \"{\\\"status\\\": \\\"final\\\", \\\"source\\\": \\\"Automatically awarded by ODI\\\", \\\"certification_type\\\": \\\"automatically awarded\\\", \\\"level\\\": \\\"raw\\\", \\\"title\\\": \\\"Peterborough City Council - Frozen animals\\\", \\\"created_at\\\": \\\"2014-10-29T16:28:04Z\\\", \\\"jurisdiction\\\": \\\"GB\\\", \\\"certificate_url\\\": \\\"https://certificates.theodi.org/datasets/10677/certificates/23119\\\", \\\"badge_url\\\": \\\"https://certificates.theodi.org/datasets/10677/certificates/23119/badge.png\\\", \\\"cert_title\\\": \\\"Basic Level Certificate\\\"}\", \"revision_timestamp\": \"2014-11-12T01:53:13.148283\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"odi-certificate\", \"revision_id\": \"94654551-437e-41cf-ac25-ba31d60014a9\", \"id\": \"c6e4d449-b9a5-4da5-9451-52fcadbd7168\"}, {\"state\": \"active\", \"value\": \"2012-01-01\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"temporal_coverage-from\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"4a42ad18-7c37-41b6-b6c1-1f1f962efa58\"}, {\"state\": \"active\", \"value\": \"2014-01-01\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"temporal_coverage-to\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"57241bae-7b88-4082-a44e-0f52c81acf3b\"}, {\"state\": \"active\", \"value\": \"Environment\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"theme-primary\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"4589ea2d-d521-499b-9b49-c796ff1af8a3\"}, {\"state\": \"active\", \"value\": \"false\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"unpublished\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"f80ed0be-8e6d-489c-b9a2-8ab1a5a97d02\"}, {\"state\": \"active\", \"value\": \"\", \"revision_timestamp\": \"2014-07-10T13:01:55.052900\", \"package_id\": \"20695709-1cfb-414e-b90a-9b358aa0ca07\", \"key\": \"update_frequency\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\", \"id\": \"7d56647a-6e70-4fd8-9a03-40dfe32b7ca7\"}], \"license_url\": \"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/\", \"title\": \"Peterborough City Council - Frozen animals\", \"revision_id\": \"682a3b2f-966b-4307-972d-4887f4465ebf\"}",
+        "private": false,
+        "maintainer_email": null,
+        "revision_timestamp": "2014-07-10T13:01:55.052900",
+        "foi-email": "",
+        "id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+        "metadata_created": "2014-07-10T13:01:55.052900",
+        "metadata_modified": "2014-07-10T13:01:55.066211",
+        "author": null,
+        "author_email": null,
+        "geographic_coverage": [
+            "england"
+        ],
+        "state": "active",
+        "version": null,
+        "temporal_coverage-to": "1/1/2014",
+        "license_id": "uk-ogl",
+        "foi-web": "",
+        "unpublished": "false",
+        "resources": [
+            {
+                "hash": "",
+                "description": "Frozen animals",
+                "created": "2014-07-10T14:01:55.091967",
+                "url": "http://data.peterborough.gov.uk/View/environmental-protection-animal-welfare/animals-frozen-including-type-and-quantity",
+                "format": "HTML",
+                "tracking_summary": {
+                    "total": 0,
+                    "recent": 0
+                },
+                "position": 0,
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "3fe95f4b-90b7-4fba-ad8c-258e4ed078f2",
+                "resource_type": "file"
+            },
+            {
+                "hash": "",
+                "description": "Frozen animals",
+                "created": "2014-07-10T14:01:55.091988",
+                "url": "http://data.peterborough.gov.uk/View/environmental-protection-animal-welfare/animals-frozen-including-type-and-quantity#",
+                "format": "CSV",
+                "tracking_summary": {
+                    "total": 0,
+                    "recent": 0
+                },
+                "position": 1,
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "03635365-29a2-4752-9e50-d68ae50192c2",
+                "resource_type": "file"
+            }
+        ],
+        "num_resources": 2,
+        "contact-email": "",
+        "tags": [
+          {
+            "vocabulary_id": null,
+            "display_name": "Environment",
+            "name": "environment",
+            "revision_timestamp": "2013-02-11T10:40:55.330719",
+            "state": "active",
+            "id": "f5624e90-3567-4554-a582-cf5eeca87dab"
+          }
+        ],
+        "title": "Peterborough City Council - Frozen animals",
+        "foi-name": "",
+        "tracking_summary": {
+            "total": 0,
+            "recent": 0
+        },
+        "contact-phone": "",
+        "creator_user_id": "61e179a9-a9e5-4286-831d-42f688a5e22b",
+        "relationships_as_subject": [],
+        "num_tags": 0,
+        "organization": {
+            "description": "",
+            "created": "2014-01-31T16:33:33.959076",
+            "title": "Peterborough City Council",
+            "name": "peterborough-city-council",
+            "revision_timestamp": "2014-01-31T16:33:33.911635",
+            "is_organization": true,
+            "state": "active",
+            "image_url": "",
+            "revision_id": "bd38de89-3194-4c84-b758-a8cd78242549",
+            "type": "organization",
+            "id": "e70862ec-8167-48e6-a27c-a0e9db1ebc87",
+            "approval_status": "pending"
+        },
+        "contact-name": "",
+        "name": "peterborough-city-council-frozen-animals",
+        "isopen": true,
+        "url": null,
+        "type": "dataset",
+        "notes": "Animals frozen, including type and quantity",
+        "owner_org": "e70862ec-8167-48e6-a27c-a0e9db1ebc87",
+        "extras": [
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "contact-email",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "674b1a0a-4c56-4390-a8ff-914f6c1a3597"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "contact-name",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "9cf1a5fa-e802-4c1d-acc0-17faca55b41d"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "contact-phone",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "cd3a8460-85ef-4f92-aa75-e0ece311e838"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "foi-email",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "59ddf3f1-35c7-40e5-bac8-7f4db84e2f13"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "foi-name",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "c8553399-7869-4107-bed2-faee3d6dadb3"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "foi-phone",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "dcc3c9bb-c7f5-4514-a419-86c4f2eac960"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "foi-web",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "b644d641-9903-487c-b51a-37487c9df0e1"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "100000: England",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "geographic_coverage",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "f9146159-5471-47dd-9953-d068053c4178"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "{\"status\": \"final\", \"source\": \"Automatically awarded by ODI\", \"certification_type\": \"automatically awarded\", \"level\": \"raw\", \"title\": \"Peterborough City Council - Frozen animals\", \"created_at\": \"2014-10-29T16:28:04Z\", \"jurisdiction\": \"GB\", \"certificate_url\": \"https://certificates.theodi.org/datasets/10677/certificates/23119\", \"badge_url\": \"https://certificates.theodi.org/datasets/10677/certificates/23119/badge.png\", \"cert_title\": \"Basic Level Certificate\"}",
+                "revision_timestamp": "2014-11-12T01:53:13.148283",
+                "state": "active",
+                "key": "odi-certificate",
+                "revision_id": "94654551-437e-41cf-ac25-ba31d60014a9",
+                "id": "c6e4d449-b9a5-4da5-9451-52fcadbd7168"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "2012-01-01",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "temporal_coverage-from",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "4a42ad18-7c37-41b6-b6c1-1f1f962efa58"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "2014-01-01",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "temporal_coverage-to",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "57241bae-7b88-4082-a44e-0f52c81acf3b"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "Environment",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "theme-primary",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "4589ea2d-d521-499b-9b49-c796ff1af8a3"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "false",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "unpublished",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "f80ed0be-8e6d-489c-b9a2-8ab1a5a97d02"
+            },
+            {
+                "package_id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "value": "",
+                "revision_timestamp": "2014-07-10T13:01:55.052900",
+                "state": "active",
+                "key": "update_frequency",
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "7d56647a-6e70-4fd8-9a03-40dfe32b7ca7"
+            }
+        ],
+        "license_url": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+        "individual_resources": [
+            {
+                "hash": "",
+                "description": "Frozen animals",
+                "created": "2014-07-10T14:01:55.091967",
+                "url": "http://data.peterborough.gov.uk/View/environmental-protection-animal-welfare/animals-frozen-including-type-and-quantity",
+                "format": "HTML",
+                "tracking_summary": {
+                    "total": 0,
+                    "recent": 0
+                },
+                "position": 0,
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "3fe95f4b-90b7-4fba-ad8c-258e4ed078f2",
+                "resource_type": "file"
+            },
+            {
+                "hash": "",
+                "description": "Frozen animals",
+                "created": "2014-07-10T14:01:55.091988",
+                "url": "http://data.peterborough.gov.uk/View/environmental-protection-animal-welfare/animals-frozen-including-type-and-quantity#",
+                "format": "CSV",
+                "tracking_summary": {
+                    "total": 0,
+                    "recent": 0
+                },
+                "position": 1,
+                "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+                "id": "03635365-29a2-4752-9e50-d68ae50192c2",
+                "resource_type": "file"
+            }
+        ],
+        "update_frequency": "",
+        "revision_id": "682a3b2f-966b-4307-972d-4887f4465ebf",
+        "foi-phone": "",
+        "theme-primary": "Environment"
+    }
+}

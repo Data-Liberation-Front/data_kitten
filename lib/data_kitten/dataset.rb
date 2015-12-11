@@ -40,14 +40,16 @@ module DataKitten
     #   @param [Hash] options the details of the Dataset.
     #   @option options [String] :access_url A URL that can be used to access the Dataset. 
     #
-    def initialize(url_or_options)
+    def initialize(url_or_options, base_url=nil)
       url = case url_or_options
       when Hash
+        base_url ||= url_or_options[:base_url]
         url_or_options[:access_url]
       else
         url_or_options
       end
       @access_url = DataKitten::Fetcher.wrap(url)
+      @base_uri = URI(base_url) if base_url
 
       detect_origin
       detect_host
@@ -56,6 +58,10 @@ module DataKitten
 
     def uri
       URI(@access_url.to_s)
+    end
+
+    def base_uri
+      @base_uri || uri.merge("/")
     end
 
     def url

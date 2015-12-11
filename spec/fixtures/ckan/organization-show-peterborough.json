@@ -1,0 +1,261 @@
+{
+    "help": "http://data.gov.uk/api/3/action/help_show?name=organization_show",
+    "success": true,
+    "result": {
+        "contact-phone": "",
+        "abbreviation": "",
+        "foi-email": "",
+        "id": "e70862ec-8167-48e6-a27c-a0e9db1ebc87",
+        "users": [
+            {
+                "capacity": "admin",
+                "name": "user_d105921"
+            },
+            {
+                "capacity": "editor",
+                "name": "user_d354621"
+            },
+            {
+                "capacity": "editor",
+                "name": "user_d734"
+            }
+        ],
+        "category": "local-council",
+        "replaced_by": [],
+        "approval_status": "pending",
+        "title": "Peterborough City Council",
+        "foi-web": "",
+        "description": "",
+        "contact-email": "",
+        "tags": [],
+        "foi-name": "",
+        "groups": [
+            {
+                "capacity": "public",
+                "name": "local-authorities"
+            }
+        ],
+        "packages": [
+            {
+                "title": "Number of pupils on roll at primary and secondary schools by year",
+                "id": "9828048a-31d2-4387-bc11-ffe35bc5e7d7",
+                "name": "number-of-pupils-on-roll-at-primary-and-secondary-schools-by-year-pcc"
+            },
+            {
+                "title": "Peterborough City Council - Public toilets",
+                "id": "1de61ff0-cc13-4744-8f53-8b60debca6cd",
+                "name": "peterborough-city-council-public-toilets"
+            },
+            {
+                "title": "Peterborough City Council - Payments over \u00a3500",
+                "id": "b5f46f62-872f-4d92-9cb7-f7f1570b914a",
+                "name": "peterborough-city-council-payments-over-500"
+            },
+            {
+                "title": "Public toilets",
+                "id": "729e1ebe-7bc5-4039-aaab-f34f66481f02",
+                "name": "public-toilets-pcc"
+            },
+            {
+                "title": "Primary school places, schools oversubscribed and %s of preferences met",
+                "id": "d3b6b18a-2e27-4272-a589-7c40f7d335e1",
+                "name": "primary-school-places-schools-oversubscribed-and-s-of-preferences-met-pcc"
+            },
+            {
+                "title": "Transparency Code - Tenders and Contracts",
+                "id": "fb10c68e-0dc2-4837-abc3-d78c8bbb551d",
+                "name": "transparency-code-tenders-and-contracts-pcc"
+            },
+            {
+                "title": "Planning applications",
+                "id": "a32a08d1-1760-47ee-b345-0f6345266657",
+                "name": "planning-applications-pcc"
+            },
+            {
+                "title": "Price for older person's placements",
+                "id": "201fb13d-35e4-4c7b-abf4-8db96ef9d6f4",
+                "name": "price-for-older-persons-placements-pcc"
+            },
+            {
+                "title": "Peterborough City Council - Social and affordable housing allocations by nationality",
+                "id": "793d5e4c-b656-4ff0-b121-d2478441fed1",
+                "name": "peterborough-city-council-social-and-affordable-housing-allocations-by-nationality"
+            },
+            {
+                "title": "Discretionary Housing Payments",
+                "id": "1b611b09-3e2a-44e1-8d51-a9e78677d9eb",
+                "name": "discretionary-housing-payments-pcc"
+            },
+            {
+                "title": "Animals frozen, including type and quantity",
+                "id": "999a2ee6-14c6-4b6d-b2a2-8c1c0a790e38",
+                "name": "animals-frozen-including-type-and-quantity-pcc"
+            },
+            {
+                "title": "Peterborough City Council - Primary schools",
+                "id": "e02f2a8e-53d9-48b1-95b5-2b8449c4ef76",
+                "name": "peterborough-city-council-primary-schools-oversubscribed"
+            },
+            {
+                "title": "Senior Salaries",
+                "id": "95d70853-b678-451d-b399-caff9a21f4f9",
+                "name": "senior-salaries-pcc"
+            },
+            {
+                "title": "Transparency Code - Payments over \u00a3500",
+                "id": "a3af6580-2c8c-498f-a528-89fac84d59dd",
+                "name": "transparency-code-payments-over-500-pcc"
+            },
+            {
+                "title": "Fraud investigation",
+                "id": "467bdc57-c9fd-401a-a0da-a569beb9b54b",
+                "name": "fraud-investigation-pcc"
+            },
+            {
+                "title": "LA budget spend on older person's services",
+                "id": "ad19cf54-9775-4e42-96df-84ce2a68dd1a",
+                "name": "la-budget-spend-on-older-persons-services-pcc"
+            },
+            {
+                "title": "Mobile food vendors/Street traders",
+                "id": "4baa85a8-46e4-403c-a27c-97558080a5d2",
+                "name": "mobile-food-vendors-street-traders-pcc"
+            },
+            {
+                "title": "Parking account",
+                "id": "be1821b1-e888-4440-8804-5d3510faad54",
+                "name": "parking-account-pcc"
+            },
+            {
+                "title": "Pet shops",
+                "id": "d56091a7-ef2d-461c-b0aa-125f100cd850",
+                "name": "pet-shops-pcc"
+            },
+            {
+                "title": "Premises licence",
+                "id": "b9fc9a66-2937-43c4-9b93-4268e2fb19b1",
+                "name": "premises-licence-pcc"
+            },
+            {
+                "title": "Firework licence-registration holders - Type 3 and 4 explosives",
+                "id": "1d35f6fc-4c68-4d53-9590-2735e8296f41",
+                "name": "firework-licence-registration-holders-type-3-and-4-explosives-pcc"
+            },
+            {
+                "title": "Hereditament Properties",
+                "id": "00b5f003-0195-4530-bd44-9a7a65cb696f",
+                "name": "hereditament-properties-pcc"
+            },
+            {
+                "title": "Land and Property Assets",
+                "id": "22f8cebe-e46d-404f-8dd7-6baf79890058",
+                "name": "land-and-property-assets-pcc"
+            },
+            {
+                "title": "Older people placed and funded by council",
+                "id": "9bf02263-0767-4724-b47a-47deaf558b82",
+                "name": "older-people-placed-and-funded-by-council-pcc"
+            },
+            {
+                "title": "Parking places",
+                "id": "841e12c0-477c-4a2d-ac98-01f637d43133",
+                "name": "parking-places-pcc"
+            },
+            {
+                "title": "Percent of older person's placements more expensive for LAs than basic contract",
+                "id": "0f7b0e79-7a25-4c56-8d39-d8d29153618a",
+                "name": "percent-of-older-persons-placements-more-expensive-for-las-than-basic-contract-pcc"
+            },
+            {
+                "title": "Peterborough City Council - Budget spend on older person services",
+                "id": "8ac572a3-d7c9-4287-b29c-603b6ff4e265",
+                "name": "peterborough-city-council-budget-spend-on-older-person-services"
+            },
+            {
+                "title": "Peterborough City Council - Discretionary housing payments",
+                "id": "1fb200e9-df3e-459d-9b2e-e5501d558b94",
+                "name": "peterborough-city-council-discretionary-housing-payments"
+            },
+            {
+                "title": "Peterborough City Council - Firework licence holders",
+                "id": "e91059b9-aa51-4e82-a3b0-7a6e38da9e2d",
+                "name": "peterborough-city-council-firework-licence-holders"
+            },
+            {
+                "title": "Peterborough City Council - Frozen animals",
+                "id": "20695709-1cfb-414e-b90a-9b358aa0ca07",
+                "name": "peterborough-city-council-frozen-animals"
+            },
+            {
+                "title": "Peterborough City Council - Older people placed and funded",
+                "id": "f1817c3a-a980-499d-b5c4-da73052a40e0",
+                "name": "peterborough-city-council-older-people-placed-and-funded"
+            },
+            {
+                "title": "Peterborough City Council - Percentage of older people in expensive placements",
+                "id": "02da0b39-1025-40ea-a83f-ed776154465f",
+                "name": "peterborough-city-council-percentage-of-older-people-in-expensive-placements"
+            },
+            {
+                "title": "Peterborough City Council - Price for older person placements",
+                "id": "2a8efb51-79d6-4c05-bc46-c63ed8d23676",
+                "name": "peterborough-city-council-price-for-older-person-placements"
+            },
+            {
+                "title": "Primary schools oversubscribed and last child in",
+                "id": "bec56f94-81ed-48fe-9b97-7c27b433c5f0",
+                "name": "primary-schools-oversubscribed-and-last-child-in-pcc"
+            },
+            {
+                "title": "Social and affordable housing allocations by nationality",
+                "id": "c7233282-1236-45a3-bc6c-dec52af4569a",
+                "name": "social-and-affordable-housing-allocations-by-nationality-pcc"
+            }
+        ],
+        "contact-name": "",
+        "name": "peterborough-city-council",
+        "image_display_url": "",
+        "type": "organization",
+        "is_organization": true,
+        "extras": [
+            {
+                "value": "",
+                "key": "abbreviation"
+            },
+            {
+                "value": "local-council",
+                "key": "category"
+            },
+            {
+                "value": "",
+                "key": "contact-email"
+            },
+            {
+                "value": "",
+                "key": "contact-name"
+            },
+            {
+                "value": "",
+                "key": "contact-phone"
+            },
+            {
+                "value": "",
+                "key": "foi-email"
+            },
+            {
+                "value": "",
+                "key": "foi-name"
+            },
+            {
+                "value": "",
+                "key": "foi-phone"
+            },
+            {
+                "value": "",
+                "key": "foi-web"
+            }
+        ],
+        "image_url": "",
+        "foi-phone": ""
+    }
+}

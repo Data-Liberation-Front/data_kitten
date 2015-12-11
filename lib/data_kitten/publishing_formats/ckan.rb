@@ -1,4 +1,5 @@
 require 'data_kitten/utils/guessable_lookup.rb'
+require 'data_kitten/utils/ckan3_hash.rb'
 
 module DataKitten
 
@@ -10,29 +11,42 @@ module DataKitten
 
       def self.supported?(instance)
         uri = instance.uri
-        base_uri = uri.merge("/")
+        base_uri = instance.base_uri
         *base, package = uri.path.split('/')
-        # If the 2nd to last element in the path is 'dataset' then it's probably
-        # the CKAN dataset view page, the last element will be the dataset id
-        # or name
-        if base.last == "dataset"
-          instance.identifier = package
-          # build a base URI ending with a /
-          base_uri = uri.merge(base[0...-1].join('/') + '/')
-        # If the package is a UUID - it's more than likely to be a CKAN ID
-        elsif package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
-          instance.identifier = package
-        else
-          results = begin
-            RestClient.get base_uri.merge("api/3/action/package_show").to_s, {:params => {:id => package}}
-          rescue RestClient::Exception
-            RestClient.get base_uri.merge("api/2/rest/dataset/#{package}").to_s
-          end
+        if uri.path =~ %r{api/\d+/action/package_show/?$}
+          result = JSON.parse(RestClient.get(uri.to_s))['result']
 
-          result = JSON.parse results
-          instance.identifier = result.fetch("result", result)["id"]
+          instance.identifier = result['id']
+          result['extras'] = CKAN3Hash.new(result['extras'], 'key', 'value')
+          result['tags'] = CKAN3Hash.new(result['tags'], 'name', 'display_name').values
+          instance.metadata = result
+        elsif uri.path =~ %r{api/\d+/rest/dataset/}
+          result = JSON.parse(RestClient.get(uri.to_s))
+          instance.identifier = result['id']
+          instance.metadata = result
+        else
+          # If the 2nd to last element in the path is 'dataset' then it's probably
+          # the CKAN dataset view page, the last element will be the dataset id
+          # or name
+          if base.last == "dataset"
+            instance.identifier = package
+            # build a base URI ending with a /
+            base_uri = uri.merge(base[0...-1].join('/') + '/')
+          # If the package is a UUID - it's more than likely to be a CKAN ID
+          elsif package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
+            instance.identifier = package
+          else
+            results = begin
+              RestClient.get base_uri.merge("api/3/action/package_show").to_s, {:params => {:id => package}}
+            rescue RestClient::Exception
+              RestClient.get base_uri.merge("api/2/rest/dataset/#{package}").to_s
+            end
+
+            result = JSON.parse results
+            instance.identifier = result.fetch("result", result)["id"]
+          end
+          instance.metadata = JSON.parse RestClient.get base_uri.merge("api/rest/package/#{instance.identifier}").to_s
         end
-        instance.metadata = JSON.parse RestClient.get base_uri.merge("api/rest/package/#{instance.identifier}").to_s
         instance.metadata.extend(GuessableLookup)
         instance.source = instance.metadata
         return true
@@ -98,10 +112,15 @@ module DataKitten
       #
       # @see Dataset#publishers
       def publishers
-        id = metadata.lookup('organization', 'id') || metadata.lookup('groups', 0)
-        fetch_publisher(id)
-      rescue
-        []
+        org = fetch_organization
+        result = if org
+          [org]
+        elsif group_id = metadata.lookup('groups', 0, 'id')
+          [fetch_publisher(group_id)]
+        else
+          []
+        end
+        result.compact
       end
 
       def maintainers
@@ -251,15 +270,38 @@ module DataKitten
         nil
       end
 
+      def fetch_organization
+        if org = metadata['organization']
+          begin
+            uri = base_uri.merge("api/3/action/organization_show")
+            result = RestClient.get(uri.to_s, params: {id: org['id']})
+            org_data = JSON.parse(result)['result']
+            extras = CKAN3Hash.new(org_data['extras'], "key", "value")
+          rescue
+            uri = base_uri.merge("api/rest/group/#{org['id']}")
+            result = RestClient.get(uri.to_s)
+            org_data = JSON.parse(result)
+            extras = org_data['extras']
+          end
+          Agent.new(
+            :name => org_data['title'],
+            :mbox => (org_data['contact-email'] || extras['contact-email']),
+            :homepage => extras['website-url']
+          )
+        end
+      rescue
+        nil
+      end
+
       def fetch_publisher(id)
         uri = parsed_uri
         [
-          "#{uri.scheme}://#{uri.host}/api/3/action/organization_show?id=#{id}",
-          "#{uri.scheme}://#{uri.host}/api/3/action/group_show?id=#{id}",
-          "#{uri.scheme}://#{uri.host}/api/rest/group/#{id}"
+          "api/3/action/organization_show?id=#{id}",
+          "api/3/action/group_show?id=#{id}",
+          "api/rest/group/#{id}"
         ].each do |uri|
           begin
-            @group = JSON.parse RestClient.get uri
+            @group = JSON.parse RestClient.get base_uri.merge(uri).to_s
             break
           rescue
             # FakeWeb raises FakeWeb::NetConnectNotAllowedError, whereas 
@@ -268,13 +310,11 @@ module DataKitten
           end
         end
 
-        [
-          Agent.new(
-                    :name => @group["display_name"] || @group["result"]["title"],
+        if @group
+          Agent.new(:name => @group["display_name"] || @group["result"]["title"],
                     :homepage => select_extras(@group, "website-url"),
-                    :mbox => select_extras(@group, "contact-email")
-                    )
-        ]
+                    :mbox => select_extras(@group, "contact-email"))
+        end
       end
 
       def parsed_uri

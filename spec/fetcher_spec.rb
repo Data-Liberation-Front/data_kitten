@@ -74,6 +74,7 @@ describe DataKitten::Fetcher do
     it { should be_ok }
     it { expect(resource.code).to eq(200) }
     it { should_not be_html }
+    it { should be_json }
     it { expect(resource.as_json).to eq({"hi" => "there"}) }
     it { expect(resource.content_type).to eq("application/json; encoding=utf-8") }
     it { expect(resource.content_type_format).to eq("application/json") }

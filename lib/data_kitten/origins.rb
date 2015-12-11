@@ -1,6 +1,7 @@
 require 'data_kitten/origins/git'
 require 'data_kitten/origins/web_service'
 require 'data_kitten/origins/html'
+require 'data_kitten/origins/json'
 require 'data_kitten/origins/linked_data'
 
 module DataKitten
@@ -11,8 +12,9 @@ module DataKitten
 
     def detect_origin
       [
-        DataKitten::Origins::Git,
         DataKitten::Origins::HTML,
+        DataKitten::Origins::JSON,
+        DataKitten::Origins::Git,
         DataKitten::Origins::WebService,
         DataKitten::Origins::LinkedData,
       ].each do |origin|
