@@ -112,10 +112,15 @@ module DataKitten
       #
       # @see Dataset#publishers
       def publishers
-        id = metadata.lookup('organization', 'id') || metadata.lookup('groups', 0)
-        fetch_publisher(id)
-      rescue
-        []
+        org = fetch_organization
+        result = if org
+          [org]
+        elsif group_id = metadata.lookup('groups', 0, 'id')
+          [fetch_publisher(group_id)]
+        else
+          []
+        end
+        result.compact
       end
 
       def maintainers
@@ -265,15 +270,38 @@ module DataKitten
         nil
       end
 
+      def fetch_organization
+        if org = metadata['organization']
+          begin
+            uri = base_uri.merge("api/3/action/organization_show")
+            result = RestClient.get(uri.to_s, params: {id: org['id']})
+            org_data = JSON.parse(result)['result']
+            extras = CKAN3Hash.new(org_data['extras'], "key", "value")
+          rescue
+            uri = base_uri.merge("api/rest/group/#{org['id']}")
+            result = RestClient.get(uri.to_s)
+            org_data = JSON.parse(result)
+            extras = org_data['extras']
+          end
+          Agent.new(
+            :name => org_data['title'],
+            :mbox => (org_data['contact-email'] || extras['contact-email']),
+            :homepage => extras['website-url']
+          )
+        end
+      rescue
+        nil
+      end
+
       def fetch_publisher(id)
         uri = parsed_uri
         [
-          "#{uri.scheme}://#{uri.host}/api/3/action/organization_show?id=#{id}",
-          "#{uri.scheme}://#{uri.host}/api/3/action/group_show?id=#{id}",
-          "#{uri.scheme}://#{uri.host}/api/rest/group/#{id}"
+          "api/3/action/organization_show?id=#{id}",
+          "api/3/action/group_show?id=#{id}",
+          "api/rest/group/#{id}"
         ].each do |uri|
           begin
-            @group = JSON.parse RestClient.get uri
+            @group = JSON.parse RestClient.get base_uri.merge(uri).to_s
             break
           rescue
             # FakeWeb raises FakeWeb::NetConnectNotAllowedError, whereas 
@@ -282,13 +310,11 @@ module DataKitten
           end
         end
 
-        [
-          Agent.new(
-                    :name => @group["display_name"] || @group["result"]["title"],
+        if @group
+          Agent.new(:name => @group["display_name"] || @group["result"]["title"],
                     :homepage => select_extras(@group, "website-url"),
-                    :mbox => select_extras(@group, "contact-email")
-                    )
-        ]
+                    :mbox => select_extras(@group, "contact-email"))
+        end
       end
 
       def parsed_uri
