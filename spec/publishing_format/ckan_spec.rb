@@ -461,6 +461,10 @@ describe DataKitten::PublishingFormats::CKAN do
     it 'converts tags to a list' do
       expect(dataset.metadata['tags']).to include("Environment")
     end
+
+    it 'defauls publisher url to base url if missing from organization' do
+      expect(dataset.publishers[0].homepage).to eq("http://example.org/")
+    end
   end
 
   context "when a 'rest' api url is provided" do

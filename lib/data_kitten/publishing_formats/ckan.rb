@@ -286,7 +286,7 @@ module DataKitten
           Agent.new(
             :name => org_data['title'],
             :mbox => (org_data['contact-email'] || extras['contact-email']),
-            :homepage => extras['website-url']
+            :homepage => extras['website-url'] || base_uri.to_s
           )
         end
       rescue
