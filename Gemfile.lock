@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    data_kitten (1.3.1)
+    data_kitten (1.3.2)
       datapackage
       git
       json
@@ -184,4 +184,4 @@ DEPENDENCIES
   rspec
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
