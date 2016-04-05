@@ -236,6 +236,10 @@ module DataKitten
 
       private
 
+      def without_empty_values(h)
+        h.reject { |k, v| v.nil? || v.empty? }
+      end
+
       def select_extras(group, key)
         extra = group["extras"][key] rescue ""
         if extra == ""
@@ -276,12 +280,12 @@ module DataKitten
             uri = base_uri.merge("api/3/action/organization_show")
             result = RestClient.get(uri.to_s, params: {id: org['id']})
             org_data = JSON.parse(result)['result']
-            extras = CKAN3Hash.new(org_data['extras'], "key", "value")
+            extras = CKAN3Hash.new(without_empty_values(org_data['extras']), "key", "value")
           rescue
             uri = base_uri.merge("api/rest/group/#{org['id']}")
             result = RestClient.get(uri.to_s)
             org_data = JSON.parse(result)
-            extras = org_data['extras']
+            extras = without_empty_values(org_data['extras'])
           end
           Agent.new(
             :name => org_data['title'],
