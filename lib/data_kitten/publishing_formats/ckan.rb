@@ -31,7 +31,7 @@ module DataKitten
           if base.last == "dataset"
             instance.identifier = package
             # build a base URI ending with a /
-            base_uri = uri.merge(base[0...-1].join('/') + '/')
+            base_uri = get_base(uri)
           # If the package is a UUID - it's more than likely to be a CKAN ID
           elsif package.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
             instance.identifier = package
@@ -52,6 +52,15 @@ module DataKitten
         return true
       rescue
         false
+      end
+
+      def self.get_base(uri)
+        *base, package = uri.path.split('/')
+        if base.last == "dataset"
+          uri.merge(base[0...-1].join('/') + '/')
+        else
+          uri.merge("/")
+        end
       end
 
       public
@@ -75,7 +84,7 @@ module DataKitten
       # @see Dataset#description
       def description
         metadata.lookup("notes") || metadata.lookup("description")
-      rescue 
+      rescue
         nil
       end
 
@@ -234,6 +243,10 @@ module DataKitten
         extract_spatial || extract_bbox
       end
 
+      def base_uri
+        DataKitten::PublishingFormats::CKAN.get_base(self.uri)
+      end
+
       private
 
       def without_empty_values(h)
@@ -254,7 +267,7 @@ module DataKitten
       rescue
         nil
       end
-      
+
       def extract_bbox
         west = Float(metadata.lookup("extras", "bbox-west-long"))
         east = Float(metadata.lookup("extras", "bbox-east-long"))
@@ -308,7 +321,7 @@ module DataKitten
             @group = JSON.parse RestClient.get base_uri.merge(uri).to_s
             break
           rescue
-            # FakeWeb raises FakeWeb::NetConnectNotAllowedError, whereas 
+            # FakeWeb raises FakeWeb::NetConnectNotAllowedError, whereas
             # RestClient raises RestClient::ResourceNotFound in the "real world".
             nil
           end
