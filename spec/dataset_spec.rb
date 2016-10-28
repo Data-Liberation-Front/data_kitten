@@ -10,7 +10,7 @@ describe DataKitten::Dataset do
   describe 'constructing a dataset' do
     before { CKANFakeweb.register_defence_dataset }
     let(:url) { "http://example.org/dataset/defence" }
-    let(:base) { "http://example.org/api/" }
+    let(:base) { "http://example.org/" }
 
     it 'accepts access_url symbol option' do
       dataset = DataKitten::Dataset.new(access_url: url)
