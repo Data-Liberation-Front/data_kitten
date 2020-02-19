@@ -1,25 +1,11 @@
 rvm:
-- 1.9.3
-- 2.0.0
-- 2.1.0
-cache: bundler
+- 2.4.9
+- 2.5.7
+- 2.6.5
+- 2.7.0
 sudo: false
-notifications:
-  irc:
-    channels:
-    - irc.freenode.net#theodi
-    template:
-    - "%{repository} %{branch} - %{message} %{build_url}"
-    on_success: change
-    on_failure: always
-deploy:
-  provider: rubygems
-  api_key:
-    secure: SjJ1OHnL6+U9717P4CFEkH0eHpJ8DG0Ehlc7BOnxJ6fVmDBMmvQYoBQB3cKI41i5GPeMBKEecy6adocKI9WZ5Wi8B0zEIDflI3IwLUR03uMbEI53ZuSLBpLY5wAO2+1oUAgYIlDQ38/OFB0Eau+fyB5OdrVi7SvHWNzEgme3Gi4=
-  gem: data_kitten
-  on:
-    tags: true
-    repo: theodi/data_kitten
-    all_branches: true
+cache: bundler
+before_install:
+  - gem install bundler:"~> 1.0"
 env:
   - COVERAGE=1
