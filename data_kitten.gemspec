@@ -18,16 +18,16 @@ Gem::Specification.new do |s|
   s.executables << 'data_kitten'
 
   s.add_dependency "rake"
-  s.add_dependency "git"
-  s.add_dependency "json"
-  s.add_dependency "rest-client"
-  s.add_dependency "linkeddata"
-  s.add_dependency "nokogiri"
-  s.add_dependency "datapackage"
+  s.add_dependency "git", "~> 1.7"
+  s.add_dependency "json", "~> 2.5"
+  s.add_dependency "rest-client", "~> 1.8"
+  s.add_dependency "linkeddata", "~> 1.0"
+  s.add_dependency "nokogiri", "~> 1.6"
+  s.add_dependency "datapackage", "~> 0.0"
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "coveralls"
   s.add_development_dependency "fakeweb", ["~> 1.3"]
   s.add_development_dependency "pry"
-  
+
 end
