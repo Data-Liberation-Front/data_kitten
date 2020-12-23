@@ -2,6 +2,8 @@ rvm:
 - 2.3.8
 cache: bundler
 sudo: false
+before_install:
+  - gem install bundler:2.2
 deploy:
   provider: rubygems
   api_key:
