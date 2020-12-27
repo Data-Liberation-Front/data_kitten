@@ -1,5 +1,5 @@
 rvm:
-- 2.3.8
+- 2.4.10
 cache: bundler
 sudo: false
 before_install:
