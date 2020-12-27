@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency "git", "~> 1.7"
   s.add_dependency "json", "~> 2.5"
   s.add_dependency "rest-client", "~> 1.8"
-  s.add_dependency "linkeddata", "~> 1.0"
+  s.add_dependency "linkeddata", "~> 1.99"
   s.add_dependency "nokogiri", "~> 1.6"
   s.add_dependency "datapackage", "~> 0.0"
 
