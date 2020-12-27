@@ -5,26 +5,26 @@ require 'data_kitten/origins/json'
 require 'data_kitten/origins/linked_data'
 
 module DataKitten
-  
+
   module Origins
 
     private
 
     def detect_origin
       [
+        DataKitten::Origins::Git,
         DataKitten::Origins::HTML,
         DataKitten::Origins::JSON,
-        DataKitten::Origins::Git,
         DataKitten::Origins::WebService,
         DataKitten::Origins::LinkedData,
       ].each do |origin|
         if origin.supported?(@access_url)
-          extend origin 
+          extend origin
           break
         end
       end
     end
 
   end
-  
+
 end

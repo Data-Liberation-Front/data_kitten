@@ -8,7 +8,7 @@ PATH
       linkeddata (~> 1.99)
       nokogiri (~> 1.6)
       rake
-      rest-client (~> 1.8)
+      rest-client (~> 2.1)
 
 GEM
   remote: http://rubygems.org/
@@ -48,6 +48,7 @@ GEM
       temple (>= 0.8.0)
       tilt
     htmlentities (4.3.4)
+    http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (1.8.5)
@@ -81,7 +82,9 @@ GEM
       sparql (~> 1.99)
       sparql-client (~> 1.99)
     method_source (1.0.0)
-    mime-types (2.99.3)
+    mime-types (3.3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2020.1104)
     mini_portile2 (2.4.0)
     multi_json (1.15.0)
     net-http-persistent (2.9.4)
@@ -145,10 +148,11 @@ GEM
       rdf (~> 1.1, >= 1.1.10)
     rdf-xsd (1.99.0)
       rdf (~> 1.99)
-    rest-client (1.8.0)
+    rest-client (2.1.0)
+      http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
