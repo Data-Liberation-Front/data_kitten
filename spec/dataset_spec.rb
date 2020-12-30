@@ -49,7 +49,7 @@ describe DataKitten::Dataset do
     end
 
     it "returns the ckan api source after lookup" do
-      url = CKANFakeweb.register_defence_dataset
+      CKANFakeweb.register_defence_dataset
       data = JSON.parse(load_fixture("ckan/rest-dataset-defence.json"))
       dataset = DataKitten::Dataset.new("http://example.org/dataset/defence")
       expect(dataset.source).to eql(data)

@@ -20,7 +20,7 @@ module DataKitten
       else
         RestClient.head(url).code == 200
       end
-    rescue RestClient::ExceptionWithResponse => error
+    rescue RestClient::ExceptionWithResponse => _error
       false
     end
 

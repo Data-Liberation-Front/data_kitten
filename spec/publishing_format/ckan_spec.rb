@@ -439,7 +439,7 @@ describe DataKitten::PublishingFormats::CKAN do
   context "when a v3 api url is provided" do
     let(:dataset) do
       CKANFakeweb.register_frozen_animals_dataset
-      d = DataKitten::Dataset.new("http://example.org/api/3/action/package_show?id=frozen-animals")
+      DataKitten::Dataset.new("http://example.org/api/3/action/package_show?id=frozen-animals")
     end
 
     it "loads the dataset" do
