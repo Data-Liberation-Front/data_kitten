@@ -83,20 +83,20 @@ describe DataKitten::PublishingFormats::RDFa do
     end
 
     it "should extract licence URIs" do
-      @dataset.rights.dataLicense = "http://reference.data.gov.uk/id/open-government-licence"
-      @dataset.rights.contentLicense = "http://reference.data.gov.uk/id/open-government-licence"
+      expect(@dataset.rights.dataLicense).to eql "http://reference.data.gov.uk/id/open-government-licence"
+      expect(@dataset.rights.contentLicense).to eql "http://reference.data.gov.uk/id/open-government-licence"
     end
 
     it "should extract copyright information" do
-      @dataset.rights.copyrightYear = "2013"
-      @dataset.rights.databaseRightYear = "2013"
-      @dataset.rights.copyrightHolder = "http://example.org"
-      @dataset.rights.databaseRightHolder = "http://example.org"
-      @dataset.rights.copyrightNotice = "Contains public sector information licensed under the Open Government Licence v1.0"
-      @dataset.rights.copyrightStatement = "http://example.org/statement"
-      @dataset.rights.databaseRightStatement = "http://example.org/statement"
-      @dataset.rights.attributionText = "Example Department"
-      @dataset.rights.attributionURL = "http://gov.example.org/dataset/finances"
+      expect(@dataset.rights.copyrightYear).to eql "2013"
+      expect(@dataset.rights.databaseRightYear).to eql "2013"
+      expect(@dataset.rights.copyrightHolder).to eql "http://example.org"
+      expect(@dataset.rights.databaseRightHolder).to eql "http://example.org"
+      expect(@dataset.rights.copyrightNotice).to eql "Contains public sector information licensed under the Open Government Licence v1.0"
+      expect(@dataset.rights.copyrightStatement).to eql "http://example.org/statement"
+      expect(@dataset.rights.databaseRightStatement).to eql "http://example.org/statement"
+      expect(@dataset.rights.attributionText).to eql "Example Department"
+      expect(@dataset.rights.attributionURL).to eql "http://gov.example.org/dataset/finances"
     end
   end
 end
