@@ -341,12 +341,14 @@ module DataKitten
           "api/3/action/group_show?id=#{id}",
           "api/rest/group/#{id}"
         ].each do |uri|
-          @group = JSON.parse RestClient.get base_uri.merge(uri).to_s
-          break
-        rescue
-          # FakeWeb raises FakeWeb::NetConnectNotAllowedError, whereas
-          # RestClient raises RestClient::ResourceNotFound in the "real world".
-          nil
+          begin
+            @group = JSON.parse RestClient.get base_uri.merge(uri).to_s
+            break
+          rescue
+            # FakeWeb raises FakeWeb::NetConnectNotAllowedError, whereas
+            # RestClient raises RestClient::ResourceNotFound in the "real world".
+            nil
+          end
         end
 
         if @group
