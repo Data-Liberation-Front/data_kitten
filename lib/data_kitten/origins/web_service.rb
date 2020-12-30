@@ -5,13 +5,9 @@ module DataKitten
     # @see Dataset
     #
     module WebService
-      private
-
       def self.supported?(uri)
         false
       end
-
-      public
 
       # The origin type of the dataset.
       # @return [Symbol] +:web_service+

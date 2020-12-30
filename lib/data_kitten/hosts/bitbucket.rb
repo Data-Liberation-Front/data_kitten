@@ -5,13 +5,9 @@ module DataKitten
     # @see Dataset
     #
     module Bitbucket
-      private
-
       def self.supported?(uri)
         uri =~ /\A(git|https?):\/\/[^\/]*bitbucket\.org\//
       end
-
-      public
 
       # Where the dataset is hosted.
       # @return [Symbol] +:bitbucket+

@@ -5,15 +5,11 @@ module DataKitten
     # @see Dataset
     #
     module LinkedData
-      private
-
       def self.supported?(resource)
-        if type = resource.content_type_format
-          RDF::Format.content_types.keys.include?(type)
+        if (type = resource.content_type_format)
+          RDF::Format.content_types.key?(type)
         end
       end
-
-      public
 
       # The origin type of the dataset.
       # @return [Symbol] +:linkeddata+

@@ -5,13 +5,9 @@ module DataKitten
     # @see Dataset
     #
     module Github
-      private
-
       def self.supported?(uri)
         uri =~ /\A(git|https?):\/\/github\.com\//
       end
-
-      public
 
       # Where the dataset is hosted.
       # @return [Symbol] +:github+

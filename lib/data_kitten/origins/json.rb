@@ -5,13 +5,9 @@ module DataKitten
     # @see Dataset
     #
     module JSON
-      private
-
       def self.supported?(resource)
         resource.json?
       end
-
-      public
 
       # The origin type of the dataset.
       # @return [Symbol] +:html+

@@ -4,8 +4,6 @@ require "data_kitten/utils/ckan3_hash.rb"
 module DataKitten
   module PublishingFormats
     module CKAN
-      private
-
       def self.supported?(instance)
         uri = instance.uri
         base_uri = instance.base_uri
@@ -52,15 +50,13 @@ module DataKitten
       end
 
       def self.get_base(uri)
-        *base, package = uri.path.split("/")
+        *base, _package = uri.path.split("/")
         if base.last == "dataset"
           uri.merge(base[0...-1].join("/") + "/")
         else
           uri.merge("/")
         end
       end
-
-      public
 
       # The publishing format for the dataset.
       # @return [Symbol] +:ckan+
@@ -121,7 +117,7 @@ module DataKitten
         org = fetch_organization
         result = if org
           [org]
-        elsif group_id = metadata.lookup("groups", 0, "id")
+        elsif (group_id = metadata.lookup("groups", 0, "id"))
           [fetch_publisher(group_id)]
         else
           []
@@ -282,7 +278,7 @@ module DataKitten
                 end
         if extra == ""
           extra = begin
-                    group["result"]["extras"].select { |e| e["key"] == key }.first["value"]
+                    group["result"]["extras"].find { |e| e["key"] == key }["value"]
                   rescue
                     ""
                   end
@@ -317,7 +313,7 @@ module DataKitten
       end
 
       def fetch_organization
-        if org = metadata["organization"]
+        if (org = metadata["organization"])
           begin
             uri = base_uri.merge("api/3/action/organization_show")
             result = RestClient.get(uri.to_s, params: {id: org["id"]})
@@ -340,7 +336,6 @@ module DataKitten
       end
 
       def fetch_publisher(id)
-        uri = parsed_uri
         [
           "api/3/action/organization_show?id=#{id}",
           "api/3/action/group_show?id=#{id}",

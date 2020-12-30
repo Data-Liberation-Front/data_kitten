@@ -5,13 +5,9 @@ module DataKitten
     # @see Dataset
     #
     module Git
-      private
-
       def self.supported?(resource)
         resource.to_s =~ /\A(git|https?):\/\/.*\.git\Z/
       end
-
-      public
 
       # The origin type of the dataset.
       # @return [Symbol] +:git+
@@ -52,7 +48,7 @@ module DataKitten
           repo.pull("origin", "master")
           repo
                         rescue ArgumentError
-                          repo = ::Git.clone(@access_url, working_copy_path)
+                          ::Git.clone(@access_url, working_copy_path)
         end
       end
     end

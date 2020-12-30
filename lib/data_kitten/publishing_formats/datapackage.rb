@@ -5,22 +5,18 @@ module DataKitten
     # @see Dataset
     #
     module Datapackage
-      private
-
       def self.supported?(instance)
         if instance.send(:origin) == :git
           metadata = instance.send(:load_file, "datapackage.json")
           datapackage = DataPackage::Package.new(JSON.parse(metadata))
-          !datapackage.datapackage_version.nil?
+
         else
           datapackage = DataPackage::Package.new(instance.url)
-          !datapackage.datapackage_version.nil?
         end
-      rescue => e
+        !datapackage.datapackage_version.nil?
+      rescue => _e
         false
       end
-
-      public
 
       # The publishing format for the dataset.
       # @return [Symbol] +:datapackage+

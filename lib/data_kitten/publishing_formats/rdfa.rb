@@ -1,8 +1,6 @@
 module DataKitten
   module PublishingFormats
     module RDFa
-      private
-
       def self.supported?(instance)
         graph = RDF::Graph.load(instance.uri, format: :rdfa)
 
@@ -16,8 +14,6 @@ module DataKitten
       rescue
         false
       end
-
-      public
 
       # The publishing format for the dataset.
       # @return [Symbol] +:rdfa+
@@ -70,7 +66,7 @@ module DataKitten
                      copyrightStatement: first_value(rights_uri, odrs.copyrightStatement),
                      databaseRightStatement: first_value(rights_uri, odrs.databaseRightStatement))
         end
-      rescue => e
+      rescue => _e
         # puts e
         # puts e.backtrace
         nil
@@ -90,7 +86,7 @@ module DataKitten
           end
           licenses
         end
-      rescue => e
+      rescue => _e
         []
       end
 

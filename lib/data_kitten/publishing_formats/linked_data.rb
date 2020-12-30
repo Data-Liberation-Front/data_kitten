@@ -5,8 +5,6 @@ module DataKitten
 
       include RDFa
 
-      private
-
       # Find first resource with one of the specified RDF types
       def self.first_of_type(graph, classes)
         term = nil
@@ -65,8 +63,6 @@ module DataKitten
             RDF::Vocabulary.new("http://rdfs.org/ns/void#").Dataset])
         false
       end
-
-      public
 
       # The publishing format for the dataset.
       # @return [Symbol] +:rdfa+
