@@ -18,7 +18,6 @@ module DataKitten
       json: {structured: true, open: true},
       ical: {structured: true, open: true},
       sparql: {structured: true, open: true},
-      kml: {structured: true, open: true},
       georss: {structured: true, open: true},
       geojson: {structured: true, open: true},
       shp: {structured: true, open: true},
