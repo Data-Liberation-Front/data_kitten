@@ -23,8 +23,9 @@ module DataKitten
     attr_accessor :path
 
     # @!attribute title
-    #   @return [String] a short title, unique within the dataset
+    #   @return [String] A usable name for the distribution, unique within the {Dataset}.
     attr_accessor :title
+    alias name title
 
     # @!attribute description
     #   @return [String] a textual description
@@ -109,12 +110,6 @@ module DataKitten
 
       @download = Fetcher.wrap(@download_url)
     end
-
-    # A usable name for the distribution, unique within the {Dataset}.
-    #
-    # @return [String] a locally unique name
-    attr_reader :title
-    alias name title
 
     # An array of column headers for the distribution. Loaded from the schema, or from the file directly if no
     # schema is present.
