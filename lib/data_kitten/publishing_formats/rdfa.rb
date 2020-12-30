@@ -1,17 +1,14 @@
 module DataKitten
-
   module PublishingFormats
-
     module RDFa
-
       private
 
       def self.supported?(instance)
-        graph = RDF::Graph.load(instance.uri, :format => :rdfa)
+        graph = RDF::Graph.load(instance.uri, format: :rdfa)
 
         query = RDF::Query.new({
-          :dataset => {
-            RDF.type  => RDF::Vocabulary.new("http://www.w3.org/ns/dcat#").Dataset
+          dataset: {
+            RDF.type => RDF::Vocabulary.new("http://www.w3.org/ns/dcat#").Dataset
           }
         })
 
@@ -43,11 +40,11 @@ module DataKitten
         publishers = []
         uris = metadata[dataset_uri][RDF::Vocab::DC.publisher.to_s]
         uris.each do |publisher_uri|
-          publishers << Agent.new(:name => first_value( publisher_uri, RDF::Vocab::FOAF.name ),
-                                  :homepage => first_value( publisher_uri, RDF::Vocab::FOAF.homepage ),
-                                  :mbox => first_value( publisher_uri, RDF::Vocab::FOAF.mbox ))
+          publishers << Agent.new(name: first_value(publisher_uri, RDF::Vocab::FOAF.name),
+                                  homepage: first_value(publisher_uri, RDF::Vocab::FOAF.homepage),
+                                  mbox: first_value(publisher_uri, RDF::Vocab::FOAF.mbox))
         end
-        return publishers
+        publishers
       rescue
         []
       end
@@ -58,25 +55,24 @@ module DataKitten
       def rights
         rights_uri = metadata[dataset_uri][RDF::Vocab::DC.rights.to_s][0]
         if !metadata[rights_uri]
-            return Rights.new(:uri => rights_uri)
+          Rights.new(uri: rights_uri)
         else
-          return Rights.new(:uri => uri,
-                              :dataLicense => first_value( rights_uri, odrs.dataLicense ),
-                              :contentLicense => first_value( rights_uri, odrs.contentLicense ),
-                              :copyrightNotice => first_value( rights_uri, odrs.copyrightNotice ),
-                              :attributionURL => first_value( rights_uri, odrs.attributionURL ),
-                              :attributionText => first_value( rights_uri, odrs.attributionText ),
-                              :copyrightHolder => first_value( rights_uri, odrs.copyrightHolder ),
-                              :databaseRightHolder => first_value( rights_uri, odrs.databaseRightHolder ),
-                              :copyrightYear => first_value( rights_uri, odrs.copyrightYear ),
-                              :databaseRightYear => first_value( rights_uri, odrs.databaseRightYear ),
-                              :copyrightStatement => first_value( rights_uri, odrs.copyrightStatement ),
-                              :databaseRightStatement => first_value( rights_uri, odrs.databaseRightStatement )
-                              )
+          Rights.new(uri: uri,
+                     dataLicense: first_value(rights_uri, odrs.dataLicense),
+                     contentLicense: first_value(rights_uri, odrs.contentLicense),
+                     copyrightNotice: first_value(rights_uri, odrs.copyrightNotice),
+                     attributionURL: first_value(rights_uri, odrs.attributionURL),
+                     attributionText: first_value(rights_uri, odrs.attributionText),
+                     copyrightHolder: first_value(rights_uri, odrs.copyrightHolder),
+                     databaseRightHolder: first_value(rights_uri, odrs.databaseRightHolder),
+                     copyrightYear: first_value(rights_uri, odrs.copyrightYear),
+                     databaseRightYear: first_value(rights_uri, odrs.databaseRightYear),
+                     copyrightStatement: first_value(rights_uri, odrs.copyrightStatement),
+                     databaseRightStatement: first_value(rights_uri, odrs.databaseRightStatement))
         end
       rescue => e
-        #puts e
-        #puts e.backtrace
+        # puts e
+        # puts e.backtrace
         nil
       end
 
@@ -90,9 +86,9 @@ module DataKitten
           []
         else
           uris.each do |license_uri|
-            licenses << License.new(:uri => license_uri, :name => first_value( license_uri, RDF::Vocab::DC.title ))
+            licenses << License.new(uri: license_uri, name: first_value(license_uri, RDF::Vocab::DC.title))
           end
-          return licenses
+          licenses
         end
       rescue => e
         []
@@ -113,12 +109,12 @@ module DataKitten
         uris = metadata[dataset_uri][dcat.distribution.to_s]
         uris.each do |distribution_uri|
           distribution = {
-            :title => first_value( distribution_uri, RDF::Vocab::DC.title ),
-            :accessURL => first_value( distribution_uri, dcat.accessURL )
+            title: first_value(distribution_uri, RDF::Vocab::DC.title),
+            accessURL: first_value(distribution_uri, dcat.accessURL)
           }
           distributions << Distribution.new(self, dcat_resource: distribution)
         end
-        return distributions
+        distributions
       rescue
         []
       end
@@ -127,14 +123,18 @@ module DataKitten
       #
       # @see Dataset#data_title
       def data_title
-        metadata[dataset_uri][dct.title.to_s][0] rescue nil
+        metadata[dataset_uri][dct.title.to_s][0]
+      rescue
+        nil
       end
 
       # A brief description of the dataset
       #
       # @see Dataset#description
       def description
-        metadata[dataset_uri][dct.description.to_s][0] rescue nil
+        metadata[dataset_uri][dct.description.to_s][0]
+      rescue
+        nil
       end
 
       # Keywords for the dataset
@@ -160,37 +160,37 @@ module DataKitten
       #
       # @see Dataset#update_frequency
       def update_frequency
-        first_value( dataset_uri, dcat.accrualPeriodicity )
+        first_value(dataset_uri, dcat.accrualPeriodicity)
       end
 
       def issued
         date = first_value(dataset_uri, RDF::Vocab::DC.issued) ||
-               first_value(dataset_uri, RDF::Vocab::DC.created)
+          first_value(dataset_uri, RDF::Vocab::DC.created)
         if date
-            return Date.parse( date )
+          return Date.parse(date)
         end
-        return nil
+        nil
       end
 
       def modified
         date = first_value(dataset_uri, RDF::Vocab::DC.modified)
         if date
-            return Date.parse( date )
+          return Date.parse(date)
         end
-        return nil
+        nil
       end
 
       private
 
       def graph
-        @graph ||= RDF::Graph.load(uri, :format => :rdfa)
+        @graph ||= RDF::Graph.load(uri, format: :rdfa)
       end
 
-      def first_value(resource, property, default=nil)
-          if metadata[resource] && metadata[resource][property.to_s]
-              return metadata[resource][property.to_s][0]
-          end
-          return default
+      def first_value(resource, property, default = nil)
+        if metadata[resource] && metadata[resource][property.to_s]
+          return metadata[resource][property.to_s][0]
+        end
+        default
       end
 
       def metadata
@@ -203,13 +203,13 @@ module DataKitten
           @metadata[triple[0].to_s][triple[1].to_s] << triple[2].to_s unless @metadata[triple[0].to_s][triple[1].to_s].include? triple[2].to_s
         end
 
-        return @metadata
+        @metadata
       end
 
       def dataset_uri
         query = RDF::Query.new({
-          :dataset => {
-            RDF.type  => dcat.Dataset
+          dataset: {
+            RDF.type => dcat.Dataset
           }
         })
 
@@ -231,9 +231,6 @@ module DataKitten
       def void
         RDF::Vocabulary.new("http://rdfs.org/ns/void#")
       end
-
     end
-
   end
-
 end

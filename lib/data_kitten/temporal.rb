@@ -1,13 +1,11 @@
 module DataKitten
-
   # The temporal coverage of a {Dataset} or {Distribution}
   #
   class Temporal
-    
     # @!attribute start
     #   @return [Date] the start date of the temporal coverage
     attr_accessor :start
-    
+
     # @!attribute end
     #   @return [Date] the end date of the temporal coverage
     attr_accessor :end
@@ -21,7 +19,5 @@ module DataKitten
       @start = options[:start]
       @end = options[:end]
     end
-    
   end
-  
 end

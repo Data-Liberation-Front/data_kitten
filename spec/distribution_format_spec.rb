@@ -1,7 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe DataKitten::DistributionFormat do
-
   def distribution(extension)
     DataKitten::Distribution.new(nil,
       ckan_resource: {
@@ -9,7 +8,7 @@ describe DataKitten::DistributionFormat do
       })
   end
 
-  describe '#structured?' do
+  describe "#structured?" do
     %w[csv xls xlsx rdf xml wms ods rdfa kml rss json ical sparql kml georss geojson shp].each do |ext|
       it "considers #{ext} structured" do
         expect(distribution(ext).format).to be_structured
@@ -23,7 +22,7 @@ describe DataKitten::DistributionFormat do
     end
   end
 
-  describe '#open?' do
+  describe "#open?" do
     %w[csv xlsx rdf xml wms ods rdfa kml rss json ical sparql kml georss geojson shp html pdf].each do |ext|
       it "considers #{ext} open" do
         expect(distribution(ext).format).to be_open

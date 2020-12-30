@@ -1,30 +1,29 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe CKAN3Hash do
-
   subject(:hash) { CKAN3Hash.new(data, "name", "display_name") }
 
-  it 'has keys based on provided data' do
+  it "has keys based on provided data" do
     keys = %w[transportation planned_roadworks highways_agency roadworks]
     expect(hash.keys).to contain_exactly(*keys)
   end
 
-  it 'returns the value_key value' do
-    expect(hash['transportation']).to eq "Transportation"
-    expect(hash['highways_agency']).to eq "Highways Agency"
-    expect(hash['roadworks']).to eq "Roadworks"
-    expect(hash['planned_roadworks']).to eq "Planned Roadworks"
+  it "returns the value_key value" do
+    expect(hash["transportation"]).to eq "Transportation"
+    expect(hash["highways_agency"]).to eq "Highways Agency"
+    expect(hash["roadworks"]).to eq "Roadworks"
+    expect(hash["planned_roadworks"]).to eq "Planned Roadworks"
   end
 
-  it 'returns nil for unknown key' do
-    expect(hash['mystery']).to be_nil
+  it "returns nil for unknown key" do
+    expect(hash["mystery"]).to be_nil
   end
 
-  it 'can be constructed with nil data' do
-    expect { CKAN3Hash.new(nil, 'key', 'value') }.to_not raise_error
+  it "can be constructed with nil data" do
+    expect { CKAN3Hash.new(nil, "key", "value") }.to_not raise_error
   end
 
-  it 'maps values' do
+  it "maps values" do
     values = ["Transportation", "Highways Agency", "Roadworks", "Planned Roadworks"]
     expect(hash.values).to contain_exactly(*values)
   end

@@ -1,7 +1,5 @@
 module DataKitten
-
   class Fetcher
-
     attr_reader :url
 
     def self.wrap(url_or_fetcher)
@@ -35,7 +33,7 @@ module DataKitten
     end
 
     def body
-      response if response
+      response
     end
 
     def as_json
@@ -50,7 +48,7 @@ module DataKitten
 
     def content_type_format
       if val = content_type
-        val.split(';').first
+        val.split(";").first
       end
     end
 
@@ -67,6 +65,7 @@ module DataKitten
     end
 
     private
+
     def response
       unless @requested
         @requested = true
@@ -80,5 +79,4 @@ module DataKitten
       @response
     end
   end
-  
 end

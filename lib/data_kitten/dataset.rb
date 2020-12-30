@@ -1,15 +1,14 @@
-require 'data_kitten/origins'
-require 'data_kitten/hosts'
-require 'data_kitten/publishing_formats'
+require "data_kitten/origins"
+require "data_kitten/hosts"
+require "data_kitten/publishing_formats"
 
 module DataKitten
-
-  # Represents a single dataset from some origin (see {http://www.w3.org/TR/vocab-dcat/#class-dataset dcat:Dataset} 
+  # Represents a single dataset from some origin (see {http://www.w3.org/TR/vocab-dcat/#class-dataset dcat:Dataset}
   # for relevant vocabulary).
   #
   # Designed to be created with a URI to the dataset, and then to work out metadata from there.
-  # 
-  # Currently supports Datasets hosted in Git (and optionally on GitHub), and which 
+  #
+  # Currently supports Datasets hosted in Git (and optionally on GitHub), and which
   # use the Datapackage metadata format.
   #
   # @example Load a Dataset from a git repository
@@ -18,13 +17,12 @@ module DataKitten
   #   dataset.origin             # => :git
   #   dataset.host               # => :github
   #   dataset.publishing_format  # => :datapackage
-  #   
+  #
   class Dataset
-
     include DataKitten::Origins
     include DataKitten::Hosts
     include DataKitten::PublishingFormats
-  
+
     # @!attribute access_url
     #   @return [String] the URL that gives access to the dataset
     attr_accessor :access_url
@@ -38,9 +36,9 @@ module DataKitten
     #
     # @overload new(options)
     #   @param [Hash] options the details of the Dataset.
-    #   @option options [String] :access_url A URL that can be used to access the Dataset. 
+    #   @option options [String] :access_url A URL that can be used to access the Dataset.
     #
-    def initialize(url_or_options, base_url=nil)
+    def initialize(url_or_options, base_url = nil)
       url = case url_or_options
       when Hash
         base_url ||= url_or_options[:base_url]
@@ -76,24 +74,24 @@ module DataKitten
 
     # Can metadata be loaded for this Dataset?
     #
-    # @return [Boolean] true if metadata can be loaded, false if it's 
+    # @return [Boolean] true if metadata can be loaded, false if it's
     #                   an unknown origin type, or has an unknown metadata format.
     def supported?
       !(origin.nil? || publishing_format.nil?)
     end
-  
+
     # The origin type of the dataset.
     #
-    # @return [Symbol] The origin type. For instance, datasets loaded from git 
-    #                  repositories will return +:git+. If no origin type is 
+    # @return [Symbol] The origin type. For instance, datasets loaded from git
+    #                  repositories will return +:git+. If no origin type is
     #                  identified, will return +nil+.
     def origin
       nil
     end
-    
+
     # Where the dataset is hosted.
     #
-    # @return [Symbol] The host. For instance, data loaded from github repositories 
+    # @return [Symbol] The host. For instance, data loaded from github repositories
     #                  will return +:github+. This can be used to control extra host-specific
     #                  behaviour if required. If no host type is identified, will return +nil+.
     def host
@@ -112,28 +110,28 @@ module DataKitten
     def data_title
       nil
     end
-    
+
     # A brief description of the dataset
     #
     # @return [String] the description of the dataset.
     def description
       nil
     end
-    
+
     # Keywords for the dataset
     #
     # @return [Array<string>] an array of keywords
     def keywords
       []
     end
-  
+
     # Human-readable documentation for the dataset.
     #
     # @return [String] the URL of the documentation.
     def documentation_url
       nil
     end
-  
+
     # What type of dataset is this?
     # Options are: +:web_service+ for API-accessible data, or +:one_off+ for downloadable data dumps.
     #
@@ -141,15 +139,15 @@ module DataKitten
     def release_type
       false
     end
-    
+
     # Date the dataset was released
     #
     # @return [Date] the release date of the dataset
     def issued
       nil
     end
-    alias_method :release_date, :issued
-    
+    alias release_date issued
+
     # Date the dataset was last modified
     #
     # @return [Date] the dataset's last modified date
@@ -163,32 +161,32 @@ module DataKitten
     def landing_page
       nil
     end
-    
+
     # The temporal coverage of the dataset
     #
     # @return [Object<Temporal>] the start and end dates of the dataset's temporal coverage
     def temporal
       nil
     end
-    
+
     # Where the data is sourced from
     #
     # @return [Array<Source>] the sources of the data, each as a Source object.
     def sources
       []
     end
-  
+
     # Is the information time-sensitive?
     #
     # @return [Boolean] whether the information will go out of date.
     def time_sensitive?
       false
     end
-    
+
     # The publishing format for the dataset.
     #
     # @return [Symbol] The format. For instance, datasets that publish metadata in
-    #                  Datapackage format will return +:datapackage+. If no format 
+    #                  Datapackage format will return +:datapackage+. If no format
     #                  is identified, will return +nil+.
     def publishing_format
       nil
@@ -214,7 +212,7 @@ module DataKitten
     def licenses
       []
     end
-    
+
     # The rights statment for the data
     #
     # @return [Object<Rights>] How the content and data can be used, as well as copyright notice and attribution URL
@@ -263,9 +261,9 @@ module DataKitten
     def distributions
       []
     end
-    alias_method :files, :distributions
-    alias_method :resources, :distributions
-    
+    alias files distributions
+    alias resources distributions
+
     # How frequently the data is updated.
     #
     # @return [String] The frequency of update expressed as a dct:Frequency.
@@ -288,6 +286,5 @@ module DataKitten
     end
 
     attr_accessor :metadata
-
   end
 end

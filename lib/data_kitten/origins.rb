@@ -1,13 +1,11 @@
-require 'data_kitten/origins/git'
-require 'data_kitten/origins/web_service'
-require 'data_kitten/origins/html'
-require 'data_kitten/origins/json'
-require 'data_kitten/origins/linked_data'
+require "data_kitten/origins/git"
+require "data_kitten/origins/web_service"
+require "data_kitten/origins/html"
+require "data_kitten/origins/json"
+require "data_kitten/origins/linked_data"
 
 module DataKitten
-
   module Origins
-
     private
 
     def detect_origin
@@ -16,7 +14,7 @@ module DataKitten
         DataKitten::Origins::HTML,
         DataKitten::Origins::JSON,
         DataKitten::Origins::WebService,
-        DataKitten::Origins::LinkedData,
+        DataKitten::Origins::LinkedData
       ].each do |origin|
         if origin.supported?(@access_url)
           extend origin
@@ -24,7 +22,5 @@ module DataKitten
         end
       end
     end
-
   end
-
 end

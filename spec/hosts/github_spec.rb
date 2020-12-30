@@ -1,21 +1,17 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe DataKitten::Dataset do
-
-  context 'with data on github' do
-
+  context "with data on github" do
     def access_url(protocol)
       "#{protocol}://github.com/theodi/github-viewer-test-data.git"
     end
 
     %w[https http git].each do |protocol|
       it "correctly identified #{protocol} URLs p" do
-        FakeWeb.register_uri(:get, access_url(protocol), :body => "")
+        FakeWeb.register_uri(:get, access_url(protocol), body: "")
         dataset = DataKitten::Dataset.new(access_url(protocol))
         expect(dataset.host).to eq(:github)
       end
     end
-
   end
-
 end

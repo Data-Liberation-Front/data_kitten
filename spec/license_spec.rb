@@ -1,9 +1,7 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe DataKitten::License do
-
-  describe 'with known license URIs' do
-    
+  describe "with known license URIs" do
     known_licenses = {
       "http://www.opendefinition.org/licenses/cc-by" => "cc-by",
       "http://www.opendefinition.org/licenses/cc-by/" => "cc-by",
@@ -14,24 +12,23 @@ describe DataKitten::License do
       "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" => "ogl-uk",
       "http://reference.data.gov.uk/id/open-government-licence" => "ogl-uk"
     }
-    
-    it 'should supply abbreviation' do
+
+    it "should supply abbreviation" do
       known_licenses.each do |uri, abbr|
-        expect(described_class.new(:uri => uri).abbr).to eq(abbr)
+        expect(described_class.new(uri: uri).abbr).to eq(abbr)
       end
     end
   end
-  
-  describe 'with an unknown license URI' do
-    it 'should not provide an abbreviation' do
-      expect(described_class.new(:uri => "http://made-up-cc-by-sa.com/cc-by").abbr).to be_nil
-    end
-  end
-  
-  describe 'with no license URI' do
-    it 'should not provide an abbreviation' do
-      expect(described_class.new({}).abbr).to be_nil
+
+  describe "with an unknown license URI" do
+    it "should not provide an abbreviation" do
+      expect(described_class.new(uri: "http://made-up-cc-by-sa.com/cc-by").abbr).to be_nil
     end
   end
 
+  describe "with no license URI" do
+    it "should not provide an abbreviation" do
+      expect(described_class.new({}).abbr).to be_nil
+    end
+  end
 end

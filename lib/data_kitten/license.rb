@@ -1,9 +1,7 @@
 module DataKitten
-
   # A license for a {Dataset} or {Distribution}
   #
   class License
-    
     LICENSES = {
       /opendatacommons.org.*\/by(\/|$)/ => "odc-by",
       /opendatacommons.org.*\/odbl(\/|$)/ => "odc-odbl",
@@ -24,11 +22,11 @@ module DataKitten
     # @!attribute is
     #   @return [String] a short ID that identifies the license.
     attr_accessor :id
-    
+
     # @!attribute name
     #   @return [String] the human name of the license.
     attr_accessor :name
-    
+
     # @!attribute uri
     #   @return [String] the URI for the license text.
     attr_accessor :uri
@@ -36,7 +34,7 @@ module DataKitten
     # @!attribute type
     #   @return [String] the type of information this license applies to. Could be +:data+ or +:content+.
     attr_accessor :type
-    
+
     # @!attribute abbr
     #   @return [String] the license abbreviation
     attr_accessor :abbr
@@ -55,12 +53,10 @@ module DataKitten
       @type = options[:type]
       @abbr = get_license_abbr(@uri) if @uri
     end
-    
+
     def get_license_abbr(uri)
       license = LICENSES.find { |regex, abbr| uri =~ regex }
-      license.last if license
+      license&.last
     end
-
-  end  
-
+  end
 end

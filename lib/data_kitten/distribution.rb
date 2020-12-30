@@ -1,12 +1,10 @@
 module DataKitten
-
   # A specific available form of a dataset, such as a CSV file, an API, or an RSS feed.
   #
   # Based on {http://www.w3.org/TR/vocab-dcat/#class-distribution dcat:Distribution}, but
   # with useful aliases for other vocabularies.
   #
   class Distribution
-
     # @!attribute format
     #   @return [DistributionFormat] the file format of the distribution.
     attr_accessor :format
@@ -18,7 +16,7 @@ module DataKitten
     # @!attribute download_url
     #   @return [String] a URL to the file of the distribution.
     attr_accessor :download_url
-    alias_method :uri, :download_url
+    alias uri download_url
 
     # @!attribute path
     #   @return [String] the path of the distribution within the source, if appropriate
@@ -69,38 +67,38 @@ module DataKitten
       # Parse datapackage
       if r = options[:datapackage_resource]
         # Load basics
-        @description = r['description']
+        @description = r["description"]
         # Work out format
         @format = begin
-          @extension = r['format']
+          @extension = r["format"]
           if @extension.nil?
-            @extension = r['path'].is_a?(String) ? r['path'].split('.').last.upcase : nil
+            @extension = r["path"].is_a?(String) ? r["path"].split(".").last.upcase : nil
           end
           @extension ? DistributionFormat.new(self) : nil
         end
         # Get CSV dialect
-        @dialect = r['dialect']
+        @dialect = r["dialect"]
         # Extract schema
-        @schema = r['schema']
+        @schema = r["schema"]
         # Get path
-        @path = r['path']
-        @download_url = r['url']
+        @path = r["path"]
+        @download_url = r["url"]
         # Set title
         @title = @path || @uri
       elsif r = options[:dcat_resource]
-        @title       = r[:title]
+        @title = r[:title]
         @description = r[:title]
-        @access_url  = r[:accessURL]
+        @access_url = r[:accessURL]
       elsif r = options[:ckan_resource]
-        @title        = r[:title]
-        @description  = r[:title]
-        @issued       = r[:issued]
-        @modified     = r[:modified]
-        @access_url   = r[:accessURL]
+        @title = r[:title]
+        @description = r[:title]
+        @issued = r[:issued]
+        @modified = r[:modified]
+        @access_url = r[:accessURL]
         @download_url = r[:downloadURL]
-        @byte_size    = r[:byteSize]
-        @media_type   = r[:mediaType]
-        @extension    = r[:format]
+        @byte_size = r[:byteSize]
+        @media_type = r[:mediaType]
+        @extension = r[:format]
         # Load HTTP Response for further use
         @format = r[:format] ? DistributionFormat.new(self) : nil
       end
@@ -115,10 +113,8 @@ module DataKitten
     # A usable name for the distribution, unique within the {Dataset}.
     #
     # @return [String] a locally unique name
-    def title
-      @title
-    end
-    alias_method :name, :title
+    attr_reader :title
+    alias name title
 
     # An array of column headers for the distribution. Loaded from the schema, or from the file directly if no
     # schema is present.
@@ -127,7 +123,7 @@ module DataKitten
     def headers
       @headers ||= begin
         if @schema
-          @schema['fields'].map{|x| x['id']}
+          @schema["fields"].map { |x| x["id"] }
         else
           data.headers
         end
@@ -156,20 +152,14 @@ module DataKitten
           when :csv
             CSV.parse(
               datafile,
-              :headers => true,
-              :col_sep => @dialect["delimiter"]
+              headers: true,
+              col_sep: @dialect["delimiter"]
             )
-          else
-            nil
           end
-        else
-          nil
         end
-      rescue
-        nil
+                rescue
+                  nil
       end
     end
-
   end
-
 end

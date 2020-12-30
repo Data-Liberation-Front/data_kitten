@@ -1,31 +1,31 @@
-require 'csv'
-require 'uri'
-require 'cgi'
-require 'git'
-require 'json'
-require 'rest-client'
-require 'rdf'
-require 'linkeddata'
-require 'nokogiri'
-require 'uri'
-require 'datapackage'
+require "csv"
+require "uri"
+require "cgi"
+require "git"
+require "json"
+require "rest-client"
+require "rdf"
+require "linkeddata"
+require "nokogiri"
+require "uri"
+require "datapackage"
 
-require 'data_kitten/license'
-require 'data_kitten/rights'
-require 'data_kitten/agent'
-require 'data_kitten/source'
-require 'data_kitten/temporal'
-require 'data_kitten/dataset'
-require 'data_kitten/distribution_format'
-require 'data_kitten/distribution'
-require 'data_kitten/fetcher'
+require "data_kitten/license"
+require "data_kitten/rights"
+require "data_kitten/agent"
+require "data_kitten/source"
+require "data_kitten/temporal"
+require "data_kitten/dataset"
+require "data_kitten/distribution_format"
+require "data_kitten/distribution"
+require "data_kitten/fetcher"
 
 # A collection of classes that represent Datasets and other concepts, modeled on {http://www.w3.org/TR/vocab-dcat/ DCAT}.
 #
 # The module is designed to automatically interrogate data sources and give back data and metadata in a consistent
 # format. The best starting place is probably by having a look at {Dataset}.
 #
-# It is designed to handle data from multiple {Sources} (such as git repositories, local files, remote URLs), 
+# It is designed to handle data from multiple {Sources} (such as git repositories, local files, remote URLs),
 # {Hosts} (GitHub, etc), and {PublishingFormats} (DataPackage, RDFa, microdata, DSPL, etc).
 #
 # Currently supports Datapackages in git repositories (including but not limited to GitHub repos). Wider support will follow.

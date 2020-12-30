@@ -1,5 +1,4 @@
 module GuessableLookup
-
   def lookup(*path)
     data = self
     path.each { |key| data = guess_key(data, key) }
@@ -28,11 +27,10 @@ module GuessableLookup
   #
   def guess_key(data, key)
     return data[key] if key.is_a?(Integer) || data.keys.include?(key)
-    likeKey = key.gsub(/[\_\-]/, "[\_\-]?")
+    likeKey = key.gsub(/[_\-]/, "[\_\-]?")
     key = data.keys.select { |k| k =~ /^#{likeKey}$/i }.first
     data[key]
   rescue
     nil
   end
-
 end
