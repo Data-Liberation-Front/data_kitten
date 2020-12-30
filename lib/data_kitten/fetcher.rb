@@ -47,7 +47,7 @@ module DataKitten
     end
 
     def content_type_format
-      if val = content_type
+      if (val = content_type)
         val.split(";").first
       end
     end

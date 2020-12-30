@@ -65,7 +65,7 @@ module DataKitten
       # Store dataset
       @dataset = dataset
       # Parse datapackage
-      if r = options[:datapackage_resource]
+      if (r = options[:datapackage_resource])
         # Load basics
         @description = r["description"]
         # Work out format
@@ -85,11 +85,11 @@ module DataKitten
         @download_url = r["url"]
         # Set title
         @title = @path || @uri
-      elsif r = options[:dcat_resource]
+      elsif (r = options[:dcat_resource])
         @title = r[:title]
         @description = r[:title]
         @access_url = r[:accessURL]
-      elsif r = options[:ckan_resource]
+      elsif (r = options[:ckan_resource])
         @title = r[:title]
         @description = r[:title]
         @issued = r[:issued]
