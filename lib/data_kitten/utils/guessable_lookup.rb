@@ -26,9 +26,9 @@ module GuessableLookup
   # @return The value of the guessed key
   #
   def guess_key(data, key)
-    return data[key] if key.is_a?(Integer) || data.keys.include?(key)
-    likeKey = key.gsub(/[_\-]/, "[\_\-]?")
-    key = data.keys.select { |k| k =~ /^#{likeKey}$/i }.first
+    return data[key] if key.is_a?(Integer) || data.key?(key)
+    like_key = key.gsub(/[_\-]/, "[\_\-]?")
+    key = data.keys.find { |k| k =~ /^#{like_key}$/i }
     data[key]
   rescue
     nil
