@@ -51,7 +51,7 @@ GEM
       sxp (~> 1.1)
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
-    git (1.10.2)
+    git (1.11.0)
       rchardet (~> 1.8)
     haml (5.2.1)
       temple (>= 0.8.0)
