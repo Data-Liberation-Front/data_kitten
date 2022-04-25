@@ -4,3 +4,4 @@
 /coverage/
 /tmp/
 /.bundle/
+Gemfile.lock
