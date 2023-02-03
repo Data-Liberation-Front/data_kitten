@@ -54,7 +54,7 @@ GEM
       unicode-types (~> 1.6)
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
-    git (1.13.1)
+    git (1.13.2)
       addressable (~> 2.8)
       rchardet (~> 1.8)
     haml (5.2.2)
