@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE.md", "README.md"]
   s.executables << "data_kitten"
 
-  s.required_ruby_version = ["~> 2.5", "< 2.6"]
+  s.required_ruby_version = ["~> 2.5", "< 3.0"]
 
   s.add_dependency "rake"
   s.add_dependency "git", "~> 1.7"
