@@ -139,7 +139,7 @@ GEM
     racc (1.6.0)
     rack (2.2.8.1)
     rainbow (3.1.1)
-    rake (13.1.0)
+    rake (13.2.0)
     rchardet (1.8.0)
     rdf (3.1.15)
       hamster (~> 3.0)
